@@ -1,8 +1,11 @@
 #ifndef AVML_AVML_HPP
 #define AVML_AVML_HPP
 
-#include "Vectors.hpp"
+#include "impl/Array.hpp"
+#include "impl/Unit_vector.hpp"
+#include "impl/Vector.hpp"
+#include "impl/Point.hpp"
+
 #include "Matrices.hpp"
-#include "Quaternions.hpp"
 
 #endif //AVML_AVML_HPP
