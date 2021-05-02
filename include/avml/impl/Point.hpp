@@ -182,21 +182,21 @@ namespace avml {
     // Aliases
     //=====================================================
 
-    using Pt2 = impl::Point<float, 2>;
-    using Pt3 = impl::Point<float, 3>;
-    using Pt4 = impl::Point<float, 4>;
+    using Pt2 = Point<float, 2>;
+    using Pt3 = Point<float, 3>;
+    using Pt4 = Point<float, 4>;
 
-    using Pt2d = impl::Point<double, 2>;
-    using Pt3d = impl::Point<double, 3>;
-    using Pt4d = impl::Point<double, 4>;
+    using Pt2d = Point<double, 2>;
+    using Pt3d = Point<double, 3>;
+    using Pt4d = Point<double, 4>;
 
-    using Pt2i = impl::Point<std::int32_t, 2>;
-    using Pt3i = impl::Point<std::int32_t, 3>;
-    using Pt4i = impl::Point<std::int32_t, 4>;
+    using Pt2i = Point<std::int32_t, 2>;
+    using Pt3i = Point<std::int32_t, 3>;
+    using Pt4i = Point<std::int32_t, 4>;
 
-    using Pt2u = impl::Point<std::uint32_t, 2>;
-    using Pt3u = impl::Point<std::uint32_t, 3>;
-    using Pt4u = impl::Point<std::uint32_t, 4>;
+    using Pt2u = Point<std::uint32_t, 2>;
+    using Pt3u = Point<std::uint32_t, 3>;
+    using Pt4u = Point<std::uint32_t, 4>;
 
 }
 
