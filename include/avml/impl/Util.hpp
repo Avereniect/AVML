@@ -1,19 +1,20 @@
 #ifndef AVML_UTIL_HPP
 #define AVML_UTIL_HPP
 
+#include <type_traits>
+
+#include "Array.hpp"
+#include "Point.hpp"
+#include "Shared.hpp"
+#include "Unit_vector.hpp"
+
 namespace avml {
 
-    constexpr unsigned alignment(unsigned n) {
-        switch (n) {
-            case 4: return 4;
-            case 8: return 8;
-            case 12: return 4;
-            case 16: return 16;
-            case 24: return 8;
-            case 32: return 32;
-            default: return 0;
-        }
-    }
+    template<class T>
+    struct is_array : public std::bool_constant<false> {};
+
+    template<class T>
+    static constexpr bool is_array_v = is_array<T>::value;
 
 }
 

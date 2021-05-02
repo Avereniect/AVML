@@ -1,7 +1,7 @@
 #ifndef AVML_VECTOR_HPP
 #define AVML_VECTOR_HPP
 
-#include "Util.hpp"
+#include "Shared.hpp"
 #include "Array.hpp"
 #include "Unit_vector.hpp"
 
@@ -184,7 +184,7 @@ namespace avml {
         // Conversion operators
         //=================================================
 
-        explicit operator Array<T, N>() const{
+        operator Array<T, N>() const{
             Array<T, N> ret;
 
             for (int i = 0; i < N; ++i) {

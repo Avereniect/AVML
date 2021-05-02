@@ -1,7 +1,7 @@
 #ifndef AVML_UNIT_VECTOT_HPP
 #define AVML_UNIT_VECTOT_HPP
 
-#include "Util.hpp"
+#include "Shared.hpp"
 
 #include <cmath>
 
@@ -119,6 +119,20 @@ namespace avml {
 
         constexpr std::size_t size() const {
             return N;
+        }
+
+        //=============================================
+        // Conversion operators
+        //=============================================
+
+        operator Array<T, N>() const{
+            Array<T, N> ret;
+
+            for (int i = 0; i < N; ++i) {
+                ret[i] = elems[i];
+            }
+
+            return ret;
         }
 
         //=============================================

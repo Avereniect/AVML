@@ -1,7 +1,7 @@
 #ifndef AVML_ARRAY_HPP
 #define AVML_ARRAY_HPP
 
-#include "Util.hpp"
+#include "Shared.hpp"
 
 namespace avml {
 

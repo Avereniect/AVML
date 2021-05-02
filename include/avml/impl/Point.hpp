@@ -1,7 +1,7 @@
 #ifndef AVML_POINT_HPP
 #define AVML_POINT_HPP
 
-#include "Util.hpp"
+#include "Shared.hpp"
 #include "Array.hpp"
 #include "Vector.hpp"
 
@@ -123,7 +123,7 @@ namespace avml {
         // Conversion operators
         //=============================================
 
-        explicit operator Array<T, N>() const{
+        operator Array<T, N>() const{
             Array<T, N> ret;
 
             for (int i = 0; i < N; ++i) {
