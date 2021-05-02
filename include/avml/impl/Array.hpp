@@ -77,19 +77,19 @@ namespace avml {
         // Accessors
         //=================================================
 
-        float& operator[](unsigned i) {
+        T& operator[](unsigned i) {
             return elems[i % N];
         }
 
-        float operator[](unsigned i) const {
+        T operator[](unsigned i) const {
             return elems[i % N];
         }
 
-        float* data() {
+        T* data() {
             return elems;
         }
 
-        const float* data() const {
+        const T* data() const {
             return elems;
         }
 
