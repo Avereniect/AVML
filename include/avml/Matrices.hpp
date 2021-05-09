@@ -64,22 +64,18 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        template<unsigned O>
-        Matrix& operator*=(const Matrix<T, M, O>& rhs) {}
-
-        template<unsigned O>
-        Matrix<T, N, O> operator*=(const Vector rhs) {
-            Matrix<T, N, O> matrix{};
+        Matrix operator*=(const Matrix<T, M, M>& rhs) {
+            Matrix matrix{};
 
             for (int i = 0; i < N; ++i) {
-                for (int j = 0; j < O; ++j) {
+                for (int j = 0; j < M; ++j) {
                     for (int k = 0; k < M; ++k) {
                         matrix[i][j] += elems[i][k] * rhs[k][j];
                     }
                 }
             }
 
-            return matrix;
+            *this = matrix;
         }
 
         Matrix& operator*=(T t) {
@@ -95,6 +91,15 @@ namespace avml {
         //=================================================
         // Arithmetic operators
         //=================================================
+
+        template<unsigned O>
+        Matrix<T, N, O> operator*(const Matrix<T, M, O>& rhs) {
+            Matrix<T, N, O> ret;
+
+
+
+            return ret;
+        }
 
         Vector operator*(const Vector rhs) {
             Vector ret{};
@@ -150,11 +155,11 @@ namespace avml {
         }
 
         float* data() {
-            return elems[0][0];
+            return &elems[0][0];
         }
 
         const float* data() const {
-            return elems[0][0];
+            return &elems[0][0];
         }
 
         constexpr std::array<std::size_t, 2> dimensions() const {
@@ -166,6 +171,82 @@ namespace avml {
         Vector elems[M]{};
 
     };
+
+
+
+    template<class T, unsigned N, unsigned M>
+    Matrix<T, M, N> transpose(Matrix<T, N, M> mat) {
+        Matrix<T, M, N> ret;
+
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < M; ++j) {
+                ret[j][i] = mat[i][j];
+            }
+        }
+
+        return mat;
+    }
+
+
+    template<class T>
+    T determinant(const Matrix<T, 2, 2>& mat) {
+        return mat[0][0] * mat[0][1] + mat[1][0] * mat[1][1];
+    }
+
+    template<class T>
+    T determinant(const Matrix<T, 3, 3>& mat) {
+        float x = mat[0][0] * (mat[1][1] * mat[2][2] - mat[1][2] * mat[2][1]);
+        float y = mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0]);
+        float z = mat[0][2] * (mat[1][0] * mat[2][1] - mat[2][2] * mat[2][0]);
+
+        return x - y  + z;
+    }
+
+    template<class T>
+    T determinant(const Matrix<T, 4, 4>& mat) {
+        float w =
+            mat[1][1] * (mat[][] * mat[][] - mat[][] * mat[][]) -
+            mat[1][2];
+        float x = ;
+        float y = ;
+        float z = ;
+
+        return w - x + y - z;
+    }
+
+    template<class T>
+    Matrix<T, 2, 2> inverse(Matrix<T, 2, 2>& mat) {
+        static_assert(std::is_floating_point_v<T>);
+        Matrix<T, 2, 2> ret;
+
+        float denom = mat[0][0] * mat[0][1] + mat[1][0] * mat[1][1];
+
+        ret[0][0] =  mat[1][1] / denom;
+        ret[0][1] = -mat[0][1] / denom;
+        ret[1][0] = -mat[1][0] / denom;
+        ret[1][1] =  mat[0][0] / denom;
+
+        return ret;
+    }
+
+    template<class T>
+    Matrix<T, 3, 3> inverse(Matrix<T, 3, 3>& mat) {
+        static_assert(std::is_floating_point_v<T>);
+        Matrix<T, 3, 3> ret;
+
+        float denom = mat[0][0] * mat[0][1] + mat[1][0] * mat[1][1];
+
+        ret[0][0] =  mat[1][1] / denom;
+        ret[0][1] = -mat[0][1] / denom;
+        ret[1][0] = -mat[1][0] / denom;
+        ret[1][1] =  mat[0][0] / denom;
+
+        return ret;
+    }
+
+    //=================================
+    // Type aliases
+    //=================================
 
     using Mat2x2 = Matrix<float, 2, 2>;
     using Mat2x3 = Matrix<float, 2, 3>;
