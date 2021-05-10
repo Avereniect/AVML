@@ -204,6 +204,7 @@ namespace avml {
         return x - y  + z;
     }
 
+    /*
     template<class T>
     T determinant(const Matrix<T, 4, 4>& mat) {
         float w =
@@ -215,6 +216,7 @@ namespace avml {
 
         return w - x + y - z;
     }
+    */
 
     template<class T>
     Matrix<T, 2, 2> inverse(Matrix<T, 2, 2>& mat) {
