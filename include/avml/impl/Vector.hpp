@@ -5,6 +5,9 @@
 #include "Array.hpp"
 #include "Unit_vector.hpp"
 
+#include <cstdint>
+#include <type_traits>
+
 namespace avml {
 
     template<class T, unsigned N>

@@ -3,6 +3,9 @@
 
 #include "Shared.hpp"
 
+#include <cstdint>
+#include <type_traits>
+
 namespace avml {
 
     template<class T, unsigned N>

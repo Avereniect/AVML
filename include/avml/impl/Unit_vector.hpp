@@ -4,6 +4,8 @@
 #include "Shared.hpp"
 
 #include <cmath>
+#include <cstdint>
+#include <type_traits>
 
 namespace avml {
     

@@ -3,6 +3,8 @@
 
 #include "impl/Vector.hpp"
 
+#include <type_traits>
+
 namespace avml {
 
     template<class T, unsigned N, unsigned M>
@@ -17,7 +19,7 @@ namespace avml {
         // Constructors
         //=================================================
 
-        Matrix(T t) {
+        explicit Matrix(T t) {
             for (int i = 0; i < std::min(N, M); ++i) {
                 elems[i][i] = t;
             }
@@ -230,18 +232,49 @@ namespace avml {
     }
 
     template<class T>
-    Matrix<T, 3, 3> inverse(Matrix<T, 3, 3>& mat) {
-        static_assert(std::is_floating_point_v<T>);
-        Matrix<T, 3, 3> ret;
+    Matrix<T, 3, 3> inverse(Matrix<T, 3, 3>& mat);
 
-        float denom = mat[0][0] * mat[0][1] + mat[1][0] * mat[1][1];
+    template<class T>
+    Matrix<T, 4, 4> inverse(Matrix<T, 4, 4>& mat);
 
-        ret[0][0] =  mat[1][1] / denom;
-        ret[0][1] = -mat[0][1] / denom;
-        ret[1][0] = -mat[1][0] / denom;
-        ret[1][1] =  mat[0][0] / denom;
+    template<class T, unsigned N>
+    Matrix<T, N, N> scale(Matrix<T, N, N> mat, Vector<T, N - 1> s) {
+        for (int i = 0; i < N; ++i) {
+            mat[i] *= s[i];
+        }
 
-        return ret;
+        return mat;
+    }
+
+    template<class T, unsigned N>
+    Matrix<T, N, N> transform(Matrix<T, N, N> mat, Vector<T, N - 1> p) {
+        for (int i = 0; i < N - 1; ++i) {
+            mat[i][N - 1] += p[i];
+        }
+
+        return mat;
+    }
+
+    template<class R>
+    Matrix<R, 3, 3> rotate(Matrix<R, 3, 3> mat, Vector<R, 3> r) {
+        static_assert(std::is_floating_point_v<R>);
+
+        R a = cos(r[0]);
+        R b = sin(r[0]);
+
+        R c = cos(r[1]);
+        R d = sin(r[1]);
+
+        R e = cos(r[2]);
+        R f = sin(r[2]);
+
+        Matrix<R, 3, 3  > rotation_matrix {
+            {e * c, -c * f, d},
+            {a * f + e * b * d, e * a -  b * d * f, -b * c},
+            {b * f - e * a * d, a * d * f + e * b, a * c}
+        };
+
+        return mat * rotation_matrix;
     }
 
     //=================================
