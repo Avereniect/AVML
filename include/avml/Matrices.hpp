@@ -4,6 +4,7 @@
 #include "impl/Vector.hpp"
 
 #include <type_traits>
+#include <array>
 
 namespace avml {
 
