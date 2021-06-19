@@ -36,7 +36,7 @@ namespace avml {
         Point() = default;
         Point(const Point&) = default;
         Point(Point&&) = default;
-        ~Point();
+        ~Point() = default;
 
         //=================================================
         // Assignment operators
@@ -82,7 +82,176 @@ namespace avml {
         // Instance members
         //=================================================
 
-        float elements[2];
+        float elements[width];
+
+    };
+
+    template<>
+    class Point<float, 3> {
+    public:
+
+        using scalar = float;
+
+        static constexpr unsigned width = 3;
+
+        //=================================================
+        // Creation functions
+        //=================================================
+
+        static Point read(float* p) {
+            return Point{p[0], p[1], p[2]};
+        }
+
+        static Point read_aligned(float* p) {
+            return Point{p[0], p[1], p[2]};
+        }
+
+        //=================================================
+        // -ctors
+        //=================================================
+
+        Point(float x, float y, float z):
+            elements{x, y, z} {}
+
+        explicit Point(Vec3 v):
+            elements{v[0], v[1], v[2]} {}
+
+        Point() = default;
+        Point(const Point&) = default;
+        Point(Point&&) = default;
+        ~Point() = default;
+
+        //=================================================
+        // Assignment operators
+        //=================================================
+
+        Point& operator=(const Point&) = default;
+        Point& operator=(Point&&) = default;
+
+        //=================================================
+        // Accessors
+        //=================================================
+
+        float& operator[](unsigned i) {
+            return  elements[i];
+        }
+
+        const float& operator[](unsigned i) const {
+            return elements[i];
+        }
+
+        float* data() {
+            return elements;
+        }
+
+        const float* data() const {
+            return elements;
+        }
+
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        explicit operator Vec3() const {
+            return Vec3{
+                elements[0],
+                elements[1],
+                elements[2]
+            };
+        }
+
+    private:
+
+        //=================================================
+        // Instance members
+        //=================================================
+
+        float elements[width];
+
+    };
+
+    template<>
+    class Point<float, 4> {
+    public:
+
+        using scalar = float;
+
+        static constexpr unsigned width = 4;
+
+        //=================================================
+        // Creation functions
+        //=================================================
+
+        static Point read(float* p) {
+            return Point{p[0], p[1], p[2], p[3]};
+        }
+
+        static Point read_aligned(float* p) {
+            return Point{p[0], p[1], p[2], p[3]};
+        }
+
+        //=================================================
+        // -ctors
+        //=================================================
+
+        Point(float x, float y, float z, float w):
+            elements{x, y, z, w} {}
+
+        explicit Point(Vec4 v):
+            elements{v[0], v[1], v[2], v[3]} {}
+
+        Point() = default;
+        Point(const Point&) = default;
+        Point(Point&&) = default;
+        ~Point() = default;
+
+        //=================================================
+        // Assignment operators
+        //=================================================
+
+        Point& operator=(const Point&) = default;
+        Point& operator=(Point&&) = default;
+
+        //=================================================
+        // Accessors
+        //=================================================
+
+        float& operator[](unsigned i) {
+            return  elements[i];
+        }
+
+        const float& operator[](unsigned i) const {
+            return elements[i];
+        }
+
+        float* data() {
+            return elements;
+        }
+
+        const float* data() const {
+            return elements;
+        }
+
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        explicit operator Vec4() const {
+            return Vec4{
+                elements[0],
+                elements[1],
+                elements[2],
+                elements[3]
+            };
+        }
+
+    private:
+
+        //=================================================
+        // Instance members
+        //=================================================
+
+        float elements[width];
 
     };
 
