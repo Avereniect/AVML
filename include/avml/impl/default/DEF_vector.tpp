@@ -721,6 +721,12 @@ namespace avml {
     }
 
     template<class T, unsigned N>
+    AVML_FINL Unit_vector<T, N> normalize(Vector<T, N> v) {
+        v /= v.length();
+        return Unit_vector<T, N>::read_aligned(v.data());
+    }
+
+    template<class T, unsigned N>
     AVML_FINL T dot(Vector<T, N> lhs, Vector<T, N> rhs) {
         T ret = 0.0f;
         for (int i = 0; i < Vector<T, N>::width; ++i) {
