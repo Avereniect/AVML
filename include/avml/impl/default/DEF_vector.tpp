@@ -324,6 +324,20 @@ namespace avml {
             return *this;
         }
 
+        Vector& operator*=(const scalar rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] *= rhs;
+            }
+            return *this;
+        }
+
+        Vector& operator/=(const scalar rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] /= rhs;
+            }
+            return *this;
+        }
+
         //=================================================
         // Accessors
         //=================================================
@@ -429,6 +443,20 @@ namespace avml {
         Vector& operator-=(const Vector& rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
+            }
+            return *this;
+        }
+
+        Vector& operator*=(const scalar rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] *= rhs;
+            }
+            return *this;
+        }
+
+        Vector& operator/=(const scalar rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] /= rhs;
             }
             return *this;
         }
@@ -551,6 +579,20 @@ namespace avml {
         Vector& operator-=(const Vector& rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
+            }
+            return *this;
+        }
+
+        Vector& operator*=(const scalar rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] *= rhs;
+            }
+            return *this;
+        }
+
+        Vector& operator/=(const scalar rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] /= rhs;
             }
             return *this;
         }
