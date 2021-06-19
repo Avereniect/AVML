@@ -660,6 +660,19 @@ namespace avml {
         return rhs * lhs;
     }
 
+    template<class T, unsigned N, class U, class = typename std::enable_if<std::is_convertible<U, T>::value, U>::type>
+    AVML_FINL Vector<T, N> operator*(Unit_vector<T, N> lhs, U rhs) {
+        for (int i = 0; i < N; ++i) {
+            lhs[i] *= rhs;
+        }
+        return lhs;
+    }
+
+    template<class T, unsigned N, class U, class = typename std::enable_if<std::is_convertible<U, T>::value, U>::type>
+    AVML_FINL Vector<T, N> operator*(U lhs, Unit_vector<T, N> rhs) {
+        return rhs * lhs;
+    }
+
     template<class T, unsigned N>
     AVML_FINL Vector<T, N> operator/(Vector<T, N> lhs, typename Vector<T, N>::scalar rhs) {
         for (int i = 0; i < N; ++i) {
