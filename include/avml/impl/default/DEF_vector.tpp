@@ -735,6 +735,21 @@ namespace avml {
         return ret;
     }
 
+    template<class T, unsigned N>
+    AVML_FINL T dot(Vector<T, N> lhs, Unit_vector<T, N> rhs) {
+        return dot(lhs, static_cast<Vector<T, N>>(rhs));
+    }
+
+    template<class T, unsigned N>
+    AVML_FINL T dot(Unit_vector<T, N> lhs, Vector<T, N> rhs) {
+        return dot(static_cast<Vector<T, N>>(lhs), rhs);
+    }
+
+    template<class T, unsigned N>
+    AVML_FINL T dot(Unit_vector<T, N> lhs, Unit_vector<T, N> rhs) {
+        return dot(static_cast<Vector<T, N>>(lhs), static_cast<Vector<T, N>>(rhs));
+    }
+
     template<class T>
     AVML_FINL Unit_vector<T, 3> cross(Unit_vector<T, 3> lhs, Vector<T, 3> rhs) {
         float data[3] = {
