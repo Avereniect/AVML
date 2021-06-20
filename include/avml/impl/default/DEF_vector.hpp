@@ -1,3 +1,6 @@
+#ifndef AVML_DEF_VECTOR_HPP
+#define AVML_DEF_VECTOR_HPP
+
 #include <cmath>
 
 #include "DEF_uvec2f.hpp"
@@ -63,3 +66,5 @@ namespace avml {
     }
 
 }
+
+#endif //AVML_DEF_VECTOR_HPP
