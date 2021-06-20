@@ -18,9 +18,9 @@ namespace avml {
     // Aliases
     //=====================================================
 
-    using Pt2 = Point<float, 2>;
-    using Pt3 = Point<float, 3>;
-    using Pt4 = Point<float, 4>;
+    using Pt2f = Point<float, 2>;
+    using Pt3f = Point<float, 3>;
+    using Pt4f = Point<float, 4>;
 
     using Pt2d = Point<double, 2>;
     using Pt3d = Point<double, 3>;
