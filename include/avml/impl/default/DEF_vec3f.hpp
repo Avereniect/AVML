@@ -100,17 +100,6 @@ namespace avml {
             return elements;
         }
 
-        AVML_FINL float length2() const {
-            return
-                elements[0] * elements[0] +
-                elements[1] * elements[1] +
-                elements[2] * elements[2];
-        }
-
-        AVML_FINL float length() const {
-            return std::sqrt(length2());
-        }
-
     private:
 
         //=================================================
@@ -170,8 +159,27 @@ namespace avml {
         return lhs;
     }
 
+    AVML_FINL float dot(Vec3f lhs, Vec3f rhs) {
+        return
+            lhs[0] * rhs[0] +
+            lhs[1] * rhs[1] +
+            lhs[2] * rhs[2];
+    }
+
+    AVML_FINL float length2(Uvec3f) = delete;
+
+    AVML_FINL float length2(Vec3f v) {
+        return dot(v, v);
+    }
+
+    AVML_FINL float length(Uvec3f) = delete;
+
+    AVML_FINL float length(Vec3f v) {
+        return std::sqrt(length2(v));
+    }
+
     AVML_FINL Unit_vector<float, 3> normalize(Vec3f v) {
-        v /= v.length();
+        v /= length(v);
         return Unit_vector<float, 3>::read_aligned(v.data());
     }
 
@@ -181,13 +189,6 @@ namespace avml {
             lhs[0] * rhs[2] - lhs[2] * rhs[0],
             lhs[0] * rhs[1] - lhs[1] * rhs[0]
         };
-    }
-
-    AVML_FINL float dot(Vec3f lhs, Vec3f rhs) {
-        return
-            lhs[0] * rhs[0] +
-            lhs[1] * rhs[1] +
-            lhs[2] * rhs[2];
     }
 
     AVML_FINL Vec3f project(Vec3f a, Vec3f b) {
