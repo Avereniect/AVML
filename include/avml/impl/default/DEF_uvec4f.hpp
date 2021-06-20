@@ -53,9 +53,7 @@ namespace avml {
         // Arithmetic operators
         //=================================================
 
-        AVML_FINL Unit_vector
-
-        AVML_FINL operator-() const {
+        AVML_FINL Unit_vector operator-() const {
             Unit_vector ret;
             ret.elements[0] = -elements[0];
             ret.elements[1] = -elements[1];
