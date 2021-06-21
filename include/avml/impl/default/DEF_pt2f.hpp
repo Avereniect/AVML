@@ -1,7 +1,7 @@
 namespace avml {
 
     template<>
-    class Point<float, 2> {
+    class  alignas(sizeof(float) * 2) Point<float, 2> {
     public:
 
         using scalar = float;

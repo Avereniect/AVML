@@ -1,7 +1,7 @@
 namespace avml {
 
     template<>
-    class Vector<float, 2> {
+    class alignas(sizeof(float) * 2) Vector<float, 2> {
     public:
 
         using scalar = float;
@@ -23,6 +23,9 @@ namespace avml {
         //=================================================
         // -ctors
         //=================================================
+
+        AVML_FINL Vector(float v):
+            elements{v, v} {}
 
         AVML_FINL Vector(float x, float y):
             elements{x, y} {}
