@@ -225,4 +225,29 @@ namespace avml {
         return Uvec3f::read_aligned(reflect(static_cast<Vec3f>(v), normal).data());
     }
 
+    //=====================================================
+    // Vectorized math
+    //=====================================================
+
+    AVML_FINL Vec3f abs(Vec3f v) {
+        v[0] = std::abs(v[0]);
+        v[1] = std::abs(v[1]);
+        v[2] = std::abs(v[2]);
+        return v;
+    }
+
+    AVML_FINL Vec3f max(Vec3f u, Vec3f v) {
+        u[0] = std::max(u[0], v[0]);
+        u[1] = std::max(u[1], v[1]);
+        u[2] = std::max(u[2], v[2]);
+        return u;
+    }
+
+    AVML_FINL Vec3f min(Vec3f u, Vec3f v) {
+        u[0] = std::min(u[0], v[0]);
+        u[1] = std::min(u[1], v[1]);
+        u[2] = std::min(u[2], v[2]);
+        return u;
+    }
+
 }

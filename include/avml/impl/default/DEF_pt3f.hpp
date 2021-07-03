@@ -1,7 +1,7 @@
 namespace avml {
 
     template<>
-    class alignas(sizeof(float) * 3) Point<float, 3> {
+    class alignas(sizeof(float) * 1) Point<float, 3> {
     public:
 
         using scalar = float;
@@ -27,7 +27,13 @@ namespace avml {
         AVML_FINL Point(float x, float y, float z):
             elements{x, y, z} {}
 
-        AVML_FINL explicit Point(Vec3f v):
+        AVML_FINL Point(Pt2f v, float z):
+            elements{v[0], v[1], z} {}
+
+        AVML_FINL Point(float x, Pt2f v):
+            elements{x, v[0], v[1]} {}
+
+        explicit AVML_FINL Point(Vec3f v):
             elements{v[0], v[1], v[2]} {}
 
         Point() = default;
@@ -46,14 +52,14 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        Point& operator+=(Vec3f rhs) {
+        AVML_FINL Point& operator+=(Vec3f rhs) {
             elements[0] += rhs[0];
             elements[1] += rhs[1];
             elements[2] += rhs[2];
             return *this;
         }
 
-        Point& operator-=(Vec3f rhs) {
+        AVML_FINL Point& operator-=(Vec3f rhs) {
             elements[0] -= rhs[0];
             elements[1] -= rhs[1];
             elements[2] -= rhs[2];
@@ -102,6 +108,28 @@ namespace avml {
 
     };
 
+    //=====================================================
+    // Comparison operators
+    //=====================================================
+
+    AVML_FINL bool operator==(Pt3f lhs, Pt3f rhs) {
+        return
+            lhs[0] == rhs[0] &&
+            lhs[1] == rhs[1] &&
+            lhs[2] == rhs[2];
+    }
+
+    AVML_FINL bool operator!=(Pt3f lhs, Pt3f rhs) {
+        return
+            lhs[0] != rhs[0] &&
+            lhs[1] != rhs[1] &&
+            lhs[2] != rhs[2];
+    }
+
+    //=====================================================
+    // Arithmetic operators
+    //=====================================================
+
     AVML_FINL Pt3f operator+(Pt3f lhs, Vec3f rhs) {
         lhs += rhs;
         return lhs;
@@ -123,6 +151,31 @@ namespace avml {
           lhs[1] - rhs[1],
           lhs[2] - rhs[2]
         };
+    }
+
+    //=====================================================
+    // Vectorized math
+    //=====================================================
+
+    AVML_FINL Pt3f abs(Pt3f v) {
+        v[0] = std::abs(v[0]);
+        v[1] = std::abs(v[1]);
+        v[2] = std::abs(v[2]);
+        return v;
+    }
+
+    AVML_FINL Pt3f max(Pt3f u, Pt3f v) {
+        u[0] = std::max(u[0], v[0]);
+        u[1] = std::max(u[1], v[1]);
+        u[2] = std::max(u[2], v[2]);
+        return u;
+    }
+
+    AVML_FINL Pt3f min(Pt3f u, Pt3f v) {
+        u[0] = std::min(u[0], v[0]);
+        u[1] = std::min(u[1], v[1]);
+        u[2] = std::min(u[2], v[2]);
+        return u;
     }
 
 }

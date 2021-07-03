@@ -44,6 +44,8 @@ namespace avml {
 
 }
 
-#include "impl/default/DEF_matrix.tpp"
+#include "impl/default/DEF_matrix2x2f.hpp"
+#include "impl/default/DEF_matrix3x3f.hpp"
+#include "impl/default/DEF_matrix4x4f.hpp"
 
 #endif //AVML_MATRICES_HPP

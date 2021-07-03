@@ -24,7 +24,7 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL Vector(float v):
+        explicit AVML_FINL Vector(float v):
             elements{v, v, v, v} {}
 
         AVML_FINL Vector(float x, float y, float z, float w):
@@ -220,6 +220,34 @@ namespace avml {
 
     AVML_FINL Uvec4f reflect(Uvec4f v, Uvec4f normal) {
         return Uvec4f::read_aligned(reflect(static_cast<Vec4f>(v), normal).data());
+    }
+
+    //=====================================================
+    // Vectorized math
+    //=====================================================
+
+    AVML_FINL Vec4f abs(Vec4f v) {
+        v[0] = std::abs(v[0]);
+        v[1] = std::abs(v[1]);
+        v[2] = std::abs(v[2]);
+        v[3] = std::abs(v[3]);
+        return v;
+    }
+
+    AVML_FINL Vec4f max(Vec4f u, Vec4f v) {
+        u[0] = std::max(u[0], v[0]);
+        u[1] = std::max(u[1], v[1]);
+        u[2] = std::max(u[2], v[2]);
+        u[3] = std::max(u[3], v[3]);
+        return u;
+    }
+
+    AVML_FINL Vec4f min(Vec4f u, Vec4f v) {
+        u[0] = std::min(u[0], v[0]);
+        u[1] = std::min(u[1], v[1]);
+        u[2] = std::min(u[2], v[2]);
+        u[3] = std::min(u[3], v[3]);
+        return u;
     }
 
 }

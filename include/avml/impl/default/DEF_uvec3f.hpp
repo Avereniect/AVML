@@ -92,4 +92,16 @@ namespace avml {
         return Uvec3f::read(data);
     }
 
+    //=====================================================
+    // Vectorized math
+    //=====================================================
+
+    AVML_FINL Uvec3f abs(Uvec3f v) {
+        alignas(alignof(Uvec3f)) float data[Uvec3f::width];
+        data[0] = std::abs(v[0]);
+        data[1] = std::abs(v[1]);
+        data[2] = std::abs(v[2]);
+        return Uvec3f::read_aligned(data);
+    }
+
 }

@@ -24,10 +24,10 @@ namespace avml {
         // -ctors
         //=================================================
 
-        Point(float x, float y) :
+        AVML_FINL Point(float x, float y) :
             elements{x, y} {}
 
-        explicit Point(Vec2f v) :
+        explicit AVML_FINL Point(Vec2f v) :
             elements{v[0], v[1]} {}
 
         Point() = default;
@@ -46,13 +46,13 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        Point& operator+=(Vec2f rhs) {
+        AVML_FINL Point& operator+=(Vec2f rhs) {
             elements[0] += rhs[0];
             elements[1] += rhs[1];
             return *this;
         }
 
-        Point& operator-=(Vec2f rhs) {
+        AVML_FINL Point& operator-=(Vec2f rhs) {
             elements[0] -= rhs[0];
             elements[1] -= rhs[1];
             return *this;
@@ -62,19 +62,19 @@ namespace avml {
         // Accessors
         //=================================================
 
-        float& operator[](unsigned i) {
+        AVML_FINL float& operator[](unsigned i) {
             return elements[i];
         }
 
-        const float& operator[](unsigned i) const {
+        AVML_FINL const float& operator[](unsigned i) const {
             return elements[i];
         }
 
-        float* data() {
+        AVML_FINL float* data() {
             return elements;
         }
 
-        const float* data() const {
+        AVML_FINL const float* data() const {
             return elements;
         }
 
@@ -82,7 +82,7 @@ namespace avml {
         // Conversion operators
         //=================================================
 
-        explicit operator Vec2f() const {
+        AVML_FINL explicit operator Vec2f() const {
             return Vec2f{
                 elements[0],
                 elements[1]
@@ -98,6 +98,26 @@ namespace avml {
         float elements[width];
 
     };
+
+    //=====================================================
+    // Comparison operators
+    //=====================================================
+
+    AVML_FINL bool operator==(Pt2f lhs, Pt2f rhs) {
+        return
+            lhs[0] == rhs[0] &&
+            lhs[1] == rhs[1];
+    }
+
+    AVML_FINL bool operator!=(Pt2f lhs, Pt2f rhs) {
+        return
+            lhs[0] != rhs[0] &&
+            lhs[1] != rhs[1];
+    }
+
+    //=====================================================
+    // Arithmetic operators
+    //=====================================================
 
     AVML_FINL Pt2f operator+(Pt2f lhs, Vec2f rhs) {
         lhs += rhs;
@@ -119,6 +139,28 @@ namespace avml {
           lhs[0] - rhs[0],
           lhs[1] - rhs[1]
         };
+    }
+
+    //=====================================================
+    // Vectorized math
+    //=====================================================
+
+    AVML_FINL Pt2f abs(Pt2f v) {
+        v[0] = std::abs(v[0]);
+        v[1] = std::abs(v[1]);
+        return v;
+    }
+
+    AVML_FINL Pt2f max(Pt2f u, Pt2f v) {
+        u[0] = std::max(u[0], v[0]);
+        u[1] = std::max(u[1], v[1]);
+        return u;
+    }
+
+    AVML_FINL Pt2f min(Pt2f u, Pt2f v) {
+        u[0] = std::min(u[0], v[0]);
+        u[1] = std::min(u[1], v[1]);
+        return u;
     }
 
 }

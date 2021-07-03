@@ -1,0 +1,10 @@
+#ifndef AVML_DEF_XYZ_ROTATIONF_HPP
+#define AVML_DEF_XYZ_ROTATIONF_HPP
+
+namespace avml {
+
+
+
+}
+
+#endif //AVML_DEF_XYZ_ROTATIONF_HPP

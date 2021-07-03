@@ -36,6 +36,6 @@ namespace avml {
 
 }
 
-#include "impl/default/DEF_point.tpp"
+#include "impl/IMPL_points.hpp"
 
 #endif //AVML_POINTS_HPP
