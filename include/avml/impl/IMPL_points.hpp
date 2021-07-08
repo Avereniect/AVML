@@ -1,7 +1,9 @@
 #ifndef AVML_IMPL_POINTS_HPP
 #define AVML_IMPL_POINTS_HPP
 
-#ifdef SSE
+#include "IMPL_capabilities.hpp"
+
+#ifdef AVML_SSE
 
 #else
     #include "default/DEF_pt2f.hpp"

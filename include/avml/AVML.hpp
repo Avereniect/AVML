@@ -1,7 +1,7 @@
 #ifndef AVML_AVML_HPP
 #define AVML_AVML_HPP
 
-#include "impl/Capabilities.hpp"
+#include "impl/IMPL_capabilities.hpp"
 
 #include "Vectors.hpp"
 #include "Matrices.hpp"

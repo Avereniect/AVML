@@ -1,6 +1,8 @@
 #ifndef AVML_IMPL_TRANSFORMS_HPP
 #define AVML_IMPL_TRANSFORMS_HPP
 
+#include "IMPL_capabilities.hpp"
+
 namespace avml {
 
     template<class R>
@@ -502,9 +504,9 @@ namespace avml {
 
 }
 
-#include "default/DEF_axis_rotationf.hpp"
-#include "default/DEF_xyz_rotationf.hpp"
-#include "default/DEF_affine2f.hpp"
-#include "default/DEF_affine3f.hpp"
+#include "default/DEF_axis_rotationf.ipp"
+#include "default/DEF_xyz_rotationf.ipp"
+#include "default/DEF_affine2f.ipp"
+#include "default/DEF_affine3f.ipp"
 
 #endif //AVML_IMPL_TRANSFORMS_HPP

@@ -1,6 +1,8 @@
 #ifndef AVML_IMPL_SHARED_HPP
 #define AVML_IMPL_SHARED_HPP
 
+#include "IMPL_capabilities.hpp"
+
 #include <type_traits>
 
 namespace avml_impl {

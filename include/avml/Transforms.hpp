@@ -1,7 +1,6 @@
 #ifndef AVML_TRANSFORMS_HPP
 #define AVML_TRANSFORMS_HPP
 
-#include "impl/Capabilities.hpp"
 #include "Matrices.hpp"
 
 namespace avml {

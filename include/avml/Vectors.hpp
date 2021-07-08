@@ -1,10 +1,6 @@
 #ifndef AVML_VECTORS_HPP
 #define AVML_VECTORS_HPP
 
-#include "impl/Capabilities.hpp"
-
-#include <cstdint>
-
 namespace avml {
 
     //=====================================================

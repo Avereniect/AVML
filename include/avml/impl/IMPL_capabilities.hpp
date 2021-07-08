@@ -1,5 +1,5 @@
-#ifndef AVML_CAPABILITIES_HPP
-#define AVML_CAPABILITIES_HPP
+#ifndef AVML_IMPL_CAPABILITIES_HPP
+#define AVML_IMPL_CAPABILITIES_HPP
 
 #include <climits>
 
@@ -128,4 +128,4 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
 
 
-#endif //AVML_CAPABILITIES_HPP
+#endif //AVML_IMPL_CAPABILITIES_HPP

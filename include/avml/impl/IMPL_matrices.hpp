@@ -1,6 +1,8 @@
 #ifndef AVML_IMPL_MATRICES_HPP
 #define AVML_IMPL_MATRICES_HPP
 
+#include "IMPL_capabilities.hpp"
+
 namespace avml {
 
     template<class T, unsigned N>
@@ -36,12 +38,12 @@ namespace avml {
 
 }
 
-#ifdef SSE
+#ifdef AVML_SSE
 
 #else
-    #include "default/DEF_matrix2x2f.hpp"
-    #include "default/DEF_matrix3x3f.hpp"
-    #include "default/DEF_matrix4x4f.hpp"
+    #include "default/DEF_matrix2x2f.ipp"
+    #include "default/DEF_matrix3x3f.ipp"
+    #include "default/DEF_matrix4x4f.ipp"
 #endif
 
 #endif //AVML_IMPL_MATRICES_HPP
