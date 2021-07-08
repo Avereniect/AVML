@@ -18,21 +18,21 @@ namespace avml {
     // Aliases
     //=====================================================
 
-    using Pt2f = Point<float, 2>;
-    using Pt3f = Point<float, 3>;
-    using Pt4f = Point<float, 4>;
+    using pt2f = Point<float, 2>;
+    using pt3f = Point<float, 3>;
+    using pt4f = Point<float, 4>;
 
-    using Pt2d = Point<double, 2>;
-    using Pt3d = Point<double, 3>;
-    using Pt4d = Point<double, 4>;
+    using pt2d = Point<double, 2>;
+    using pt3d = Point<double, 3>;
+    using pt4d = Point<double, 4>;
 
-    using Pt2i = Point<std::int32_t, 2>;
-    using Pt3i = Point<std::int32_t, 3>;
-    using Pt4i = Point<std::int32_t, 4>;
+    using pt2i = Point<std::int32_t, 2>;
+    using pt3i = Point<std::int32_t, 3>;
+    using pt4i = Point<std::int32_t, 4>;
 
-    using Pt2u = Point<std::uint32_t, 2>;
-    using Pt3u = Point<std::uint32_t, 3>;
-    using Pt4u = Point<std::uint32_t, 4>;
+    using pt2u = Point<std::uint32_t, 2>;
+    using pt3u = Point<std::uint32_t, 3>;
+    using pt4u = Point<std::uint32_t, 4>;
 
 }
 

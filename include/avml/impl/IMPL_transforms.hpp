@@ -14,7 +14,6 @@ namespace avml {
         //=================================================
 
         using scalar = R;
-        using point = Point<R, 2>;
         using unit_vector = Unit_vector<R, 3>;
         using vector = Vector<R, 2>;
         using affine = Affine2D<R>;
@@ -45,7 +44,7 @@ namespace avml {
         // Application operators
         //=================================================
 
-        point operator()(point p) const {
+        vector operator()(vector p) const {
             return p + offset;
         }
 
@@ -78,7 +77,6 @@ namespace avml {
         //=================================================
 
         using scalar = R;
-        using point = Point<R, 3>;
         using unit_vector = Unit_vector<R, 3>;
         using vector = Vector<R, 3>;
         using affine = Affine2D<R>;
@@ -109,8 +107,8 @@ namespace avml {
         // Conversion methods
         //=================================================
 
-        Matrix<R, 4, 4> as_matrix() const {
-            return Matrix<R, 4, 4> {
+        AVML_FINL explicit operator mat4x4f() const {
+            return mat4x4f{
                 1.0f, 0.0f, 0.0f, offset[0],
                 0.0f, 1.0f, 0.0f, offset[1],
                 0.0f, 0.0f, 1.0f, offset[2],
@@ -138,7 +136,6 @@ namespace avml {
 
         using scalar = R;
         using vector = Vector<R, 2>;
-        using point = Point<R, 2>;
         using affine = Affine3D<R>;
 
         //=================================================
@@ -172,7 +169,6 @@ namespace avml {
         using scalar = R;
         using unit_vector = Unit_vector<R, 3>;
         using vector = Vector<R, 3>;
-        using point = Point<R, 3>;
         using affine = Affine3D<R>;
 
         //=================================================
@@ -217,20 +213,12 @@ namespace avml {
             };
         }
 
-        AVML_FINL point operator()(point p) const {
-            return vector {
-                p[0] * v[0],
-                p[1] * v[1],
-                p[2] * v[2]
-            };
-        }
-
         //=================================================
         // Conversion methods
         //=================================================
 
-        AVML_FINL Matrix<R, 4, 4> as_matrix() const {
-            return Matrix<R, 4, 4> {
+        AVML_FINL explicit operator mat4x4f() const {
+            return mat4x4f{
                 {v[0], 0.0f, 0.0f, 0.0f},
                 {0.0f, v[1], 0.0f, 0.0f},
                 {0.0f, 0.0f, v[2], 0.0f},
@@ -261,7 +249,6 @@ namespace avml {
         //=================================================
 
         using scalar = R;
-        using point = Point<R, 3>;
         using unit_vector = Unit_vector<R, 3>;
         using vector = Vector<R, 3>;
         using affine = Affine3D<R>;
@@ -286,8 +273,6 @@ namespace avml {
         // Application operators
         //=================================================
 
-        AVML_FINL point operator()(point p) const ;
-
         AVML_FINL unit_vector operator()(unit_vector p) const;
 
         AVML_FINL vector operator()(vector v) const;
@@ -296,8 +281,8 @@ namespace avml {
         // Conversion methods
         //=================================================
 
-        AVML_FINL Matrix<R, 4, 4> as_matrix() const {
-            return Matrix<R, 4, 4> {
+        AVML_FINL explicit operator mat4x4f() const {
+            return mat4x4f{
                 {cosine + axis[0] * axis[0] * cosine_inverse, axis[0] * axis[1] * cosine_inverse - axis[2] * sine, axis[0] * axis[2] * cosine_inverse + axis[1] * sine, 0},
                 {axis[0] * axis[1] * cosine_inverse + axis[2] * sine, cosine + axis[0] * axis[0] * cosine_inverse, axis[1] * axis[2] * cosine_inverse - axis[0] * sine, 0},
                 {axis[0] * axis[2] * cosine_inverse - axis[1] * sine, axis[1] * axis[2] * cosine_inverse + axis[0] * sine, cosine + axis[2] * axis[2] * cosine_inverse, 0},
@@ -319,7 +304,23 @@ namespace avml {
     class X_rotation {
     public:
 
-        AVML_FINL Matrix<R, 4, 4> as_matrix() const {
+        using scalar = R;
+        using vector = Vector<R, 3>;
+        using unit_vector = Unit_vector<R, 3>;
+
+        //=================================================
+        // -ctors
+        //=================================================
+
+        explicit X_rotation(R angle):
+            sine(std::sin(angle)),
+            cosine(std::cos(angle)) {}
+
+        //=================================================
+        // Conversions
+        //=================================================
+
+        AVML_FINL explicit operator mat4x4f() const {
             return Matrix<R, 4, 4> {
                 {1, 0, 0, 0},
                 {0, cosine, -sine, 0},
@@ -339,7 +340,23 @@ namespace avml {
     class Y_rotation {
     public:
 
-        AVML_FINL Matrix<R, 4, 4> as_matrix() const {
+        using scalar = R;
+        using vector = Vector<R, 3>;
+        using unit_vector = Unit_vector<R, 3>;
+
+        //=================================================
+        // -ctors
+        //=================================================
+
+        explicit Y_rotation(R angle):
+            sine(std::sin(angle)),
+            cosine(std::cos(angle)) {}
+
+        //=================================================
+        // Conversions
+        //=================================================
+
+        AVML_FINL explicit operator mat4x4f() const {
             return Matrix<R, 4, 4> {
                 {cosine, 0, sine, 0},
                 {0, 1, 0, 0},
@@ -359,8 +376,23 @@ namespace avml {
     class Z_rotation {
     public:
 
+        using scalar = R;
+        using vector = Vector<R, 3>;
+        using unit_vector = Unit_vector<R, 3>;
 
-        AVML_FINL Matrix<R, 4, 4> as_matrix() const {
+        //=================================================
+        // -ctors
+        //=================================================
+
+        explicit Z_rotation(R angle):
+            sine(std::sin(angle)),
+            cosine(std::cos(angle)) {}
+
+        //=================================================
+        // Conversions
+        //=================================================
+
+        AVML_FINL explicit operator mat4x4f() const {
             return Matrix<R, 4, 4> {
                 {cosine, -sine, 0, 0},
                 {sine, cosine, 0, 0},
@@ -387,7 +419,6 @@ namespace avml {
         //=================================================
 
         using scalar = R;
-        using point = Point<R, 3>;
         using unit_vector = Unit_vector<R, 3>;
         using vector = Vector<R, 3>;
         using affine = Affine3D<R>;
@@ -446,10 +477,6 @@ namespace avml {
         // Operators
         //=================================================
 
-        AVML_FINL point operator()(point p) const {
-            return static_cast<point>(mat * static_cast<vector>(p));
-        }
-
         AVML_FINL unit_vector operator()(unit_vector v) const {
             return unit_vector::read_aligned((mat * v).data());
         }
@@ -458,7 +485,7 @@ namespace avml {
             return mat * v;
         }
 
-        AVML_FINL Matrix<R, 4, 4> as_matrix() const {
+        AVML_FINL explicit operator mat4x4f() const {
             return Matrix<R, 4, 4> {
                 {mat[0], 0.0f},
                 {mat[1], 0.0f},

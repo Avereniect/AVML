@@ -1,7 +1,7 @@
 namespace avml {
 
     template<>
-    class alignas(sizeof(float) * 4) Vector<float, 4> {
+    class alignas(alignof(float) * 4) Vector<float, 4> {
     public:
 
         using scalar = float;
@@ -30,25 +30,25 @@ namespace avml {
         AVML_FINL Vector(float x, float y, float z, float w):
             elements{x, y, z, w} {}
 
-        AVML_FINL Vector(Uvec4f v):
+        AVML_FINL Vector(uvec4f v):
             elements{v[0], v[1], v[2], v[3]} {}
 
-        AVML_FINL Vector(Vec2f v, float z, float w):
+        AVML_FINL Vector(vec2f v, float z, float w):
             elements{v[0], v[1], z, w} {}
 
-        AVML_FINL Vector(float x, Vec2f v, float w):
+        AVML_FINL Vector(float x, vec2f v, float w):
             elements{x, v[0], v[1], w} {}
 
-        AVML_FINL Vector(float x, float y, Vec2f v):
+        AVML_FINL Vector(float x, float y, vec2f v):
             elements{x, y, v[0], v[1]} {}
 
-        AVML_FINL Vector(Vec2f v, Vec2f u):
+        AVML_FINL Vector(vec2f v, vec2f u):
             elements{v[0], v[1], u[0], u[1]} {}
 
-        AVML_FINL Vector(Vec3f v, float w):
+        AVML_FINL Vector(vec3f v, float w):
             elements{v[0], v[1], v[2], w} {}
 
-        AVML_FINL Vector(float x, Vec3f v):
+        AVML_FINL Vector(float x, vec3f v):
             elements{x, v[0], v[1], v[2]} {}
 
         Vector() = default;
@@ -125,7 +125,7 @@ namespace avml {
 
     };
 
-    AVML_FINL bool operator==(Vec4f lhs, Vec4f rhs) {
+    AVML_FINL bool operator==(vec4f lhs, vec4f rhs) {
         return
             (lhs[0] == rhs[0]) &&
             (lhs[1] == rhs[1]) &&
@@ -133,7 +133,7 @@ namespace avml {
             (lhs[3] == rhs[3]);
     }
 
-    AVML_FINL bool operator!=(Vec4f lhs, Vec4f rhs) {
+    AVML_FINL bool operator!=(vec4f lhs, vec4f rhs) {
         return
             (lhs[0] != rhs[0]) ||
             (lhs[1] != rhs[1]) ||
@@ -141,7 +141,7 @@ namespace avml {
             (lhs[3] != rhs[3]);
     }
 
-    AVML_FINL Vec4f operator+(Vec4f lhs, Vec4f rhs) {
+    AVML_FINL vec4f operator+(vec4f lhs, vec4f rhs) {
         lhs[0] += rhs[0];
         lhs[1] += rhs[1];
         lhs[2] += rhs[2];
@@ -149,7 +149,7 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL Vec4f operator-(Vec4f lhs, Vec4f rhs) {
+    AVML_FINL vec4f operator-(vec4f lhs, vec4f rhs) {
         lhs[0] -= rhs[0];
         lhs[1] -= rhs[1];
         lhs[2] -= rhs[2];
@@ -157,7 +157,7 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL Vec4f operator*(Vec4f lhs, float rhs) {
+    AVML_FINL vec4f operator*(vec4f lhs, float rhs) {
         lhs[0] *= rhs;
         lhs[1] *= rhs;
         lhs[2] *= rhs;
@@ -165,7 +165,7 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL Vec4f operator*(float lhs, Vec4f rhs) {
+    AVML_FINL vec4f operator*(float lhs, vec4f rhs) {
         rhs[0] *= lhs;
         rhs[1] *= lhs;
         rhs[2] *= lhs;
@@ -173,7 +173,7 @@ namespace avml {
         return rhs;
     }
 
-    AVML_FINL Vec4f operator/(Vec4f lhs, float rhs) {
+    AVML_FINL vec4f operator/(vec4f lhs, float rhs) {
         lhs[0] /= rhs;
         lhs[1] /= rhs;
         lhs[2] /= rhs;
@@ -181,7 +181,7 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL float dot(Vec4f lhs, Vec4f rhs) {
+    AVML_FINL float dot(vec4f lhs, vec4f rhs) {
         return
             lhs[0] * rhs[0] +
             lhs[1] * rhs[1] +
@@ -189,44 +189,44 @@ namespace avml {
             lhs[3] * rhs[2];
     }
 
-    AVML_FINL float length2(Uvec4f) = delete;
+    AVML_FINL float length2(uvec4f) = delete;
 
-    AVML_FINL float length2(Vec4f v) {
+    AVML_FINL float length2(vec4f v) {
         return dot(v, v);
     }
 
-    AVML_FINL float length(Uvec4f) = delete;
+    AVML_FINL float length(uvec4f) = delete;
 
-    AVML_FINL float length(Vec4f v) {
+    AVML_FINL float length(vec4f v) {
         return std::sqrt(length2(v));
     }
 
-    AVML_FINL Unit_vector<float, 4> normalize(Vec4f v) {
+    AVML_FINL Unit_vector<float, 4> normalize(vec4f v) {
         v /= length(v);
         return Unit_vector<float, 4>::read_aligned(v.data());
     }
 
-    AVML_FINL Vec4f project(Vec4f a, Vec4f b) {
+    AVML_FINL vec4f project(vec4f a, vec4f b) {
         return (dot(a, b) / dot(b, b)) * b;
     }
 
-    AVML_FINL Vec4f project(Vec4f a, Uvec4f b) {
+    AVML_FINL vec4f project(vec4f a, uvec4f b) {
         return dot(a, b) * b;
     }
 
-    AVML_FINL Vec4f reflect(Vec4f v, Uvec4f normal) {
+    AVML_FINL vec4f reflect(vec4f v, uvec4f normal) {
         return 2 * dot(v, normal) * normal - v;
     }
 
-    AVML_FINL Uvec4f reflect(Uvec4f v, Uvec4f normal) {
-        return Uvec4f::read_aligned(reflect(static_cast<Vec4f>(v), normal).data());
+    AVML_FINL uvec4f reflect(uvec4f v, uvec4f normal) {
+        return uvec4f::read_aligned(reflect(static_cast<vec4f>(v), normal).data());
     }
 
     //=====================================================
     // Vectorized math
     //=====================================================
 
-    AVML_FINL Vec4f abs(Vec4f v) {
+    AVML_FINL vec4f abs(vec4f v) {
         v[0] = std::abs(v[0]);
         v[1] = std::abs(v[1]);
         v[2] = std::abs(v[2]);
@@ -234,7 +234,7 @@ namespace avml {
         return v;
     }
 
-    AVML_FINL Vec4f max(Vec4f u, Vec4f v) {
+    AVML_FINL vec4f max(vec4f u, vec4f v) {
         u[0] = std::max(u[0], v[0]);
         u[1] = std::max(u[1], v[1]);
         u[2] = std::max(u[2], v[2]);
@@ -242,7 +242,7 @@ namespace avml {
         return u;
     }
 
-    AVML_FINL Vec4f min(Vec4f u, Vec4f v) {
+    AVML_FINL vec4f min(vec4f u, vec4f v) {
         u[0] = std::min(u[0], v[0]);
         u[1] = std::min(u[1], v[1]);
         u[2] = std::min(u[2], v[2]);

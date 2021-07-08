@@ -1,7 +1,7 @@
 namespace avml {
 
     template<>
-    class Matrix<float, 4, 4> {
+    class alignas(alignof(float) * 4 * 4)Matrix<float, 4, 4> {
     public:
 
         using scalar = float;
@@ -38,10 +38,10 @@ namespace avml {
 
         explicit AVML_FINL Matrix(float d):
             elements {
-            vector{d, 0.0f, 0.0f, 0.0f},
-            vector{0.0f, d, 0.0f, 0.0f},
-            vector{0.0f, 0.0f, d, 0.0f},
-            vector{0.0f, 0.0f, 0.0f, d}
+            d, 0.0f, 0.0f, 0.0f,
+            0.0f, d, 0.0f, 0.0f,
+            0.0f, 0.0f, d, 0.0f,
+            0.0f, 0.0f, 0.0f, d
         } {}
 
         AVML_FINL Matrix(
@@ -50,14 +50,19 @@ namespace avml {
             float i, float j, float k, float l,
             float m, float n, float o, float p):
             elements{
-                vector{a, b, c, d},
-                vector{e, f, g, h},
-                vector{i, j, k, l},
-                vector{m, n, o, p}
+                a, b, c, d,
+                e, f, g, h,
+                i, j, k, l,
+                m, n, o, p
             } {}
 
         AVML_FINL Matrix(vector a, vector b, vector c, vector d):
-            elements{a, b, c, d} {}
+            elements{
+                a[0], a[1], a[2], a[3],
+                b[0], b[1], b[2], b[3],
+                c[0], c[1], c[2], c[3],
+                d[0], d[1], d[2], d[3]
+        } {}
 
         Matrix() = default;
         Matrix(const Matrix&) = default;
@@ -77,43 +82,45 @@ namespace avml {
 
         AVML_FINL Matrix& operator*=(scalar rhs) {
             for (int i = 0; i < height; ++i) {
-                elements[i] *= rhs;
+                operator[](i) *= rhs;
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator/=(scalar rhs) {
             for (int i = 0; i < height; ++i) {
-                elements[i] /= rhs;
+                operator[](i) /= rhs;
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator+=(const Matrix& rhs) {
             for (int i = 0; i < height; ++i) {
-                elements[i] += rhs.elements[i];
+                operator[](i) += rhs.operator[](i);
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator-=(const Matrix& rhs) {
             for (int i = 0; i < height; ++i) {
-                elements[i] -= rhs.elements[i];
+                operator[](i) -= rhs.operator[](i);
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator*=(const Matrix& rhs) {
-            auto ret = *this;
+            Matrix result{};
             for (int i = 0; i < height; ++i) {
                 for (int j = 0; j < width; ++j) {
                     float tmp = 0.0f;
-                    for (int k = 0; j < width; ++k) {
+                    for (int k = 0; k < width; ++k) {
                         tmp += elements[i][k] * rhs.elements[k][j];
                     }
-                    ret[i][j] = tmp;
+                    result[i][j] = tmp;
                 }
             }
+
+            *this = result;
 
             return *this;
         }
@@ -123,76 +130,81 @@ namespace avml {
         //=================================================
 
         AVML_FINL vector& operator[](unsigned i) {
-            return elements[i];
+            return *reinterpret_cast<vector*>(elements[i]);
         }
 
         AVML_FINL const vector& operator[](unsigned i) const {
-            return elements[i];
+            return *reinterpret_cast<const vector*>(elements[i]);
         }
 
         float* data() {
-            return elements[0].data();
+            return elements[0];
         }
 
         const float* data() const {
-            return elements[0].data();
+            return elements[0];
         }
 
     private:
 
-        vector elements[height] = {vector{}, vector{}, vector{}, vector{}};
+        float elements[4][4]{
+            0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f
+        };
 
     };
 
     const Matrix<float, 3, 3> Identity4f{1.0f};
 
-    AVML_FINL bool operator==(const Mat4x4f& lhs, const Mat4x4f& rhs) {
+    AVML_FINL bool operator==(const mat4x4f& lhs, const mat4x4f& rhs) {
         bool ret = true;
-        for (int i = 0; i < Mat4x4f::height; ++i) {
+        for (int i = 0; i < mat4x4f::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
     }
 
-    AVML_FINL bool operator!=(const Mat4x4f& lhs, const Mat4x4f& rhs) {
+    AVML_FINL bool operator!=(const mat4x4f& lhs, const mat4x4f& rhs) {
         return !(lhs == rhs);
     }
 
-    AVML_FINL Mat4x4f operator+(Mat4x4f lhs, Mat4x4f rhs) {
+    AVML_FINL mat4x4f operator+(mat4x4f lhs, mat4x4f rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL Mat4x4f operator-(Mat4x4f lhs, Mat4x4f rhs) {
+    AVML_FINL mat4x4f operator-(mat4x4f lhs, mat4x4f rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat4x4f operator*(Mat4x4f lhs, float rhs) {
+    AVML_FINL mat4x4f operator*(mat4x4f lhs, float rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat4x4f operator*(float lhs, Mat4x4f rhs) {
+    AVML_FINL mat4x4f operator*(float lhs, mat4x4f rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL Mat4x4f operator/(Mat4x4f lhs, float rhs) {
+    AVML_FINL mat4x4f operator/(mat4x4f lhs, float rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat4x4f operator*(Mat4x4f lhs, Mat4x4f rhs) {
+    AVML_FINL mat4x4f operator*(mat4x4f lhs, mat4x4f rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL Vec4f operator*(Mat4x4f lhs, Vec4f rhs) {
-        Vec4f ret{};
+    AVML_FINL vec4f operator*(mat4x4f lhs, vec4f rhs) {
+        vec4f ret{};
 
-        for (int i = 0; i < Mat4x4f::height; ++i) {
-            for (int j = 0; j < Mat4x4f::width; ++j) {
+        for (int i = 0; i < mat4x4f::height; ++i) {
+            for (int j = 0; j < mat4x4f::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -200,11 +212,11 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL Mat4x4f transpose(const Mat4x4f m) {
-        Mat4x4f ret;
+    AVML_FINL mat4x4f transpose(const mat4x4f m) {
+        mat4x4f ret;
 
-        for (int i = 0; i < Mat4x4f::height; ++i) {
-            for (int j = 0; j < Mat4x4f::width; ++j) {
+        for (int i = 0; i < mat4x4f::height; ++i) {
+            for (int j = 0; j < mat4x4f::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }
@@ -212,7 +224,7 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL float determinant(const Mat4x4f& m) {
+    AVML_FINL float determinant(const mat4x4f& m) {
         float x = m[0][0] * (
             m[1][1] * (m[2][2] * m[3][3] - m[2][3] * m[3][2]) -
             m[1][2] * (m[2][1] * m[3][3] - m[2][3] * m[3][1]) +
@@ -240,7 +252,7 @@ namespace avml {
         return x - y + z - w;
     }
 
-    AVML_FINL Mat4x4f inverse(const Mat4x4f& mat) {
+    AVML_FINL mat4x4f inverse(const mat4x4f& mat) {
         auto det = determinant(mat);
 
         float a = mat[0][0];
@@ -352,7 +364,7 @@ namespace avml {
         float t33 =  a * fk_gj - b * ek_gi + c * ej_fi;
 
         if (det < (1.0 / 65536.0f)) {
-            return Mat4x4f {
+            return mat4x4f {
                 NAN, NAN, NAN, NAN,
                 NAN, NAN, NAN, NAN,
                 NAN, NAN, NAN, NAN,
@@ -360,13 +372,12 @@ namespace avml {
             };
         }
 
-        return Mat4x4f {
+        return mat4x4f {
             t00, t01, t02, t03,
             t10, t11, t12, t13,
             t20, t21, t22, t23,
             t30, t31, t32, t33
         } / det;
     }
-
 
 }

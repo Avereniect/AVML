@@ -116,53 +116,53 @@ namespace avml {
 
     const Matrix<float, 2, 2> Identity2f{1.0f};
 
-    AVML_FINL bool operator==(const Mat2x2f& lhs, const Mat2x2f& rhs) {
+    AVML_FINL bool operator==(const mat2x2f& lhs, const mat2x2f& rhs) {
         bool ret = true;
-        for (int i = 0; i < Mat2x2f::height; ++i) {
+        for (int i = 0; i < mat2x2f::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
     }
 
-    AVML_FINL bool operator!=(const Mat2x2f& lhs, const Mat2x2f& rhs) {
+    AVML_FINL bool operator!=(const mat2x2f& lhs, const mat2x2f& rhs) {
         return !(lhs == rhs);
     }
 
-    AVML_FINL Mat2x2f operator+(Mat2x2f lhs, Mat2x2f rhs) {
+    AVML_FINL mat2x2f operator+(mat2x2f lhs, mat2x2f rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL Mat2x2f operator-(Mat2x2f lhs, Mat2x2f rhs) {
+    AVML_FINL mat2x2f operator-(mat2x2f lhs, mat2x2f rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat2x2f operator*(Mat2x2f lhs, float rhs) {
+    AVML_FINL mat2x2f operator*(mat2x2f lhs, float rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat2x2f operator*(float lhs, Mat2x2f rhs) {
+    AVML_FINL mat2x2f operator*(float lhs, mat2x2f rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL Mat2x2f operator/(Mat2x2f lhs, float rhs) {
+    AVML_FINL mat2x2f operator/(mat2x2f lhs, float rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat2x2f operator*(Mat2x2f lhs, Mat2x2f rhs) {
+    AVML_FINL mat2x2f operator*(mat2x2f lhs, mat2x2f rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL Vec2f operator*(Mat2x2f lhs, Vec2f rhs) {
-        Vec2f ret{};
+    AVML_FINL vec2f operator*(mat2x2f lhs, vec2f rhs) {
+        vec2f ret{};
 
-        for (int i = 0; i < Mat2x2f::height; ++i) {
-            for (int j = 0; j < Mat2x2f::width; ++j) {
+        for (int i = 0; i < mat2x2f::height; ++i) {
+            for (int j = 0; j < mat2x2f::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -170,11 +170,11 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL Mat2x2f transpose(const Mat2x2f m) {
-        Mat2x2f ret;
+    AVML_FINL mat2x2f transpose(const mat2x2f m) {
+        mat2x2f ret;
 
-        for (int i = 0; i < Mat2x2f::height; ++i) {
-            for (int j = 0; j < Mat2x2f::width; ++j) {
+        for (int i = 0; i < mat2x2f::height; ++i) {
+            for (int j = 0; j < mat2x2f::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }
@@ -182,18 +182,18 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL float determinant(const Mat2x2f& m) {
+    AVML_FINL float determinant(const mat2x2f& m) {
         return m[0][0] * m[1][1] - m[0][1] * m[1][0];
     }
 
-    AVML_FINL Mat2x2f inverse(const Mat2x2f& m) {
+    AVML_FINL mat2x2f inverse(const mat2x2f& m) {
         auto det = determinant(m);
 
         if (det < (1.0f / 65536.0f)) {
-            return Mat2x2f{NAN, NAN, NAN, NAN};
+            return mat2x2f{NAN, NAN, NAN, NAN};
         }
 
-        return Mat2x2f {
+        return mat2x2f {
              m[1][1],
             -m[1][0],
             -m[0][1],

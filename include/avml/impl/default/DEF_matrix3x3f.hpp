@@ -121,53 +121,53 @@ namespace avml {
 
     const Matrix<float, 3, 3> Identity3f{1.0f};
 
-    AVML_FINL bool operator==(const Mat3x3f& lhs, const Mat3x3f& rhs) {
+    AVML_FINL bool operator==(const mat3x3f& lhs, const mat3x3f& rhs) {
         bool ret = true;
-        for (int i = 0; i < Mat3x3f::height; ++i) {
+        for (int i = 0; i < mat3x3f::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
     }
 
-    AVML_FINL bool operator!=(const Mat3x3f& lhs, const Mat3x3f& rhs) {
+    AVML_FINL bool operator!=(const mat3x3f& lhs, const mat3x3f& rhs) {
         return !(lhs == rhs);
     }
 
-    AVML_FINL Mat3x3f operator+(Mat3x3f lhs, Mat3x3f rhs) {
+    AVML_FINL mat3x3f operator+(mat3x3f lhs, mat3x3f rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL Mat3x3f operator-(Mat3x3f lhs, Mat3x3f rhs) {
+    AVML_FINL mat3x3f operator-(mat3x3f lhs, mat3x3f rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat3x3f operator*(Mat3x3f lhs, float rhs) {
+    AVML_FINL mat3x3f operator*(mat3x3f lhs, float rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat3x3f operator*(float lhs, Mat3x3f rhs) {
+    AVML_FINL mat3x3f operator*(float lhs, mat3x3f rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL Mat3x3f operator/(Mat3x3f lhs, float rhs) {
+    AVML_FINL mat3x3f operator/(mat3x3f lhs, float rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL Mat3x3f operator*(Mat3x3f lhs, Mat3x3f rhs) {
+    AVML_FINL mat3x3f operator*(mat3x3f lhs, mat3x3f rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL Vec3f operator*(Mat3x3f lhs, Vec3f rhs) {
-        Vec3f ret{};
+    AVML_FINL vec3f operator*(mat3x3f lhs, vec3f rhs) {
+        vec3f ret{};
 
-        for (int i = 0; i < Mat3x3f::height; ++i) {
-            for (int j = 0; j < Mat3x3f::width; ++j) {
+        for (int i = 0; i < mat3x3f::height; ++i) {
+            for (int j = 0; j < mat3x3f::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -175,11 +175,11 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL Mat3x3f transpose(const Mat3x3f m) {
-        Mat3x3f ret;
+    AVML_FINL mat3x3f transpose(const mat3x3f m) {
+        mat3x3f ret;
 
-        for (int i = 0; i < Mat3x3f::height; ++i) {
-            for (int j = 0; j < Mat3x3f::width; ++j) {
+        for (int i = 0; i < mat3x3f::height; ++i) {
+            for (int j = 0; j < mat3x3f::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }
@@ -187,25 +187,25 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL float determinant(const Mat3x3f& m) {
+    AVML_FINL float determinant(const mat3x3f& m) {
         return
             m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
             m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
             m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
     }
 
-    AVML_FINL Mat3x3f inverse(const Mat3x3f& m) {
+    AVML_FINL mat3x3f inverse(const mat3x3f& m) {
         auto det = determinant(m);
 
         if (det < (1.0f / 32768.0f)) {
-            return Mat3x3f {
+            return mat3x3f {
                 NAN, NAN, NAN,
                 NAN, NAN, NAN,
                 NAN, NAN, NAN
             };
         }
 
-        return Mat3x3f {
+        return mat3x3f {
              m[1][1] * m[2][2] - m[1][2] * m[2][1], -m[0][1] * m[2][2] + m[0][2] * m[2][1],  m[0][1] * m[1][2] - m[0][2] * m[1][1],
             -m[0][1] * m[2][2] - m[1][2] * m[2][0],  m[0][0] * m[2][2] - m[0][2] * m[2][0], -m[0][0] * m[1][2] - m[0][2] * m[1][0],
              m[1][0] * m[2][1] - m[1][1] * m[2][0], -m[0][0] * m[2][1] + m[0][1] * m[2][0],  m[0][0] * m[1][1] - m[0][1] * m[1][0]

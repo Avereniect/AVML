@@ -30,7 +30,7 @@ namespace avml {
         AVML_FINL Vector(float x, float y):
             elements{x, y} {}
 
-        AVML_FINL Vector(Uvec2f v):
+        AVML_FINL Vector(uvec2f v):
             elements{v[0], v[1]} {}
 
         Vector() = default;
@@ -111,13 +111,13 @@ namespace avml {
     // Comparison operators
     //=====================================================
 
-    AVML_FINL bool operator==(Vec2f lhs, Vec2f rhs) {
+    AVML_FINL bool operator==(vec2f lhs, vec2f rhs) {
         return
             (lhs[0] == rhs[0]) &&
             (lhs[1] == rhs[1]);
     }
 
-    AVML_FINL bool operator!=(Vec2f lhs, Vec2f rhs) {
+    AVML_FINL bool operator!=(vec2f lhs, vec2f rhs) {
         return
             (lhs[0] != rhs[0]) ||
             (lhs[1] != rhs[1]);
@@ -127,31 +127,31 @@ namespace avml {
     // Arithmetic operators
     //=====================================================
 
-    AVML_FINL Vec2f operator+(Vec2f lhs, Vec2f rhs) {
+    AVML_FINL vec2f operator+(vec2f lhs, vec2f rhs) {
         lhs[0] += rhs[0];
         lhs[1] += rhs[1];
         return lhs;
     }
 
-    AVML_FINL Vec2f operator-(Vec2f lhs, Vec2f rhs) {
+    AVML_FINL vec2f operator-(vec2f lhs, vec2f rhs) {
         lhs[0] -= rhs[0];
         lhs[1] -= rhs[1];
         return lhs;
     }
 
-    AVML_FINL Vec2f operator*(Vec2f lhs, float rhs) {
+    AVML_FINL vec2f operator*(vec2f lhs, float rhs) {
         lhs[0] *= rhs;
         lhs[1] *= rhs;
         return lhs;
     }
 
-    AVML_FINL Vec2f operator*(float lhs, Vec2f rhs) {
+    AVML_FINL vec2f operator*(float lhs, vec2f rhs) {
         rhs[0] *= lhs;
         rhs[1] *= lhs;
         return rhs;
     }
 
-    AVML_FINL Vec2f operator/(Vec2f lhs, float rhs) {
+    AVML_FINL vec2f operator/(vec2f lhs, float rhs) {
         lhs[0] /= rhs;
         lhs[1] /= rhs;
         return lhs;
@@ -161,72 +161,72 @@ namespace avml {
     // Vector math
     //=====================================================
 
-    AVML_FINL float dot(Vec2f lhs, Vec2f rhs) {
+    AVML_FINL float dot(vec2f lhs, vec2f rhs) {
         return
             lhs[0] * rhs[0] +
             lhs[1] * rhs[1];
     }
 
-    AVML_FINL float length2(Uvec2f) = delete;
+    AVML_FINL float length2(uvec2f) = delete;
 
-    AVML_FINL float length2(Vec2f v) {
+    AVML_FINL float length2(vec2f v) {
         return dot(v, v);
     }
 
-    AVML_FINL float length(Uvec2f) = delete;
+    AVML_FINL float length(uvec2f) = delete;
 
-    AVML_FINL float length(Vec2f v) {
+    AVML_FINL float length(vec2f v) {
         return std::sqrt(length2(v));
     }
 
-    AVML_FINL Uvec2f normalize(Vec2f v) {
+    AVML_FINL uvec2f normalize(vec2f v) {
         v /= length(v);
-        return Uvec2f::read_aligned(v.data());
+        return uvec2f::read_aligned(v.data());
     }
 
-    AVML_FINL Vec2f project(Vec2f a, Vec2f b) {
+    AVML_FINL vec2f project(vec2f a, vec2f b) {
         return (dot(a, b) / dot(b, b)) * b;
     }
 
-    AVML_FINL Vec2f project(Vec2f a, Uvec2f b) {
+    AVML_FINL vec2f project(vec2f a, uvec2f b) {
         return dot(a, b) * b;
     }
 
-    AVML_FINL Vec2f rotate(Vec2f v, float angle) {
+    AVML_FINL vec2f rotate(vec2f v, float angle) {
         float cos = std::cos(angle);
         float sin = std::sin(angle);
 
-        return Vec2f{
+        return vec2f{
             v[0] * cos - v[1] * sin,
             v[0] * sin + v[1] * cos
         };
     }
 
-    AVML_FINL Vec2f reflect(Vec2f v, Uvec2f normal) {
+    AVML_FINL vec2f reflect(vec2f v, uvec2f normal) {
         return 2 * dot(v, normal) * normal - v;
     }
 
-    AVML_FINL Uvec2f reflect(Uvec2f v, Uvec2f normal) {
-        return Uvec2f::read_aligned(reflect(static_cast<Vec2f>(v), normal).data());
+    AVML_FINL uvec2f reflect(uvec2f v, uvec2f normal) {
+        return uvec2f::read_aligned(reflect(static_cast<vec2f>(v), normal).data());
     }
 
     //=====================================================
     // Vectorized math
     //=====================================================
 
-    AVML_FINL Vec2f abs(Vec2f v) {
+    AVML_FINL vec2f abs(vec2f v) {
         v[0] = std::abs(v[0]);
         v[1] = std::abs(v[1]);
         return v;
     }
 
-    AVML_FINL Vec2f max(Vec2f u, Vec2f v) {
+    AVML_FINL vec2f max(vec2f u, vec2f v) {
         u[0] = std::max(u[0], v[0]);
         u[1] = std::max(u[1], v[1]);
         return u;
     }
 
-    AVML_FINL Vec2f min(Vec2f u, Vec2f v) {
+    AVML_FINL vec2f min(vec2f u, vec2f v) {
         u[0] = std::min(u[0], v[0]);
         u[1] = std::min(u[1], v[1]);
         return u;

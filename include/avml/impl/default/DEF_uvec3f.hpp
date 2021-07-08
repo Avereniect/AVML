@@ -33,7 +33,7 @@ namespace avml {
             elements[2] = z / length;
         }
 
-        AVML_FINL Unit_vector(Uvec2f v):
+        AVML_FINL Unit_vector(uvec2f v):
             elements{v[0], v[1], 0.0f} {}
 
         Unit_vector() = default;
@@ -82,26 +82,26 @@ namespace avml {
 
     };
 
-    AVML_FINL Uvec3f cross(Uvec3f lhs,Uvec3f rhs) {
+    AVML_FINL uvec3f cross(uvec3f lhs, uvec3f rhs) {
         float data[3] = {
             lhs[1] * rhs[2] - lhs[2] * rhs[1],
             lhs[0] * rhs[2] - lhs[2] * rhs[0],
             lhs[0] * rhs[1] - lhs[1] * rhs[0]
         };
 
-        return Uvec3f::read(data);
+        return uvec3f::read(data);
     }
 
     //=====================================================
     // Vectorized math
     //=====================================================
 
-    AVML_FINL Uvec3f abs(Uvec3f v) {
-        alignas(alignof(Uvec3f)) float data[Uvec3f::width];
+    AVML_FINL uvec3f abs(uvec3f v) {
+        alignas(alignof(uvec3f)) float data[uvec3f::width];
         data[0] = std::abs(v[0]);
         data[1] = std::abs(v[1]);
         data[2] = std::abs(v[2]);
-        return Uvec3f::read_aligned(data);
+        return uvec3f::read_aligned(data);
     }
 
 }

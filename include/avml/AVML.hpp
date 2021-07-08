@@ -4,7 +4,6 @@
 #include "impl/Capabilities.hpp"
 
 #include "Vectors.hpp"
-#include "Points.hpp"
 #include "Matrices.hpp"
 #include "Transforms.hpp"
 #include "Math.hpp"

@@ -6,7 +6,6 @@ namespace avml {
     public:
 
         using scalar = R;
-        using point = Point<R, 2>;
         using vector = Vector<R, 2>;
         using matrix = Matrix<R, 3, 3>;
 
@@ -61,14 +60,6 @@ namespace avml {
             return ret;
         }
 
-        AVML_FINL point operator()(const point rhs) const {
-            Point<R, 3> t{rhs, 1.0f};
-            auto matrix = mat;
-            matrix[2][2] = 1.0f;
-            auto v = matrix * static_cast<typename matrix::vector>(t);
-            return point{v[0], v[1]};
-        }
-
         AVML_FINL vector operator()(const vector rhs) const {
             Vector<R, 4> t{rhs, 0};
             auto v = mat * t;
@@ -87,12 +78,8 @@ namespace avml {
             return mat.data();
         }
 
-        //=================================================
-        // Conversion operators
-        //=================================================
-
-        AVML_FINL explicit operator matrix() const {
-            return mat;
+        friend AVML_FINL matrix as_matrix(Affine2Df affine) {
+            return affine.mat;
         }
 
         //=================================================

@@ -21,25 +21,25 @@ namespace avml {
     // Unit vector aliases
     //=====================================================
 
-    using Uvec2f = Unit_vector<float, 2>;
-    using Uvec3f = Unit_vector<float, 3>;
-    using Uvec4f = Unit_vector<float, 4>;
+    using uvec2f = Unit_vector<float, 2>;
+    using uvec3f = Unit_vector<float, 3>;
+    using uvec4f = Unit_vector<float, 4>;
 
-    using Uvec2d = Unit_vector<double, 2>;
-    using Uvec3d = Unit_vector<double, 3>;
-    using Uvec4d = Unit_vector<double, 4>;
+    using uvec2d = Unit_vector<double, 2>;
+    using uvec3d = Unit_vector<double, 3>;
+    using uvec4d = Unit_vector<double, 4>;
 
     //=====================================================
     // Vector aliases
     //=====================================================
 
-    using Vec2f = Vector<float, 2>;
-    using Vec3f = Vector<float, 3>;
-    using Vec4f = Vector<float, 4>;
+    using vec2f = Vector<float, 2>;
+    using vec3f = Vector<float, 3>;
+    using vec4f = Vector<float, 4>;
 
-    using Vec2d = Vector<double, 2>;
-    using Vec3d = Vector<double, 3>;
-    using Vec4d = Vector<double, 4>;
+    using vec2d = Vector<double, 2>;
+    using vec3d = Vector<double, 3>;
+    using vec4d = Vector<double, 4>;
 
 }
 

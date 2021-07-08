@@ -34,7 +34,7 @@ namespace avml {
             elements[3] = w / length;
         }
 
-        AVML_FINL Unit_vector(Uvec3f v) :
+        AVML_FINL Unit_vector(uvec3f v) :
             elements{v[0], v[1], v[2], 0.0f} {}
 
         Unit_vector() = default;
@@ -88,12 +88,12 @@ namespace avml {
     // Vectorized math
     //=====================================================
 
-    AVML_FINL Uvec4f abs(Uvec4f v) {
-        alignas(alignof(Uvec4f)) float data[Uvec4f::width];
+    AVML_FINL uvec4f abs(uvec4f v) {
+        alignas(alignof(uvec4f)) float data[uvec4f::width];
         data[0] = std::abs(v[0]);
         data[1] = std::abs(v[1]);
         data[2] = std::abs(v[2]);
-        return Uvec4f::read_aligned(data);
+        return uvec4f::read_aligned(data);
     }
 
 }
