@@ -1,3 +1,6 @@
+#ifndef AVML_DEF_AFFINE3F_IPP
+#define AVML_DEF_AFFINE3F_IPP
+
 #include <cmath>
 
 namespace avml {
@@ -227,3 +230,5 @@ namespace avml {
     }
 
 }
+
+#endif

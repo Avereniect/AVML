@@ -1,3 +1,6 @@
+#ifndef AVML_VEC4F_IPP
+#define AVML_VEC4F_IPP
+
 namespace avml {
 
     template<>
@@ -251,3 +254,5 @@ namespace avml {
     }
 
 }
+
+#endif

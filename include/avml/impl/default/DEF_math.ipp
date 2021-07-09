@@ -1,3 +1,6 @@
+#ifndef AVML_DEF_MATH_IPP
+#define AVML_DEF_MATH_IPP
+
 #include <cmath>
 #include "../IMPL_shared.hpp"
 
@@ -63,3 +66,5 @@ namespace avml {
     */
 
 }
+
+#endif

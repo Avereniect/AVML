@@ -1,3 +1,6 @@
+#ifndef AVML_DEF_MATRIX2X2F_IPP
+#define AVML_DEF_MATRIX2X2F_IPP
+
 namespace avml {
 
     template<>
@@ -202,3 +205,5 @@ namespace avml {
     }
 
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef AVML_DEF_UVEC3F_IPP
+#define AVML_DEF_UVEC3F_IPP
+
 namespace avml {
 
     template<>
@@ -105,3 +108,5 @@ namespace avml {
     }
 
 }
+
+#endif

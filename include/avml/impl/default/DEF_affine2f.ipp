@@ -1,3 +1,6 @@
+#ifndef AVML_DEF_AFFINE2F_IPP
+#define AVML_DEF_AFFINE2F_IPP
+
 namespace avml {
 
     template<class R>
@@ -97,3 +100,5 @@ namespace avml {
     }
 
 }
+
+#endif
