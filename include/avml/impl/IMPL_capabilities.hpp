@@ -101,7 +101,7 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
 #if defined(__clang__)
     #define AVML_CLANG
-    #define AVML_FINL __attribute__((__always_inline__))
+    #define AVML_FINL __attribute__((__always_inline__)) inline
     #define AVML_UNROLL(x) _Pragma("#pragma unroll x")
 
     #include <x86intrin.h>

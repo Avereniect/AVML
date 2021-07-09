@@ -173,11 +173,11 @@ namespace avml {
     // Comparison operators
     //=================================================
 
-    bool operator==(const Affine3Df& lhs, const Affine3Df& rhs) {
+    AVML_FINL bool operator==(const Affine3Df& lhs, const Affine3Df& rhs) {
         return mat4x4f{lhs} == mat4x4f{rhs};
     }
 
-    bool operator!=(const Affine3Df& lhs, const Affine3Df& rhs) {
+    AVML_FINL bool operator!=(const Affine3Df& lhs, const Affine3Df& rhs) {
         using matrix = Matrix<float, 4, 4>;
         return mat4x4f{lhs} != mat4x4f{rhs};
     }
@@ -190,7 +190,7 @@ namespace avml {
     // Free functions
     //=================================================
 
-    Affine3Df clear_translation(Affine3Df affine) {
+    AVML_FINL Affine3Df clear_translation(Affine3Df affine) {
         mat4x4f m = affine;
         m[0][3] = 0.0f;
         m[1][3] = 0.0f;
@@ -198,7 +198,7 @@ namespace avml {
         return Affine3Df::read_aligned(m.data());
     }
 
-    Affine3Df clear_scale(Affine3Df affine) {
+    AVML_FINL Affine3Df clear_scale(Affine3Df affine) {
         auto m = transpose(affine);
         m[0] = normalize(m[0]);
         m[1] = normalize(m[1]);
@@ -207,7 +207,7 @@ namespace avml {
         return Affine3Df::read_aligned(m.data());
     }
 
-    Affine3Df clear_rotation(Affine3Df affine) {
+    AVML_FINL Affine3Df clear_rotation(Affine3Df affine) {
         auto m = transpose(affine);
         float lx = length(m[0]);
         float ly = length(m[1]);
