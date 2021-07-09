@@ -6,31 +6,31 @@
 
 namespace avml {
 
-    float fmadd(float m, float x, float b) {
+    AVML_FINL float fmadd(float m, float x, float b) {
         return std::fma(m, x, b);
     }
 
-    float fmnadd(float m, float x, float b) {
+    AVML_FINL float fmnadd(float m, float x, float b) {
         return std::fma(-m, x, b);
     }
 
-    float fmsub(float m, float x, float b) {
+    AVML_FINL float fmsub(float m, float x, float b) {
         return std::fma(m, x, -b);
     }
 
-    float fmnsub(float m, float x, float b) {
+    AVML_FINL float fmnsub(float m, float x, float b) {
         return std::fma(-m, x, b);
     }
 
-    float fract(float x) {
+    AVML_FINL float fract(float x) {
         return x - std::floor(x);
     }
 
-    float clamp(float x, float min, float max) {
+    AVML_FINL float clamp(float x, float min, float max) {
         return std::min(std::max(x, min), max);
     }
 
-    float average(float x, float y) {
+    AVML_FINL float average(float x, float y) {
         return (x -  (x * 0.5f)) + (y * 0.5f);
     }
 

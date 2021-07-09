@@ -5,12 +5,16 @@
 
 #include "IMPL_capabilities.hpp"
 
-#include "default/DEF_uvec2f.ipp"
-#include "default/DEF_uvec3f.ipp"
-#include "default/DEF_uvec4f.ipp"
+#if defined(AVML_SSE2)
+    #include "x86/x86_uvec2f.ipp"
+#else
+    #include "default/DEF_uvec2f.ipp"
+    #include "default/DEF_uvec3f.ipp"
+    #include "default/DEF_uvec4f.ipp"
 
-#include "default/DEF_vec2f.ipp"
-#include "default/DEF_vec3f.ipp"
-#include "default/DEF_vec4f.ipp"
+    #include "default/DEF_vec2f.ipp"
+    #include "default/DEF_vec3f.ipp"
+    #include "default/DEF_vec4f.ipp"
+#endif
 
 #endif //AVML_IMPL_VECTORS_HPP

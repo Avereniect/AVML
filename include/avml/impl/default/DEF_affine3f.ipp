@@ -2,6 +2,7 @@
 #define AVML_DEF_AFFINE3F_IPP
 
 #include <cmath>
+#include <array>
 
 namespace avml {
 
