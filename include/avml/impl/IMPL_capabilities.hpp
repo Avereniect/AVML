@@ -2,13 +2,14 @@
 #define AVML_IMPL_CAPABILITIES_HPP
 
 #include <climits>
+#include <limits>
 
 //=========================================================
 // Primitive sizes
 //=========================================================
 
 static_assert(CHAR_BIT == 8, "Bytes required to be 8 bits.");
-static_assert(std::numeric_limits<float>::is_iec559, "IEEE 754 floats required");
+static_assert(std::numeric_limits<float>::is_iec559, "IEEE-754 floats required");
 static_assert(sizeof(float) == 4, "Size of floats should be 32 bits");
 static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
