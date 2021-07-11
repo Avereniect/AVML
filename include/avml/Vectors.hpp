@@ -72,4 +72,20 @@ namespace avml {
 
 #include "impl/IMPL_vectors.hpp"
 
+namespace avml {
+
+    static const uvec2f X2f{1.0f, 0.0f};
+    static const uvec2f Y2f{0.0f, 1.0f};
+
+    static const uvec3f X3f{1.0f, 0.0f, 0.0f};
+    static const uvec3f Y3f{0.0f, 1.0f, 0.0f};
+    static const uvec3f Z3f{0.0f, 0.0f, 1.0f};
+
+    static const uvec4f X4f{1.0f, 0.0f, 0.0f, 0.0f};
+    static const uvec4f Y4f{0.0f, 1.0f, 0.0f, 0.0f};
+    static const uvec4f Z4f{0.0f, 0.0f, 1.0f, 0.0f};
+    static const uvec4f W4f{0.0f, 0.0f, 0.0f, 1.0f};
+
+}
+
 #endif //AVML_VECTORS_HPP
