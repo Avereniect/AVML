@@ -88,7 +88,7 @@ namespace avml {
     AVML_FINL uvec3f cross(uvec3f lhs, uvec3f rhs) {
         float data[3] = {
             lhs[1] * rhs[2] - lhs[2] * rhs[1],
-            lhs[0] * rhs[2] - lhs[2] * rhs[0],
+            lhs[2] * rhs[0] - lhs[0] * rhs[2],
             lhs[0] * rhs[1] - lhs[1] * rhs[0]
         };
 
