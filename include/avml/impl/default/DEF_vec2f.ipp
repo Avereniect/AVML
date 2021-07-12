@@ -142,6 +142,12 @@ namespace avml {
         return lhs;
     }
 
+    AVML_FINL vec2f operator*(vec2f lhs, vec2f rhs) {
+        lhs[0] *= rhs[0];
+        lhs[1] *= rhs[1];
+        return lhs;
+    }
+
     AVML_FINL vec2f operator*(vec2f lhs, float rhs) {
         lhs[0] *= rhs;
         lhs[1] *= rhs;
