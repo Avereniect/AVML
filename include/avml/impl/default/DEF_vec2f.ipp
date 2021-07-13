@@ -49,6 +49,21 @@ namespace avml {
         Vector& operator=(Vector&&) = default;
 
         //=================================================
+        // Unary arithmetic operators
+        //=================================================
+
+        AVML_FINL Vector operator+() const {
+            return *this;
+        }
+
+        AVML_FINL Vector operator-() const {
+            return Vector{
+                -elements[0],
+                -elements[1]
+            };
+        }
+
+        //=================================================
         // Arithmetic assignment operators
         //=================================================
 

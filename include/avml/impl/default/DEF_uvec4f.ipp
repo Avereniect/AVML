@@ -53,8 +53,12 @@ namespace avml {
         Unit_vector& operator=(Unit_vector&&) = default;
 
         //=================================================
-        // Arithmetic operators
+        // Unary arithmetic operators
         //=================================================
+
+        AVML_FINL Unit_vector operator+() const {
+            return *this;
+        }
 
         AVML_FINL Unit_vector operator-() const {
             Unit_vector ret;

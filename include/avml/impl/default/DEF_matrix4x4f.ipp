@@ -17,7 +17,7 @@ namespace avml {
         // Creation methods
         //=================================================
 
-        static Matrix read(const float* ptr) {
+        AVML_FINL static Matrix read(const float* ptr) {
             Matrix ret;
             ret[0] = vector::read(ptr + 0x0);
             ret[1] = vector::read(ptr + 0x4);
@@ -26,7 +26,7 @@ namespace avml {
             return ret;
         }
 
-        static Matrix read_aligned(const float* ptr) {
+        AVML_FINL static Matrix read_aligned(const float* ptr) {
             Matrix ret;
             ret[0] = vector::read_aligned(ptr + 0x0);
             ret[1] = vector::read_aligned(ptr + 0x4);
@@ -78,6 +78,23 @@ namespace avml {
 
         Matrix& operator=(const Matrix&) = default;
         Matrix& operator=(Matrix&&) = default;
+
+        //=================================================
+        // Unary arithmetic operators
+        //=================================================
+
+        AVML_FINL Matrix operator+() const {
+            return *this;
+        }
+
+        AVML_FINL Matrix operator-() const {
+            return Matrix{
+                -operator[](0),
+                -operator[](1),
+                -operator[](2),
+                -operator[](3)
+            };
+        }
 
         //=================================================
         // Arithmetic assignment operators
@@ -140,11 +157,11 @@ namespace avml {
             return *reinterpret_cast<const vector*>(elements[i]);
         }
 
-        float* data() {
+        AVML_FINL float* data() {
             return elements[0];
         }
 
-        const float* data() const {
+        AVML_FINL const float* data() const {
             return elements[0];
         }
 
