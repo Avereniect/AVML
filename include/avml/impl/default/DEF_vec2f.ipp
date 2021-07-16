@@ -208,6 +208,10 @@ namespace avml {
         return uvec2f::read_aligned(v.data());
     }
 
+    AVML_FINL uvec2f assume_normalized(vec2f v) {
+        return uvec2f::read_aligned(v.data());
+    }
+
     AVML_FINL vec2f project(vec2f a, vec2f b) {
         return (dot(a, b) / dot(b, b)) * b;
     }

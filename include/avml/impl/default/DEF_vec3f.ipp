@@ -212,6 +212,10 @@ namespace avml {
         return Unit_vector<float, 3>::read_aligned(v.data());
     }
 
+    AVML_FINL uvec3f assume_normalized(vec3f v) {
+        return uvec3f::read_aligned(v.data());
+    }
+
     AVML_FINL vec3f cross(vec3f lhs, vec3f rhs) {
         return vec3f {
             lhs[1] * rhs[2] - lhs[2] * rhs[1],

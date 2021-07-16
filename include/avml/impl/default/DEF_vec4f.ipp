@@ -229,9 +229,13 @@ namespace avml {
         return std::sqrt(length2(v));
     }
 
-    AVML_FINL Unit_vector<float, 4> normalize(vec4f v) {
+    AVML_FINL uvec4f normalize(vec4f v) {
         v /= length(v);
-        return Unit_vector<float, 4>::read_aligned(v.data());
+        return uvec4f::read_aligned(v.data());
+    }
+
+    AVML_FINL uvec4f assume_normalized(vec4f v) {
+        return uvec4f::read_aligned(v.data());
     }
 
     AVML_FINL vec4f project(vec4f a, vec4f b) {
