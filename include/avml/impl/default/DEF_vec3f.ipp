@@ -95,6 +95,20 @@ namespace avml {
             return *this;
         }
 
+        AVML_FINL Vector& operator*=(const vector rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] *= rhs[i];
+            }
+            return *this;
+        }
+
+        AVML_FINL Vector& operator/=(const vector rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] /= rhs[i];
+            }
+            return *this;
+        }
+
         AVML_FINL Vector& operator/=(const scalar rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] /= rhs;
@@ -132,6 +146,10 @@ namespace avml {
 
     };
 
+    //=====================================================
+    // Comparison operators
+    //=====================================================
+
     AVML_FINL bool operator==(vec3f lhs, vec3f rhs) {
         return
             (lhs[0] == rhs[0]) &&
@@ -146,47 +164,48 @@ namespace avml {
             (lhs[2] != rhs[2]);
     }
 
+    //=====================================================
+    // Arithmetic operators
+    //=====================================================
+
     AVML_FINL vec3f operator+(vec3f lhs, vec3f rhs) {
-        lhs[0] += rhs[0];
-        lhs[1] += rhs[1];
-        lhs[2] += rhs[2];
+        lhs += rhs;
         return lhs;
     }
 
     AVML_FINL vec3f operator-(vec3f lhs, vec3f rhs) {
-        lhs[0] -= rhs[0];
-        lhs[1] -= rhs[1];
-        lhs[2] -= rhs[2];
+        lhs -= rhs;
         return lhs;
     }
 
     AVML_FINL vec3f operator*(vec3f lhs, vec3f rhs) {
-        lhs[0] *= rhs[0];
-        lhs[1] *= rhs[1];
-        lhs[2] *= rhs[2];
+        lhs *= rhs;
         return lhs;
     }
 
     AVML_FINL vec3f operator*(vec3f lhs, float rhs) {
-        lhs[0] *= rhs;
-        lhs[1] *= rhs;
-        lhs[2] *= rhs;
+        lhs *= rhs;
         return lhs;
     }
 
     AVML_FINL vec3f operator*(float lhs, vec3f rhs) {
-        rhs[0] *= lhs;
-        rhs[1] *= lhs;
-        rhs[2] *= lhs;
+        rhs *= lhs;
         return rhs;
     }
 
     AVML_FINL vec3f operator/(vec3f lhs, float rhs) {
-        lhs[0] /= rhs;
-        lhs[1] /= rhs;
-        lhs[2] /= rhs;
+        lhs /= rhs;
         return lhs;
     }
+
+    AVML_FINL vec3f operator/(vec3f lhs, vec3f rhs) {
+        lhs /= rhs;
+        return lhs;
+    }
+
+    //=====================================================
+    // Vector math
+    //=====================================================
 
     AVML_FINL float dot(vec3f lhs, vec3f rhs) {
         return

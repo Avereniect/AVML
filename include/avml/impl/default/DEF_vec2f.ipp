@@ -81,9 +81,23 @@ namespace avml {
             return *this;
         }
 
+        AVML_FINL Vector& operator*=(const vector rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] *= rhs[i];
+            }
+            return *this;
+        }
+
         AVML_FINL Vector& operator*=(const scalar rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] *= rhs;
+            }
+            return *this;
+        }
+
+        AVML_FINL Vector& operator/=(const vector rhs) {
+            for (int i = 0; i < width; ++i) {
+                elements[i] /= rhs[i];
             }
             return *this;
         }
@@ -146,38 +160,37 @@ namespace avml {
     //=====================================================
 
     AVML_FINL vec2f operator+(vec2f lhs, vec2f rhs) {
-        lhs[0] += rhs[0];
-        lhs[1] += rhs[1];
+        lhs += rhs;
         return lhs;
     }
 
     AVML_FINL vec2f operator-(vec2f lhs, vec2f rhs) {
-        lhs[0] -= rhs[0];
-        lhs[1] -= rhs[1];
+        lhs -= rhs;
         return lhs;
     }
 
     AVML_FINL vec2f operator*(vec2f lhs, vec2f rhs) {
-        lhs[0] *= rhs[0];
-        lhs[1] *= rhs[1];
+        lhs *= rhs;
         return lhs;
     }
 
     AVML_FINL vec2f operator*(vec2f lhs, float rhs) {
-        lhs[0] *= rhs;
-        lhs[1] *= rhs;
+        lhs *= rhs;
         return lhs;
     }
 
     AVML_FINL vec2f operator*(float lhs, vec2f rhs) {
-        rhs[0] *= lhs;
-        rhs[1] *= lhs;
+        rhs *= lhs;
         return rhs;
     }
 
     AVML_FINL vec2f operator/(vec2f lhs, float rhs) {
-        lhs[0] /= rhs;
-        lhs[1] /= rhs;
+        lhs /= rhs;
+        return lhs;
+    }
+
+    AVML_FINL vec2f operator/(vec2f lhs, vec2f rhs) {
+        lhs /= rhs;
         return lhs;
     }
 
