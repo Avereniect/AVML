@@ -248,7 +248,7 @@ namespace avml {
 
     AVML_FINL uvec4f normalize(vec4f v) {
         v /= length(v);
-        return assumed_normalized(v);
+        return assume_normalized(v);
     }
 
     AVML_FINL vec4f project(vec4f a, vec4f b) {

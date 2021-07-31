@@ -232,7 +232,7 @@ namespace avml {
 
     AVML_FINL uvec3f normalize(vec3f v) {
         v /= length(v);
-        return assumed_aligned(v);
+        return assume_normalized(v);
     }
 
     AVML_FINL vec3f cross(vec3f lhs, vec3f rhs) {
