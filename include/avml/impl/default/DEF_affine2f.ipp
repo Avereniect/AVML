@@ -5,7 +5,7 @@ namespace avml {
 
     template<class R>
     class Affine2D {
-        static_assert(std::is_floating_point<R>::value);
+        static_assert(std::is_floating_point<R>::value, "R should be floating-point type.");
     public:
 
         using scalar = R;

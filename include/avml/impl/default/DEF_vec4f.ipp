@@ -108,14 +108,14 @@ namespace avml {
             return *this;
         }
 
-        AVML_FINL Vector& operator*=(const vector rhs) {
+        AVML_FINL Vector& operator*=(const Vector rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector& operator/=(const vector rhs) {
+        AVML_FINL Vector& operator/=(const Vector rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
@@ -242,13 +242,13 @@ namespace avml {
         return std::sqrt(length2(v));
     }
 
-    AVML_FINL uvec4f normalize(vec4f v) {
-        v /= length(v);
+    AVML_FINL uvec4f assume_normalized(vec4f v) {
         return uvec4f::read_aligned(v.data());
     }
 
-    AVML_FINL uvec4f assume_normalized(vec4f v) {
-        return uvec4f::read_aligned(v.data());
+    AVML_FINL uvec4f normalize(vec4f v) {
+        v /= length(v);
+        return assumed_normalized(v);
     }
 
     AVML_FINL vec4f project(vec4f a, vec4f b) {

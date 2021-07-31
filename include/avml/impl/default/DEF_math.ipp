@@ -1,6 +1,3 @@
-#ifndef AVML_DEF_MATH_IPP
-#define AVML_DEF_MATH_IPP
-
 #include <cmath>
 #include "../IMPL_shared.hpp"
 
@@ -19,7 +16,7 @@ namespace avml {
     }
 
     AVML_FINL float fmnsub(float m, float x, float b) {
-        return std::fma(-m, x, b);
+        return std::fma(-m, x, -b);
     }
 
     AVML_FINL float fract(float x) {
@@ -66,5 +63,3 @@ namespace avml {
     */
 
 }
-
-#endif

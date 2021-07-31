@@ -81,7 +81,7 @@ namespace avml {
             return *this;
         }
 
-        AVML_FINL Vector& operator*=(const vector rhs) {
+        AVML_FINL Vector& operator*=(const Vector rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
@@ -95,7 +95,7 @@ namespace avml {
             return *this;
         }
 
-        AVML_FINL Vector& operator/=(const vector rhs) {
+        AVML_FINL Vector& operator/=(const Vector rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }

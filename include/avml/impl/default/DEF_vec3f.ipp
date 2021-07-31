@@ -95,14 +95,14 @@ namespace avml {
             return *this;
         }
 
-        AVML_FINL Vector& operator*=(const vector rhs) {
+        AVML_FINL Vector& operator*=(const Vector rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector& operator/=(const vector rhs) {
+        AVML_FINL Vector& operator/=(const Vector rhs) {
             for (int i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
@@ -226,13 +226,13 @@ namespace avml {
         return std::sqrt(length2(v));
     }
 
-    AVML_FINL Unit_vector<float, 3> normalize(vec3f v) {
-        v /= length(v);
-        return Unit_vector<float, 3>::read_aligned(v.data());
-    }
-
     AVML_FINL uvec3f assume_normalized(vec3f v) {
         return uvec3f::read_aligned(v.data());
+    }
+
+    AVML_FINL uvec3f normalize(vec3f v) {
+        v /= length(v);
+        return assumed_aligned(v);
     }
 
     AVML_FINL vec3f cross(vec3f lhs, vec3f rhs) {
