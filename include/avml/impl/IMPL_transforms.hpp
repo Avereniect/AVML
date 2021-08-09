@@ -494,7 +494,6 @@ namespace avml {
 
 }
 
-#include "default/DEF_axis_rotationf.ipp"
 #include "default/DEF_xyz_rotationf.ipp"
 
 #include "default/DEF_affine2f.ipp"
