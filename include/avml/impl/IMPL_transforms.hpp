@@ -180,8 +180,8 @@ namespace avml {
         AVML_FINL explicit Scaling3D(float s):
             v(s) {}
 
-        AVML_FINL explicit Scaling3D(vector s):
-            v(s) {}
+        AVML_FINL explicit Scaling3D(vector v):
+            v(v) {}
 
         AVML_FINL Scaling3D(float x, float y, float z):
             v(x, y, z) {}
