@@ -180,6 +180,9 @@ namespace avml {
         AVML_FINL explicit Scaling3D(float s):
             v(s) {}
 
+        AVML_FINL explicit Scaling3D(vector s):
+            v(s) {}
+
         AVML_FINL Scaling3D(float x, float y, float z):
             v(x, y, z) {}
 
@@ -430,28 +433,15 @@ namespace avml {
         //=================================================
 
         ///
-        /// Constructs a rotation object representing an Euler's angle rotation
-        /// in the order X, Y, Z.
-        ///
-        /// \param x Rotation around x-axis
-        /// \param y Rotation around y-axis
-        /// \param z Rotation around z-axis
-        AVML_FINL Rotation3D(R x, R y, R z):
-            Rotation3D(Euler_rotation<R>(x, y, z)) {}
-
-        ///
         /// Constructs a rotation object representing a rotation around an
-        /// arbitrary matrix.
+        /// arbitrary axis.
         ///
         /// \param angle Rotation angle
         /// \param axis Axis to rotate around
         AVML_FINL Rotation3D(R angle, unit_vector axis):
-            Rotation3D(Euler_rotation<R>(angle, axis)) {}
+            Rotation3D(Axis_rotation<R>(angle, axis)) {}
 
         AVML_FINL explicit Rotation3D(Axis_rotation<R> rotation):
-            mat(rotation.as_matrix()) {}
-
-        AVML_FINL explicit Rotation3D(Euler_rotation<R> rotation):
             mat(rotation.as_matrix()) {}
 
         AVML_FINL explicit Rotation3D(X_rotation<R> rotation):
@@ -465,7 +455,7 @@ namespace avml {
 
         Rotation3D() = default;
         Rotation3D(const Rotation3D&) = default;
-        Rotation3D(Rotation3D&&) = default;
+        Rotation3D(Rotation3D&&) noexcept = default;
         ~Rotation3D() = default;
 
         //=================================================
@@ -473,7 +463,7 @@ namespace avml {
         //=================================================
 
         Rotation3D& operator=(const Rotation3D&) = default;
-        Rotation3D& operator=(Rotation3D&&) = default;
+        Rotation3D& operator=(Rotation3D&&) noexcept = default;
 
         //=================================================
         // Operators

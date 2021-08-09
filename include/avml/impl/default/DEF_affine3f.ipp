@@ -39,9 +39,6 @@ namespace avml {
         explicit Affine3D(T t, Args&&...args):
             mat(create_matrix(t, args...)) {}
 
-        explicit Affine3D(Scaling3Df s, Rotation3Df r, Translation3Df t):
-            mat(create_matrix(s, r, t)) {}
-
         Affine3D() = default;
         Affine3D(const Affine3D&) = default;
         Affine3D(Affine3D&&) = default;
