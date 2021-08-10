@@ -266,6 +266,36 @@ namespace avml {
         return uvec3f::read_aligned(rotate(static_cast<vec3f>(v), angle, axis).data());
     }
 
+    AVML_FINL vec3f rotate_x(vec3f v, float angle) {
+        float s = std::sin(angle);
+        float c = std::cos(angle);
+
+        v[1] = v[1] * c - v[2] * s;
+        v[2] = v[1] * s + v[2] * c;
+
+        return assume_normalized(v);
+    }
+
+    AVML_FINL vec3f rotate_y(vec3f v, float angle) {
+        float s = std::sin(angle);
+        float c = std::cos(angle);
+
+        v[0] = v[0] * c + v[2] * s;
+        v[2] = v[2] * c - v[0] * s;
+
+        return assume_normalized(v);
+    }
+
+    AVML_FINL vec3f rotate_z(vec3f v, float angle) {
+        float s = std::sin(angle);
+        float c = std::cos(angle);
+
+        v[0] = v[0] * c - v[1] * s;
+        v[1] = v[0] * s + v[1] * c;
+
+        return assume_normalized(v);
+    }
+
     AVML_FINL vec3f reflect(vec3f v, uvec3f normal) {
         return 2 * dot(v, normal) * normal - v;
     }

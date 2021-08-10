@@ -176,7 +176,6 @@ namespace avml {
     }
 
     AVML_FINL bool operator!=(const Affine3Df& lhs, const Affine3Df& rhs) {
-        using matrix = Matrix<float, 4, 4>;
         return mat4x4f{lhs} != mat4x4f{rhs};
     }
 
