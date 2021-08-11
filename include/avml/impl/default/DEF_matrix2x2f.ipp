@@ -37,20 +37,20 @@ namespace avml {
 
         AVML_FINL explicit Matrix(float d) noexcept:
             elements {
-            d, 0.0f,
-            0.0f, d
+                {d, 0.0f},
+                {0.0f, d}
         } {}
 
         AVML_FINL Matrix(float a, float b, float c, float d):
             elements{
-                a, b,
-                c, d
+                {a, b},
+                {c, d}
             } {}
 
         AVML_FINL Matrix(vector a, vector b):
             elements{
-            a[0], a[1],
-            b[0], b[1]
+                {a[0], a[1]},
+                {b[0], b[1]}
         } {}
 
         Matrix() = default;
@@ -150,8 +150,8 @@ namespace avml {
     private:
 
         float elements[2][2] {
-            0.0f, 0.0f,
-            0.0f, 0.0f
+            {0.0f, 0.0f},
+            {0.0f, 0.0f}
         };
 
     };

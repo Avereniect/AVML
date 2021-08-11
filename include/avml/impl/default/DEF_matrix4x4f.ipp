@@ -41,10 +41,10 @@ namespace avml {
 
         explicit AVML_FINL Matrix(float d):
             elements {
-            d, 0.0f, 0.0f, 0.0f,
-            0.0f, d, 0.0f, 0.0f,
-            0.0f, 0.0f, d, 0.0f,
-            0.0f, 0.0f, 0.0f, d
+                {d, 0.0f, 0.0f, 0.0f},
+                {0.0f, d, 0.0f, 0.0f},
+                {0.0f, 0.0f, d, 0.0f},
+                {0.0f, 0.0f, 0.0f, d}
         } {}
 
         AVML_FINL Matrix(
@@ -53,18 +53,18 @@ namespace avml {
             float i, float j, float k, float l,
             float m, float n, float o, float p):
             elements{
-                a, b, c, d,
-                e, f, g, h,
-                i, j, k, l,
-                m, n, o, p
+                {a, b, c, d},
+                {e, f, g, h},
+                {i, j, k, l},
+                {m, n, o, p}
             } {}
 
         AVML_FINL Matrix(vector a, vector b, vector c, vector d):
             elements{
-                a[0], a[1], a[2], a[3],
-                b[0], b[1], b[2], b[3],
-                c[0], c[1], c[2], c[3],
-                d[0], d[1], d[2], d[3]
+                {a[0], a[1], a[2], a[3]},
+                {b[0], b[1], b[2], b[3]},
+                {c[0], c[1], c[2], c[3]},
+                {d[0], d[1], d[2], d[3]}
         } {}
 
         Matrix() = default;
@@ -168,10 +168,10 @@ namespace avml {
     private:
 
         float elements[4][4]{
-            0.0f, 0.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f, 0.0f
+            {0.0f, 0.0f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f, 0.0f}
         };
 
     };

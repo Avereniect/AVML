@@ -39,9 +39,9 @@ namespace avml {
 
         AVML_FINL Matrix(float d):
             elements {
-            d, 0.0f, 0.0f,
-            0.0f, d, 0.0f,
-            0.0f, 0.0f, d
+                {d, 0.0f, 0.0f},
+                {0.0f, d, 0.0f},
+                {0.0f, 0.0f, d}
         } {}
 
         AVML_FINL Matrix(
@@ -49,16 +49,16 @@ namespace avml {
             float d, float e, float f,
             float g, float h, float i):
             elements{
-                a, b, c,
-                d, e, f,
-                g, h, i
+                {a, b, c},
+                {d, e, f},
+                {g, h, i}
             } {}
 
         AVML_FINL Matrix(vector a, vector b, vector c):
             elements{
-            a[0], a[1], a[2],
-            b[0], b[1], b[2],
-            c[0], c[1], c[2]
+                {a[0], a[1], a[2]},
+                {b[0], b[1], b[2]},
+                {c[0], c[1], c[2]}
         } {}
 
         Matrix() = default;
@@ -159,12 +159,10 @@ namespace avml {
     private:
 
         float elements[3][3]{
-            0.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.0f
+            {0.0f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f},
+            {0.0f, 0.0f, 0.0f}
         };
-
-        //vector elements[height] = {vector{}, vector{}, vector{}};
 
     };
 
