@@ -5,90 +5,52 @@
 
 namespace avml {
 
-    template<class R>
-    class Translation2D;
+    mat3x3f translation_matrix(float, float);
+    mat3x3f translation_matrix(vec2f);
 
-    template<class R>
-    class Translation3D;
+    mat3x3f scaling_matrix(float, float);
+    mat3x3f scaling_matrix(vec2f);
 
-    using Translation2Df = Translation2D<float>;
-    using Translation2Dd = Translation2D<double>;
-
-    using Translation3Df = Translation3D<float>;
-    using Translation3Dd = Translation3D<double>;
+    mat3x3f rotation_matrix(float angle);
 
 
 
-    template<class R>
-    class Rotation2D;
+    mat4x4f translation_matrix(float, float, float);
+    mat4x4f translation_matrix(vec3f);
 
-    template<class R>
-    class Rotation3D;
+    mat4x4f scaling_matrix(float, float , float );
+    mat4x4f scaling_matrix(vec3f);
 
-    using Rotation2Df = Rotation2D<float>;
-    using Rotation2Dd = Rotation2D<double>;
+    mat4x4f x_rotation_matrix(float angle);
+    mat4x4f y_rotation_matrix(float angle);
+    mat4x4f z_rotation_matrix(float angle);
 
-    using Rotation3Df = Rotation3D<float>;
-    using Rotation3Dd = Rotation3D<double>;
-
-
-    template<class R>
-    class X_rotation;
-
-    template<class R>
-    class Y_rotation;
-
-    template<class R>
-    class Z_rotation;
-
-    using X_rotationf = X_rotation<float>;
-    using Y_rotationf = Y_rotation<float>;
-    using Z_rotationf = Z_rotation<float>;
-
-    using X_rotationd = X_rotation<double>;
-    using Y_rotationd = Y_rotation<double>;
-    using Z_rotationd = Z_rotation<double>;
-
-
-    template<class R>
-    class Axis_rotation;
-
-    template<class R>
-    class Euler_rotation;
-
-    using Axis_rotationf = Axis_rotation<float>;
-    using Axis_rotationd = Axis_rotation<double>;
-
-    using Euler_rotationf = Euler_rotation<float>;
-    using Euler_rotationd = Euler_rotation<double>;
+    mat4x4f rotation_matrix(uvec3f axis, float angle);
 
 
 
-    template<class R>
-    class Scaling2D;
 
-    template<class R>
-    class Scaling3D;
+    mat3x3d translation_matrixd(double, double);
+    mat3x3d translation_matrixd(vec2d);
 
-    using Scaling2Df = Scaling2D<float>;
-    using Scaling2Dd = Scaling2D<double>;
+    mat3x3d scaling_matrix(double, double);
+    mat3x3d scaling_matrixd(vec2d);
 
-    using Scaling3Df = Scaling3D<float>;
-    using Scaling3Dd = Scaling3D<double>;
+    mat3x3d rotation_matrixd(double angle);
 
 
 
-    template<class R>
-    class Affine2D;
+    mat4x4d translation_matrixd(double, double, double);
+    mat4x4d translation_matrixd(vec3d);
 
-    template<class R>
-    class Affine3D;
+    mat4x4d scaling_matrixd(double, double , double );
+    mat4x4d scaling_matrixd(vec3d);
 
-    using Affine2Df = Affine2D<float>;
-    using Affine2Dd = Affine2D<double>;
+    mat4x4d x_rotation_matrixd(double angle);
+    mat4x4d y_rotation_matrixd(double angle);
+    mat4x4d z_rotation_matrixd(double angle);
 
-    using Affine3Df = Affine3D<float>;
-    using Affine3Dd = Affine3D<double>;
+    mat4x4d rotation_matrix(uvec3d axis, double angle);
 
 }
 
