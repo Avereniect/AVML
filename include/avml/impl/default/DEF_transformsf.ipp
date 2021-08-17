@@ -1,5 +1,5 @@
-#ifndef AVML_DEF_TRANSFORMSF_HPP
-#define AVML_DEF_TRANSFORMSF_HPP
+#ifndef AVML_DEF_TRANSFORMSF_IPP
+#define AVML_DEF_TRANSFORMSF_IPP
 
 namespace avml {
 
@@ -122,4 +122,4 @@ namespace avml {
 
 }
 
-#endif //AVML_DEF_TRANSFORMSF_HPP
+#endif //AVML_DEF_TRANSFORMSF_IPP

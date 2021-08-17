@@ -3,6 +3,6 @@
 
 #include "IMPL_capabilities.hpp"
 
-#include "default/DEF_transformsf.hpp"
+#include "default/DEF_transformsf.ipp"
 
 #endif //AVML_IMPL_TRANSFORMS_HPP
