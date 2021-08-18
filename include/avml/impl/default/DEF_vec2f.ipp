@@ -279,21 +279,21 @@ namespace avml {
 
     // Single component
 
-    float x(vec2f v) {
+    AVML_FINL float x(vec2f v) {
         return v[0];
     }
 
-    float y(vec2f v) {
+    AVML_FINL float y(vec2f v) {
         return v[1];
     }
 
     // Two component
 
-    vec2f xy(vec2f v) {
+    AVML_FINL vec2f xy(vec2f v) {
         return v;
     }
 
-    vec2f yx(vec2f v) {
+    AVML_FINL vec2f yx(vec2f v) {
         return {v[1], v[0]};
     }
 

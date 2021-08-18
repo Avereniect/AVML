@@ -338,163 +338,163 @@ namespace avml {
 
     // Single component
 
-    float x(vec3f v) {
+    AVML_FINL float x(vec3f v) {
         return v[0];
     }
 
-    float y(vec3f v) {
+    AVML_FINL float y(vec3f v) {
         return v[1];
     }
 
-    float z(vec3f v) {
+    AVML_FINL float z(vec3f v) {
         return v[2];
     }
 
     // Two components
 
-    vec2f xx(vec3f v) {
+    AVML_FINL vec2f xx(vec3f v) {
         return {v[0], v[0]};
     }
 
-    vec2f xy(vec3f v) {
+    AVML_FINL vec2f xy(vec3f v) {
         return {v[0], v[1]};
     }
 
-    vec2f xz(vec3f v) {
+    AVML_FINL vec2f xz(vec3f v) {
         return {v[0], v[2]};
     }
 
-    vec2f yx(vec3f v) {
+    AVML_FINL vec2f yx(vec3f v) {
         return {v[1], v[0]};
     }
 
-    vec2f yy(vec3f v) {
+    AVML_FINL vec2f yy(vec3f v) {
         return {v[1], v[1]};
     }
 
-    vec2f yz(vec3f v) {
+    AVML_FINL vec2f yz(vec3f v) {
         return {v[1], v[2]};
     }
 
-    vec2f zx(vec3f v) {
+    AVML_FINL vec2f zx(vec3f v) {
         return {v[2], v[0]};
     }
 
-    vec2f zy(vec3f v) {
+    AVML_FINL vec2f zy(vec3f v) {
         return {v[2], v[1]};
     }
 
-    vec2f zz(vec3f v) {
+    AVML_FINL vec2f zz(vec3f v) {
         return {v[2], v[2]};
     }
 
     // Three components
 
-    vec3f xxx(vec3f v) {
+    AVML_FINL vec3f xxx(vec3f v) {
         return {v[0], v[0], v[0]};
     }
 
-    vec3f xxy(vec3f v) {
+    AVML_FINL vec3f xxy(vec3f v) {
         return {v[0], v[0], v[1]};
     }
 
-    vec3f xxz(vec3f v) {
+    AVML_FINL vec3f xxz(vec3f v) {
         return {v[0], v[0], v[2]};
     }
 
-    vec3f xyx(vec3f v) {
+    AVML_FINL vec3f xyx(vec3f v) {
         return {v[0], v[1], v[0]};
     }
 
-    vec3f xyy(vec3f v) {
+    AVML_FINL vec3f xyy(vec3f v) {
         return {v[0], v[1], v[1]};
     }
 
-    vec3f xyz(vec3f v) {
+    AVML_FINL vec3f xyz(vec3f v) {
         return {v[0], v[1], v[2]};
     }
 
-    vec3f xzx(vec3f v) {
+    AVML_FINL vec3f xzx(vec3f v) {
         return {v[0], v[2], v[0]};
     }
 
-    vec3f xzy(vec3f v) {
+    AVML_FINL vec3f xzy(vec3f v) {
         return {v[0], v[2], v[1]};
     }
 
-    vec3f xzz(vec3f v) {
+    AVML_FINL vec3f xzz(vec3f v) {
         return {v[0], v[2], v[2]};
     }
 
-    vec3f yxx(vec3f v) {
+    AVML_FINL vec3f yxx(vec3f v) {
         return {v[1], v[0], v[0]};
     }
 
-    vec3f yxy(vec3f v) {
+    AVML_FINL vec3f yxy(vec3f v) {
         return {v[1], v[0], v[1]};
     }
 
-    vec3f yxz(vec3f v) {
+    AVML_FINL vec3f yxz(vec3f v) {
         return {v[1], v[0], v[2]};
     }
 
-    vec3f yyx(vec3f v) {
+    AVML_FINL vec3f yyx(vec3f v) {
         return {v[1], v[1], v[0]};
     }
 
-    vec3f yyy(vec3f v) {
+    AVML_FINL vec3f yyy(vec3f v) {
         return {v[1], v[1], v[1]};
     }
 
-    vec3f yyz(vec3f v) {
+    AVML_FINL vec3f yyz(vec3f v) {
         return {v[1], v[1], v[2]};
     }
 
-    vec3f yzx(vec3f v) {
+    AVML_FINL vec3f yzx(vec3f v) {
         return {v[1], v[2], v[0]};
     }
 
-    vec3f yzy(vec3f v) {
+    AVML_FINL vec3f yzy(vec3f v) {
         return {v[1], v[2], v[1]};
     }
 
-    vec3f yzz(vec3f v) {
+    AVML_FINL vec3f yzz(vec3f v) {
         return {v[1], v[2], v[2]};
     }
 
-    vec3f zxx(vec3f v) {
+    AVML_FINL vec3f zxx(vec3f v) {
         return {v[2], v[0], v[0]};
     }
 
-    vec3f zxy(vec3f v) {
+    AVML_FINL vec3f zxy(vec3f v) {
         return {v[2], v[0], v[1]};
     }
 
-    vec3f zxz(vec3f v) {
+    AVML_FINL vec3f zxz(vec3f v) {
         return {v[2], v[0], v[2]};
     }
 
-    vec3f zyx(vec3f v) {
+    AVML_FINL vec3f zyx(vec3f v) {
         return {v[2], v[1], v[0]};
     }
 
-    vec3f zyy(vec3f v) {
+    AVML_FINL vec3f zyy(vec3f v) {
         return {v[2], v[1], v[1]};
     }
 
-    vec3f zyz(vec3f v) {
+    AVML_FINL vec3f zyz(vec3f v) {
         return {v[2], v[1], v[2]};
     }
 
-    vec3f zzx(vec3f v) {
+    AVML_FINL vec3f zzx(vec3f v) {
         return {v[2], v[2], v[0]};
     }
 
-    vec3f zzy(vec3f v) {
+    AVML_FINL vec3f zzy(vec3f v) {
         return {v[2], v[2], v[1]};
     }
 
-    vec3f zzz(vec3f v) {
+    AVML_FINL vec3f zzz(vec3f v) {
         return {v[2], v[2], v[2]};
     }
 
