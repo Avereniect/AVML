@@ -3,7 +3,7 @@
 
 namespace avml {
 
-    mat3x3f translation_matrix(float x, float y) {
+    AVML_FINL mat3x3f translation_matrix(float x, float y) {
         return mat3x3f {
             {1.0f, 0.0f, x},
             {0.0f, 1.0f, y},
@@ -11,11 +11,11 @@ namespace avml {
         };
     }
 
-    mat3x3f translation_matrix(vec2f d) {
+    AVML_FINL mat3x3f translation_matrix(vec2f d) {
         return translation_matrix(d[0], d[1]);
     }
 
-    mat3x3f scaling_matrix(float x, float y) {
+    AVML_FINL mat3x3f scaling_matrix(float x, float y) {
         return mat3x3f{
             {x, 0.0f, 0.0f},
             {0.0f, y, 0.0f},
@@ -23,11 +23,11 @@ namespace avml {
         };
     }
 
-    mat3x3f scaling_matrix(vec2f s) {
+    AVML_FINL mat3x3f scaling_matrix(vec2f s) {
         return scaling_matrix(s[0], s[1]);
     }
 
-    mat3x3f rotation_matrix(float angle) {
+    AVML_FINL mat3x3f rotation_matrix(float angle) {
         float s = std::sin(angle);
         float c = std::cos(angle);
 
@@ -40,7 +40,7 @@ namespace avml {
 
 
 
-    mat4x4f translation_matrix(float x, float y, float z) {
+    AVML_FINL mat4x4f translation_matrix(float x, float y, float z) {
         return mat4x4f{
             {1.0f, 0.0f, 0.0f, x},
             {0.0f, 1.0f, 0.0f, y},
@@ -49,11 +49,11 @@ namespace avml {
         };
     }
 
-    mat4x4f translation_matrix(vec3f t) {
+    AVML_FINL mat4x4f translation_matrix(vec3f t) {
         return translation_matrix(t[0], t[1], t[2]);
     }
 
-    mat4x4f scaling_matrix(float x, float y, float z) {
+    AVML_FINL mat4x4f scaling_matrix(float x, float y, float z) {
         return mat4x4f{
             {x, 0.0f, 0.0f, 0.0f},
             {0.0f, y, 0.0f, 0.0f},
@@ -62,11 +62,11 @@ namespace avml {
         };
     }
 
-    mat4x4f scaling_matrix(vec3f s) {
+    AVML_FINL mat4x4f scaling_matrix(vec3f s) {
         return scaling_matrix(s[0], s[1], s[2]);
     }
 
-    mat4x4f x_rotation_matrix(float angle) {
+    AVML_FINL mat4x4f x_rotation_matrix(float angle) {
         float s = std::sin(angle);
         float c = std::cos(angle);
 
@@ -78,7 +78,7 @@ namespace avml {
         };
     }
 
-    mat4x4f y_rotation_matrix(float angle) {
+    AVML_FINL mat4x4f y_rotation_matrix(float angle) {
         float s = std::sin(angle);
         float c = std::cos(angle);
 
@@ -90,7 +90,7 @@ namespace avml {
         };
     }
 
-    mat4x4f z_rotation_matrix(float angle) {
+    AVML_FINL mat4x4f z_rotation_matrix(float angle) {
         float s = std::sin(angle);
         float c = std::cos(angle);
 
@@ -102,7 +102,7 @@ namespace avml {
         };
     }
 
-    mat4x4f rotation_matrix(uvec3f axis, float angle) {
+    AVML_FINL mat4x4f rotation_matrix(uvec3f axis, float angle) {
         float s = std::sin(angle);
         float c = std::cos(angle);
 
