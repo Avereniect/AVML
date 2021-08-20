@@ -10,7 +10,7 @@ static_assert(sizeof(double) == 8, "Doubles should be eight bytes in size.");
 static_assert(std::numeric_limits<float>::is_iec559, "Floats should be IEEE-754.");
 static_assert(std::numeric_limits<double>::is_iec559, "Doubles should be IEEE-754.");
 
-namespace {
+namespace avml {
 
     float fmadd(float m, float x, float b);
     float fmnadd(float m, float x, float b);
