@@ -85,28 +85,28 @@ namespace avml {
         //=================================================
 
         AVML_FINL Matrix& operator*=(scalar rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                 operator[](i) *= rhs;
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator/=(scalar rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                  operator[](i) /= rhs;
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator+=(const Matrix& rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                 operator[](i) += rhs[i];
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator-=(const Matrix& rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                  operator[](i) -= rhs[i];
             }
             return *this;
@@ -114,10 +114,10 @@ namespace avml {
 
         AVML_FINL Matrix& operator*=(const Matrix& rhs) {
             auto ret = *this;
-            for (int i = 0; i < height; ++i) {
-                for (int j = 0; j < width; ++j) {
+            for (unsigned i = 0; i < height; ++i) {
+                for (unsigned j = 0; j < width; ++j) {
                     float tmp = 0.0f;
-                    for (int k = 0; j < width; ++k) {
+                    for (unsigned k = 0; j < width; ++k) {
                         tmp += elements[i][k] * rhs.elements[k][j];
                     }
                     ret[i][j] = tmp;
@@ -160,7 +160,7 @@ namespace avml {
 
     AVML_FINL bool operator==(const mat2x2f& lhs, const mat2x2f& rhs) {
         bool ret = true;
-        for (int i = 0; i < mat2x2f::height; ++i) {
+        for (unsigned i = 0; i < mat2x2f::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
@@ -203,8 +203,8 @@ namespace avml {
     AVML_FINL vec2f operator*(mat2x2f lhs, vec2f rhs) {
         vec2f ret{};
 
-        for (int i = 0; i < mat2x2f::height; ++i) {
-            for (int j = 0; j < mat2x2f::width; ++j) {
+        for (unsigned i = 0; i < mat2x2f::height; ++i) {
+            for (unsigned j = 0; j < mat2x2f::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -215,8 +215,8 @@ namespace avml {
     AVML_FINL mat2x2f transpose(const mat2x2f m) {
         mat2x2f ret;
 
-        for (int i = 0; i < mat2x2f::height; ++i) {
-            for (int j = 0; j < mat2x2f::width; ++j) {
+        for (unsigned i = 0; i < mat2x2f::height; ++i) {
+            for (unsigned j = 0; j < mat2x2f::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }

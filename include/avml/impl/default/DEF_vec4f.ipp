@@ -88,42 +88,42 @@ namespace avml {
         //=================================================
 
         AVML_FINL Vector& operator+=(const Vector& rhs) {
-            for (int i = 0; i < width; ++i) {
+            for (unsigned i = 0; i < width; ++i) {
                 elements[i] += rhs[i];
             }
             return *this;
         }
 
         AVML_FINL Vector& operator-=(const Vector& rhs) {
-            for (int i = 0; i < width; ++i) {
+            for (unsigned i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
             }
             return *this;
         }
 
         AVML_FINL Vector& operator*=(const scalar rhs) {
-            for (int i = 0; i < width; ++i) {
+            for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs;
             }
             return *this;
         }
 
         AVML_FINL Vector& operator*=(const Vector rhs) {
-            for (int i = 0; i < width; ++i) {
+            for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
         AVML_FINL Vector& operator/=(const Vector rhs) {
-            for (int i = 0; i < width; ++i) {
+            for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
             return *this;
         }
 
         AVML_FINL Vector& operator/=(const scalar rhs) {
-            for (int i = 0; i < width; ++i) {
+            for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs;
             }
             return *this;

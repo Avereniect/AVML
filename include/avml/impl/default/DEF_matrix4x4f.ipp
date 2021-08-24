@@ -101,28 +101,28 @@ namespace avml {
         //=================================================
 
         AVML_FINL Matrix& operator*=(scalar rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                 operator[](i) *= rhs;
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator/=(scalar rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                 operator[](i) /= rhs;
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator+=(const Matrix& rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                 operator[](i) += rhs.operator[](i);
             }
             return *this;
         }
 
         AVML_FINL Matrix& operator-=(const Matrix& rhs) {
-            for (int i = 0; i < height; ++i) {
+            for (unsigned i = 0; i < height; ++i) {
                 operator[](i) -= rhs.operator[](i);
             }
             return *this;
@@ -130,10 +130,10 @@ namespace avml {
 
         AVML_FINL Matrix& operator*=(const Matrix& rhs) {
             Matrix result{};
-            for (int i = 0; i < height; ++i) {
-                for (int j = 0; j < width; ++j) {
+            for (unsigned i = 0; i < height; ++i) {
+                for (unsigned j = 0; j < width; ++j) {
                     float tmp = 0.0f;
-                    for (int k = 0; k < width; ++k) {
+                    for (unsigned k = 0; k < width; ++k) {
                         tmp += elements[i][k] * rhs.elements[k][j];
                     }
                     result[i][j] = tmp;
@@ -180,7 +180,7 @@ namespace avml {
 
     AVML_FINL bool operator==(const mat4x4f& lhs, const mat4x4f& rhs) {
         bool ret = true;
-        for (int i = 0; i < mat4x4f::height; ++i) {
+        for (unsigned i = 0; i < mat4x4f::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
@@ -223,8 +223,8 @@ namespace avml {
     AVML_FINL vec4f operator*(mat4x4f lhs, vec4f rhs) {
         vec4f ret{};
 
-        for (int i = 0; i < mat4x4f::height; ++i) {
-            for (int j = 0; j < mat4x4f::width; ++j) {
+        for (unsigned i = 0; i < mat4x4f::height; ++i) {
+            for (unsigned j = 0; j < mat4x4f::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -235,8 +235,8 @@ namespace avml {
     AVML_FINL mat4x4f transpose(const mat4x4f m) {
         mat4x4f ret;
 
-        for (int i = 0; i < mat4x4f::height; ++i) {
-            for (int j = 0; j < mat4x4f::width; ++j) {
+        for (unsigned i = 0; i < mat4x4f::height; ++i) {
+            for (unsigned j = 0; j < mat4x4f::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }
