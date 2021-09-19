@@ -243,6 +243,38 @@ namespace avml {
         } / det;
     }
 
+    template<unsigned I = 0, unsigned J = 0>
+    AVML_FINL mat2x2f extract2x2(const mat3x3f m) {
+        static_assert(I < 2, "");
+        static_assert(J < 2, "");
+
+        mat2x2f ret;
+
+        for (unsigned i = 0; i < mat2x2f::height; ++i) {
+            for (unsigned j = 0; j < mat2x2f::width; ++j) {
+                ret[i][j] = m[i + I][j + J];
+            }
+        }
+
+        return ret;
+    }
+
+    template<unsigned I = 0, unsigned J = 0>
+    AVML_FINL mat2x2f extract2x2(const mat4x4f m) {
+        static_assert(I < 3, "");
+        static_assert(J < 3, "");
+
+        mat2x2f ret;
+
+        for (unsigned i = 0; i < mat2x2f::height; ++i) {
+            for (unsigned j = 0; j < mat2x2f::width; ++j) {
+                ret[i][j] = m[i + I][j + J];
+            }
+        }
+
+        return ret;
+    }
+
 }
 
 #endif

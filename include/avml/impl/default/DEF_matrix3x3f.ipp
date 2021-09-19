@@ -259,6 +259,22 @@ namespace avml {
         } / det;
     }
 
+    template<unsigned I = 0, unsigned J = 0>
+    AVML_FINL mat3x3f extract3x3(const mat4x4f m) {
+        static_assert(I < 3, "");
+        static_assert(J < 3, "");
+
+        mat3x3f ret;
+
+        for (unsigned i = 0; i < mat3x3f::height; ++i) {
+            for (unsigned j = 0; j < mat3x3f::width; ++j) {
+                ret[i][j] = m[i + I][j + J];
+            }
+        }
+
+        return ret;
+    }
+
 }
 
 #endif

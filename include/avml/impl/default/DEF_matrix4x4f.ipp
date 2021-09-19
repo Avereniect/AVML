@@ -176,7 +176,7 @@ namespace avml {
 
     };
 
-    const Matrix<float, 3, 3> Identity4f{1.0f};
+    const Matrix<float, 4, 4> Identity4f{1.0f};
 
     AVML_FINL bool operator==(const mat4x4f& lhs, const mat4x4f& rhs) {
         bool ret = true;
