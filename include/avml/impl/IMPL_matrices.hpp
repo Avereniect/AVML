@@ -39,11 +39,13 @@ namespace avml {
 }
 
 #ifdef AVML_SSE
-
+    #include "x86/x86_matrix4x4f.ipp"
+    #include "x86/x86_matrix3x3f.ipp"
+    #include "x86/x86_matrix2x2f.ipp"
 #else
-    #include "default/DEF_matrix2x2f.ipp"
-    #include "default/DEF_matrix3x3f.ipp"
     #include "default/DEF_matrix4x4f.ipp"
+    #include "default/DEF_matrix3x3f.ipp"
+    #include "default/DEF_matrix2x2f.ipp"
 #endif
 
 #endif //AVML_IMPL_MATRICES_HPP

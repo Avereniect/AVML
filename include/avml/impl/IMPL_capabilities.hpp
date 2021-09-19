@@ -3,6 +3,7 @@
 
 #include <climits>
 #include <limits>
+#include <cstdint>
 
 //=========================================================
 // Primitive sizes
@@ -102,7 +103,9 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
 #if defined(__clang__)
     #define AVML_CLANG
+
     #define AVML_FINL __attribute__((__always_inline__)) inline
+
     #define AVML_UNROLL(x) _Pragma("#pragma unroll x")
 
     #include <x86intrin.h>
@@ -110,14 +113,23 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
 #elif defined(__GNUC__)
     #define AVML_GCC
-    #define AVML_FINL __attribute__((__always_inline__)) inline
+
+    #ifdef AVML_FORCE_OPTIMIZATIONS
+        //This level of optimization appears to be enough.
+        #define AVML_FINL  __attribute__ ((__always_inline__, optimize("O1"))) inline
+    #else
+        #define AVML_FINL __attribute__((__always_inline__)) inline
+    #endif
+
     #define AVML_UNROLL(x) _Pragma("#pragma GCC unroll x")
 
     #include <x86intrin.h>
     #include <immintrin.h>
 #elif defined(_MSC_VER)
     #define AVML_MSVC
+
     #define AVML_FINL __forceinline
+
     #define AVML_UNROLL(x) _Prgama("loopivdep)")
 
     #include "intrin.h"
