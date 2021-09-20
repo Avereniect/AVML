@@ -126,7 +126,7 @@ namespace avml {
             for (unsigned i = 0; i < height; ++i) {
                 for (unsigned j = 0; j < width; ++j) {
                     float tmp = 0.0f;
-                    for (unsigned k = 0; j < width; ++k) {
+                    for (unsigned k = 0; k < width; ++k) {
                         tmp += elements[i][k] * rhs.elements[k][j];
                     }
                     ret[i][j] = tmp;
