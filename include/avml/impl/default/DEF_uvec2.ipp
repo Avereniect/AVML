@@ -1,13 +1,13 @@
-#ifndef AVML_DEF_UVEC2F_IPP
-#define AVML_DEF_UVEC2F_IPP
+#ifndef AVML_DEF_UVEC2_IPP
+#define AVML_DEF_UVEC2_IPP
 
 namespace avml {
 
-    template<>
-    class alignas(sizeof(float) * 2) Unit_vector2<float> {
+    template<class R>
+    class alignas(sizeof(R) * 2) Unit_vector2 {
     public:
 
-        using scalar = float;
+        using scalar = R;
 
         static constexpr unsigned width = 2;
 
@@ -15,11 +15,11 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Unit_vector2 read(const float* p) {
+        AVML_FINL static Unit_vector2 read(const R* p) {
             return Unit_vector2{p[0], p[1]};
         }
 
-        AVML_FINL static Unit_vector2 read_aligned(const float* p) {
+        AVML_FINL static Unit_vector2 read_aligned(const R* p) {
             return Unit_vector2{p[0], p[1]};
         }
 
@@ -27,9 +27,11 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector2(float x, float y):
+        AVML_FINL Unit_vector2(R x, R y):
             elements() {
-            float length = std::sqrt(x * x + y * y);
+            using std::sqrt;
+
+            R length = sqrt(x * x + y * y);
 
             elements[0] = x / length;
             elements[1] = y / length;
@@ -66,11 +68,11 @@ namespace avml {
         // Accessors
         //=================================================
 
-        AVML_FINL const float& operator[](unsigned i) const {
+        AVML_FINL const R& operator[](unsigned i) const {
             return elements[i];
         }
 
-        AVML_FINL const float* data() const {
+        AVML_FINL const R* data() const {
             return elements;
         }
 
@@ -80,7 +82,7 @@ namespace avml {
         // Instance members
         //=================================================
 
-        float elements[width] = {1.0f, 0.0f};
+        R elements[width] = {1.0f, 0.0f};
 
     };
 
@@ -88,10 +90,12 @@ namespace avml {
     // Vectorized math
     //=====================================================
 
-    AVML_FINL uvec2f abs(uvec2f v) {
-        alignas(alignof(uvec2f)) float data[uvec2f::width];
-        data[0] = std::abs(v[0]);
-        data[1] = std::abs(v[1]);
+    template<class R>
+    AVML_FINL Unit_vector2<R> abs(Unit_vector2<R> v) {
+        alignas(alignof(Unit_vector2<R>)) R data[Unit_vector2<R>::width];
+        using std::abs;
+        data[0] = abs(v[0]);
+        data[1] = abs(v[1]);
         return uvec2f::read_aligned(data);
     }
 
