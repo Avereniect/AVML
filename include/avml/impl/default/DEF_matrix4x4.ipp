@@ -1,14 +1,14 @@
-#ifndef AVML_DEF_MATRIX4X4F_IPP
-#define AVML_DEF_MATRIX4X4F_IPP
+#ifndef AVML_DEF_MATRIX4X4_IPP
+#define AVML_DEF_MATRIX4X4_IPP
 
 namespace avml {
 
-    template<>
-    class alignas(alignof(float) * 4 * 4) Matrix4x4<float> {
+    template<class R>
+    class alignas(alignof(R) * 4 * 4) Matrix4x4 {
     public:
 
-        using scalar = float;
-        using vector = vec4f;
+        using scalar = R;
+        using vector = Vector4<R>;
 
         static constexpr unsigned width = 4;
         static constexpr unsigned height = 4;
@@ -17,7 +17,7 @@ namespace avml {
         // Creation methods
         //=================================================
 
-        AVML_FINL static Matrix4x4 read(const float* ptr) {
+        AVML_FINL static Matrix4x4 read(const R* ptr) {
             Matrix4x4 ret;
             ret[0] = vector::read(ptr + 0x0);
             ret[1] = vector::read(ptr + 0x4);
@@ -26,7 +26,7 @@ namespace avml {
             return ret;
         }
 
-        AVML_FINL static Matrix4x4 read_aligned(const float* ptr) {
+        AVML_FINL static Matrix4x4 read_aligned(const R* ptr) {
             Matrix4x4 ret;
             ret[0] = vector::read_aligned(ptr + 0x0);
             ret[1] = vector::read_aligned(ptr + 0x4);
@@ -39,7 +39,7 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL explicit Matrix4x4(float d):
+        AVML_FINL explicit Matrix4x4(R d):
             elements {
                 {d, 0.0f, 0.0f, 0.0f},
                 {0.0f, d, 0.0f, 0.0f},
@@ -48,10 +48,10 @@ namespace avml {
         } {}
 
         AVML_FINL Matrix4x4(
-            float a, float b, float c, float d,
-            float e, float f, float g, float h,
-            float i, float j, float k, float l,
-            float m, float n, float o, float p):
+            R a, R b, R c, R d,
+            R e, R f, R g, R h,
+            R i, R j, R k, R l,
+            R m, R n, R o, R p):
             elements{
                 {a, b, c, d},
                 {e, f, g, h},
@@ -132,7 +132,7 @@ namespace avml {
             Matrix4x4 result{};
             for (unsigned i = 0; i < height; ++i) {
                 for (unsigned j = 0; j < width; ++j) {
-                    float tmp = 0.0f;
+                    R tmp = 0.0f;
                     for (unsigned k = 0; k < width; ++k) {
                         tmp += elements[i][k] * rhs.elements[k][j];
                     }
@@ -157,17 +157,17 @@ namespace avml {
             return *reinterpret_cast<const vector*>(elements[i]);
         }
 
-        AVML_FINL float* data() {
+        AVML_FINL R* data() {
             return elements[0];
         }
 
-        AVML_FINL const float* data() const {
+        AVML_FINL const R* data() const {
             return elements[0];
         }
 
     private:
 
-        float elements[4][4]{
+        R elements[4][4]{
             {0.0f, 0.0f, 0.0f, 0.0f},
             {0.0f, 0.0f, 0.0f, 0.0f},
             {0.0f, 0.0f, 0.0f, 0.0f},
@@ -176,53 +176,62 @@ namespace avml {
 
     };
 
-    AVML_FINL bool operator==(const mat4x4f& lhs, const mat4x4f& rhs) {
+    template<class R>
+    AVML_FINL bool operator==(const Matrix4x4<R>& lhs, const Matrix4x4<R>& rhs) {
         bool ret = true;
-        for (unsigned i = 0; i < mat4x4f::height; ++i) {
+        for (unsigned i = 0; i < Matrix4x4<R>::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
     }
 
-    AVML_FINL bool operator!=(const mat4x4f& lhs, const mat4x4f& rhs) {
+    template<class R>
+    AVML_FINL bool operator!=(const Matrix4x4<R>& lhs, const Matrix4x4<R>& rhs) {
         return !(lhs == rhs);
     }
 
-    AVML_FINL mat4x4f operator+(mat4x4f lhs, mat4x4f rhs) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> operator+(Matrix4x4<R> lhs, Matrix4x4<R> rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL mat4x4f operator-(mat4x4f lhs, mat4x4f rhs) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> operator-(Matrix4x4<R> lhs, Matrix4x4<R> rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL mat4x4f operator*(mat4x4f lhs, float rhs) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> operator*(Matrix4x4<R> lhs, R rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL mat4x4f operator*(float lhs, mat4x4f rhs) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> operator*(R lhs, Matrix4x4<R> rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL mat4x4f operator/(mat4x4f lhs, float rhs) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> operator/(Matrix4x4<R> lhs, R rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL mat4x4f operator*(mat4x4f lhs, mat4x4f rhs) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> operator*(Matrix4x4<R> lhs, Matrix4x4<R> rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL vec4f operator*(mat4x4f lhs, vec4f rhs) {
-        vec4f ret{};
+    template<class R>
+    AVML_FINL Vector4<R> operator*(Matrix4x4<R> lhs, Vector4<R> rhs) {
+        Vector4<R> ret{};
 
-        for (unsigned i = 0; i < mat4x4f::height; ++i) {
-            for (unsigned j = 0; j < mat4x4f::width; ++j) {
+        for (unsigned i = 0; i < Matrix4x4<R>::height; ++i) {
+            for (unsigned j = 0; j < Matrix4x4<R>::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -230,11 +239,12 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL mat4x4f transpose(const mat4x4f m) {
-        mat4x4f ret;
+    template<class R>
+    AVML_FINL Matrix4x4<R> transpose(const Matrix4x4<R> m) {
+        Matrix4x4<R> ret;
 
-        for (unsigned i = 0; i < mat4x4f::height; ++i) {
-            for (unsigned j = 0; j < mat4x4f::width; ++j) {
+        for (unsigned i = 0; i < Matrix4x4<R>::height; ++i) {
+            for (unsigned j = 0; j < Matrix4x4<R>::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }
@@ -242,26 +252,27 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL float determinant(const mat4x4f& m) {
-        float x = m[0][0] * (
+    template<class R>
+    AVML_FINL R determinant(const Matrix4x4<R>& m) {
+        R x = m[0][0] * (
             m[1][1] * (m[2][2] * m[3][3] - m[2][3] * m[3][2]) -
             m[1][2] * (m[2][1] * m[3][3] - m[2][3] * m[3][1]) +
             m[1][3] * (m[2][1] * m[3][2] - m[2][2] * m[3][1])
         );
 
-        float y = m[1][0] * (
+        R y = m[1][0] * (
             m[1][0] * (m[2][2] * m[3][3] - m[2][3] * m[3][2]) -
             m[1][2] * (m[2][0] * m[3][3] - m[2][3] * m[3][0]) +
             m[1][3] * (m[2][0] * m[3][2] - m[2][2] * m[3][0])
         );
 
-        float z = m[2][0] * (
+        R z = m[2][0] * (
             m[1][0] * (m[2][1] * m[3][3] - m[2][3] * m[3][1]) -
             m[1][1] * (m[2][0] * m[3][3] - m[2][3] * m[3][0]) +
             m[1][3] * (m[2][0] * m[3][1] - m[2][1] * m[3][0])
         );
 
-        float w = m[3][0] * (
+        R w = m[3][0] * (
             m[1][0] * (m[2][1] * m[3][2] - m[2][2] * m[3][1]) -
             m[1][1] * (m[2][0] * m[3][2] - m[2][2] * m[3][0]) +
             m[1][2] * (m[2][0] * m[3][1] - m[2][1] * m[3][0])
@@ -270,119 +281,120 @@ namespace avml {
         return x - y + z - w;
     }
 
-    AVML_FINL mat4x4f inverse(const mat4x4f& mat) {
+    template<class R>
+    AVML_FINL Matrix4x4<R> inverse(const Matrix4x4<R>& mat) {
         auto det = determinant(mat);
 
-        float a = mat[0][0];
-        float b = mat[0][1];
-        float c = mat[0][2];
-        float d = mat[0][3];
+        R a = mat[0][0];
+        R b = mat[0][1];
+        R c = mat[0][2];
+        R d = mat[0][3];
 
-        float e = mat[1][0];
-        float f = mat[1][1];
-        float g = mat[1][2];
-        float h = mat[1][3];
+        R e = mat[1][0];
+        R f = mat[1][1];
+        R g = mat[1][2];
+        R h = mat[1][3];
 
-        float i = mat[2][0];
-        float j = mat[2][1];
-        float k = mat[2][2];
-        float l = mat[2][3];
+        R i = mat[2][0];
+        R j = mat[2][1];
+        R k = mat[2][2];
+        R l = mat[2][3];
 
-        float m = mat[3][0];
-        float n = mat[3][1];
-        float o = mat[3][2];
-        float p = mat[3][3];
+        R m = mat[3][0];
+        R n = mat[3][1];
+        R o = mat[3][2];
+        R p = mat[3][3];
 
-        float in = i * n;
-        float io = i * o;
-        float ip = i * p;
+        R in = i * n;
+        R io = i * o;
+        R ip = i * p;
 
-        float jm = j * p;
-        float jo = j * o;
-        float jp = j * p;
+        R jm = j * p;
+        R jo = j * o;
+        R jp = j * p;
 
-        float km = k * m;
-        float kn = k * n;
-        float kp = k * p;
+        R km = k * m;
+        R kn = k * n;
+        R kp = k * p;
 
-        float lm = l * m;
-        float ln = l * n;
-        float lo = l * o;
+        R lm = l * m;
+        R ln = l * n;
+        R lo = l * o;
 
-        float ej = e * j;
-        float ek = e * k;
-        float el = e * l;
-        float en = e * n;
-        float eo = e * o;
-        float ep = e * p;
+        R ej = e * j;
+        R ek = e * k;
+        R el = e * l;
+        R en = e * n;
+        R eo = e * o;
+        R ep = e * p;
 
-        float fi = f * i;
-        float fk = f * k;
-        float fl = f * l;
-        float fm = f * m;
-        float fo = f * o;
-        float fp = f * p;
+        R fi = f * i;
+        R fk = f * k;
+        R fl = f * l;
+        R fm = f * m;
+        R fo = f * o;
+        R fp = f * p;
 
-        float gi = g * i;
-        float gj = g * j;
-        float gl = g * l;
-        float gm = g * m;
-        float gn = g * n;
-        float gp = g * p;
+        R gi = g * i;
+        R gj = g * j;
+        R gl = g * l;
+        R gm = g * m;
+        R gn = g * n;
+        R gp = g * p;
 
-        float hi = h * i;
-        float hj = h * j;
-        float hk = h * k;
-        float hm = h * m;
-        float hn = h * n;
-        float ho = h * o;
+        R hi = h * i;
+        R hj = h * j;
+        R hk = h * k;
+        R hm = h * m;
+        R hn = h * n;
+        R ho = h * o;
 
-        float kp_lo = kp - lo;
+        R kp_lo = kp - lo;
 
-        float io_km = io - km;
+        R io_km = io - km;
 
-        float gp_ho = gp - ho;
-        float gl_hk = gl - hk;
+        R gp_ho = gp - ho;
+        R gl_hk = gl - hk;
 
-        float jp_ln = jp - ln;
-        float jo_kn = jo - kn;
-        float ip_lm = ip - lm;
-        float in_jm = in - jm;
+        R jp_ln = jp - ln;
+        R jo_kn = jo - kn;
+        R ip_lm = ip - lm;
+        R in_jm = in - jm;
 
-        float fp_hn = fp - hn;
-        float fo_gn = fo - gn;
-        float fl_hj = fl - hj;
-        float fk_gj = fk - gj;
+        R fp_hn = fp - hn;
+        R fo_gn = fo - gn;
+        R fl_hj = fl - hj;
+        R fk_gj = fk - gj;
 
-        float ep_hm = ep - hm;
-        float eo_gm = eo - gm;
-        float el_hi = el - hi;
-        float ek_gi = ek - gi;
-        float en_fm = en - fm;
-        float ej_fi = ej - fi;
+        R ep_hm = ep - hm;
+        R eo_gm = eo - gm;
+        R el_hi = el - hi;
+        R ek_gi = ek - gi;
+        R en_fm = en - fm;
+        R ej_fi = ej - fi;
 
-        float t00 =  f * kp_lo - g * jp_ln + h * jo_kn;
-        float t01 = -b * kp_lo + c * jp_ln - d * jo_kn;
-        float t02 =  b * gp_ho - c * fp_hn + d * fo_gn;
-        float t03 = -b * gl_hk + c * fl_hj - d * fk_gj;
+        R t00 =  f * kp_lo - g * jp_ln + h * jo_kn;
+        R t01 = -b * kp_lo + c * jp_ln - d * jo_kn;
+        R t02 =  b * gp_ho - c * fp_hn + d * fo_gn;
+        R t03 = -b * gl_hk + c * fl_hj - d * fk_gj;
 
-        float t10 = -e * kp_lo + g * jp_ln - h * io_km;
-        float t11 =  a * kp_lo - c * ip_lm + d * io_km;
-        float t12 = -a * gp_ho + c * ep_hm - d * eo_gm;
-        float t13 =  a * gl_hk - c * el_hi + d * ek_gi;
+        R t10 = -e * kp_lo + g * jp_ln - h * io_km;
+        R t11 =  a * kp_lo - c * ip_lm + d * io_km;
+        R t12 = -a * gp_ho + c * ep_hm - d * eo_gm;
+        R t13 =  a * gl_hk - c * el_hi + d * ek_gi;
 
-        float t20 =  e * jp_ln - f * ip_lm + h * in_jm;
-        float t21 = -a * jp_ln + b * ip_lm - d * in_jm;
-        float t22 =  a * fp_hn - b * ep_hm + d * en_fm;
-        float t23 = -a * fl_hj + b * el_hi - d * ej_fi;
+        R t20 =  e * jp_ln - f * ip_lm + h * in_jm;
+        R t21 = -a * jp_ln + b * ip_lm - d * in_jm;
+        R t22 =  a * fp_hn - b * ep_hm + d * en_fm;
+        R t23 = -a * fl_hj + b * el_hi - d * ej_fi;
 
-        float t30 = -e * jo_kn + f * io_km - g * in_jm;
-        float t31 =  a * jo_kn - b * io_km + c * in_jm;
-        float t32 = -a * fo_gn + b * eo_gm - c * en_fm;
-        float t33 =  a * fk_gj - b * ek_gi + c * ej_fi;
+        R t30 = -e * jo_kn + f * io_km - g * in_jm;
+        R t31 =  a * jo_kn - b * io_km + c * in_jm;
+        R t32 = -a * fo_gn + b * eo_gm - c * en_fm;
+        R t33 =  a * fk_gj - b * ek_gi + c * ej_fi;
 
         if (det < (1.0 / 65536.0f)) {
-            return mat4x4f {
+            return Matrix4x4<R> {
                 NAN, NAN, NAN, NAN,
                 NAN, NAN, NAN, NAN,
                 NAN, NAN, NAN, NAN,
@@ -390,7 +402,7 @@ namespace avml {
             };
         }
 
-        return mat4x4f {
+        return Matrix4x4<R> {
             t00, t01, t02, t03,
             t10, t11, t12, t13,
             t20, t21, t22, t23,

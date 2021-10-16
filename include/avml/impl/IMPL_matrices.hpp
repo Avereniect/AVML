@@ -5,6 +5,7 @@
 
 namespace avml {
 
+    /*
     template<class T, unsigned N>
     Matrix<T, N, N> pow(Matrix<T, N, N> mat, std::uint32_t power) {
         static const Matrix<T, N, N> identity{static_cast<T>(1)};
@@ -35,6 +36,7 @@ namespace avml {
 
         return mat;
     }
+    */
 
 }
 
@@ -47,5 +49,9 @@ namespace avml {
     #include "default/DEF_matrix3x3f.ipp"
     #include "default/DEF_matrix2x2f.ipp"
 #endif
+
+#include "default/DEF_matrix2x2.ipp"
+#include "default/DEF_matrix3x3.ipp"
+#include "default/DEF_matrix4x4.ipp"
 
 #endif //AVML_IMPL_MATRICES_HPP

@@ -9,37 +9,49 @@ namespace avml {
     // Class declarations
     //=====================================================
 
-    template<class R, unsigned N>
-    class Unit_vector;
+    template<class R>
+    class Unit_vector2;
 
-    template<class R, unsigned N>
-    class Vector;
+    template<class R>
+    class Unit_vector3;
+
+    template<class R>
+    class Unit_vector4;
+
+    template<class R>
+    class Vector2;
+
+    template<class R>
+    class Vector3;
+
+    template<class R>
+    class Vector4;
 
     //=====================================================
     // Unit vector aliases
     //=====================================================
 
-    using uvec2f = Unit_vector<float, 2>;
-    using uvec3f = Unit_vector<float, 3>;
-    using uvec4f = Unit_vector<float, 4>;
+    using uvec2f = Unit_vector2<float>;
+    using uvec3f = Unit_vector3<float>;
+    using uvec4f = Unit_vector4<float>;
 
 
-    using uvec2d = Unit_vector<double, 2>;
-    using uvec3d = Unit_vector<double, 3>;
-    using uvec4d = Unit_vector<double, 4>;
+    using uvec2d = Unit_vector2<double>;
+    using uvec3d = Unit_vector3<double>;
+    using uvec4d = Unit_vector4<double>;
 
     //=====================================================
     // Vector aliases
     //=====================================================
 
-    using vec2f = Vector<float, 2>;
-    using vec3f = Vector<float, 3>;
-    using vec4f = Vector<float, 4>;
+    using vec2f = Vector2<float>;
+    using vec3f = Vector3<float>;
+    using vec4f = Vector4<float>;
 
 
-    using vec2d = Vector<double, 2>;
-    using vec3d = Vector<double, 3>;
-    using vec4d = Vector<double, 4>;
+    using vec2d = Vector2<double>;
+    using vec3d = Vector3<double>;
+    using vec4d = Vector4<double>;
 
 
     /*
@@ -61,13 +73,13 @@ namespace avml {
     using vec4i16 = Vector<std::int16_t, 4>;
 
 
-    using vec2u32 = Vector<std::uint32_t, 2>;
-    using vec3u32 = Vector<std::uint32_t, 3>;
-    using vec4u32 = Vector<std::uint32_t, 4>;
+    using vec2u = Vector<std::uint32_t, 2>;
+    using vec3u = Vector<std::uint32_t, 3>;
+    using vec4u = Vector<std::uint32_t, 4>;
 
-    using vec2i32 = Vector<std::int32_t, 2>;
-    using vec3i32 = Vector<std::int32_t, 3>;
-    using vec4i32 = Vector<std::int32_t, 4>;
+    using vec2i = Vector<std::int32_t, 2>;
+    using vec3i = Vector<std::int32_t, 3>;
+    using vec4i = Vector<std::int32_t, 4>;
     */
 
 }
