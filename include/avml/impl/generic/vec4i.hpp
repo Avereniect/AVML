@@ -1,4 +1,4 @@
-#ifndef AVML_GEN_VEV4I_HPP
+#ifndef AVML_GEN_VEC4I_HPP
 #define AVML_GEN_VEC4I_HPP
 
 namespace avml {
@@ -161,7 +161,7 @@ namespace avml {
         // Instance members
         //=================================================
 
-        I elements[width] = {0.0f, 0.0f, 0.0f, 0.0f};
+        I elements[width] = {0, 0, 0, 0};
 
     };
 

@@ -4,7 +4,7 @@
 namespace avml {
 
     template<class I>
-    class alignas(avml_impl::vector_alignment<I, 2>) Vector2I {
+    class alignas(avml_impl::vector_alignment<I, 2>()) Vector2I {
     public:
 
         using scalar = I;

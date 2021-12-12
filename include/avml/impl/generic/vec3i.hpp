@@ -155,7 +155,7 @@ namespace avml {
         // Instance members
         //=================================================
 
-        I elements[width] = {0.0f, 0.0f, 0.0f};
+        I elements[width] = {0, 0, 0};
 
     };
 
