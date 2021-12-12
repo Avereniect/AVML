@@ -46,6 +46,6 @@ namespace avml {
 
 }
 
-#include "impl/IMPL_matrices.hpp"
+#include "impl/Matrices.hpp"
 
 #endif //AVML_MATRICES_HPP
