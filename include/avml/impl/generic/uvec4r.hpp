@@ -1,10 +1,10 @@
-#ifndef AVML_DEF_UVEC4_IPP
-#define AVML_DEF_UVEC4_IPP
+#ifndef AVML_GEN_UVEC4F_IPP
+#define AVML_GEN_UVEC4F_IPP
 
 namespace avml {
 
     template<class R>
-    class alignas(alignof(R) * 4) Unit_vector4 {
+    class alignas(avml_impl::vector_alignment<R, 4>) Unit_vector4 {
     public:
 
         using scalar = R;
@@ -29,7 +29,8 @@ namespace avml {
 
         AVML_FINL Unit_vector4(R x, R y, R z, R w) :
             elements() {
-            R length = std::sqrt(x * x + y * y + z * z + w * w);
+            using std::sqrt;
+            R length = sqrt(x * x + y * y + z * z + w * w);
 
             elements[0] = x / length;
             elements[1] = y / length;
@@ -42,7 +43,7 @@ namespace avml {
 
         Unit_vector4() = default;
         Unit_vector4(const Unit_vector4&) = default;
-        Unit_vector4(Unit_vector4&&) = default;
+        Unit_vector4(Unit_vector4&&) noexcept = default;
         ~Unit_vector4() = default;
 
         //=================================================
@@ -50,7 +51,7 @@ namespace avml {
         //=================================================
 
         Unit_vector4& operator=(const Unit_vector4&) = default;
-        Unit_vector4& operator=(Unit_vector4&&) = default;
+        Unit_vector4& operator=(Unit_vector4&&) noexcept = default;
 
         //=================================================
         // Unary arithmetic operators
@@ -79,6 +80,20 @@ namespace avml {
 
         AVML_FINL const R* data() const {
             return elements;
+        }
+
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        template<class U>
+        explicit operator Unit_vector4R<U>() const {
+            Unit_vector4R<U> ret;
+            ret.elements[0] = static_cast<U>(elements[0]);
+            ret.elements[1] = static_cast<U>(elements[1]);
+            ret.elements[2] = static_cast<U>(elements[2]);
+            ret.elements[3] = static_cast<U>(elements[3]);
+            return ret;
         }
 
     private:

@@ -4,7 +4,7 @@
 namespace avml {
 
     template<>
-    class alignas(sizeof(float) * 2) Unit_vector2<float> {
+    class alignas(sizeof(float) * 2) Unit_vector2R<float> {
     public:
 
         using scalar = float;
@@ -15,19 +15,19 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Unit_vector2 read(const float* p) {
-            return Unit_vector2{p[0], p[1]};
+        AVML_FINL static Unit_vector2R read(const float* p) {
+            return Unit_vector2R{p[0], p[1]};
         }
 
-        AVML_FINL static Unit_vector2 read_aligned(const float* p) {
-            return Unit_vector2{p[0], p[1]};
+        AVML_FINL static Unit_vector2R read_aligned(const float* p) {
+            return Unit_vector2R{p[0], p[1]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector2(float x, float y):
+        AVML_FINL Unit_vector2R(float x, float y):
             elements() {
             float length = std::sqrt(x * x + y * y);
 
@@ -35,28 +35,28 @@ namespace avml {
             elements[1] = y / length;
         }
 
-        Unit_vector2() = default;
-        Unit_vector2(const Unit_vector2&) = default;
-        Unit_vector2(Unit_vector2&&) = default;
-        ~Unit_vector2() = default;
+        Unit_vector2R() = default;
+        Unit_vector2R(const Unit_vector2R&) = default;
+        Unit_vector2R(Unit_vector2R&&) = default;
+        ~Unit_vector2R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Unit_vector2& operator=(const Unit_vector2&) = default;
-        Unit_vector2& operator=(Unit_vector2&&) = default;
+        Unit_vector2R& operator=(const Unit_vector2R&) = default;
+        Unit_vector2R& operator=(Unit_vector2R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Unit_vector2 operator+() const {
+        AVML_FINL Unit_vector2R operator+() const {
             return *this;
         }
 
-        AVML_FINL Unit_vector2 operator-() const {
-            Unit_vector2 ret;
+        AVML_FINL Unit_vector2R operator-() const {
+            Unit_vector2R ret;
             ret.elements[0] = -elements[0];
             ret.elements[1] = -elements[1];
             return ret;

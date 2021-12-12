@@ -1,13 +1,13 @@
-#ifndef AVML_DEF_VEC2F_IPP
-#define AVML_DEF_VEC2F_IPP
+#ifndef AVML_GEN_VEC2I_HPP
+#define AVML_GEN_VEC2I_HPP
 
 namespace avml {
 
-    template<>
-    class alignas(alignof(float) * 2) Vector2R<float> {
+    template<class I>
+    class alignas(avml_impl::vector_alignment<I, 2>) Vector2I {
     public:
 
-        using scalar = float;
+        using scalar = I;
 
         static constexpr unsigned width = 2;
 
@@ -15,49 +15,60 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Vector2R read(const float* p) {
-            return Vector2R{p[0], p[1]};
+        AVML_FINL static Vector2I read(const I* p) {
+            return Vector2I{p[0], p[1]};
         }
 
-        AVML_FINL static Vector2R read_aligned(const float* p) {
-            return Vector2R{p[0], p[1]};
+        AVML_FINL static Vector2I read_aligned(const I* p) {
+            return Vector2I{p[0], p[1]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Vector2R(float v):
+        explicit AVML_FINL Vector2I(I v):
             elements{v, v} {}
 
-        AVML_FINL Vector2R(float x, float y):
+        AVML_FINL Vector2I(I x, I y):
             elements{x, y} {}
 
-        AVML_FINL Vector2R(uvec2f v):
-            elements{v[0], v[1]} {}
+        template<class U>
+        explicit AVML_FINL Vector2I(Vector2I<U> v):
+            elements{
+                static_cast<I>(v[0]),
+                static_cast<I>(v[1])
+            } {}
 
-        Vector2R() = default;
-        Vector2R(const Vector2R&) = default;
-        Vector2R(Vector2R&&) = default;
-        ~Vector2R() = default;
+        template<class R>
+        explicit AVML_FINL Vector2I(Vector2R<R> v):
+            elements{
+                static_cast<I>(v[0]),
+                static_cast<I>(v[1])
+            } {}
+
+        Vector2I() = default;
+        Vector2I(const Vector2I&) = default;
+        Vector2I(Vector2I&&) noexcept = default;
+        ~Vector2I() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Vector2R& operator=(const Vector2R&) = default;
-        Vector2R& operator=(Vector2R&&) = default;
+        Vector2I& operator=(const Vector2I&) = default;
+        Vector2I& operator=(Vector2I&&) noexcept = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Vector2R operator+() const {
+        AVML_FINL Vector2I operator+() const {
             return *this;
         }
 
-        AVML_FINL Vector2R operator-() const {
-            return Vector2R{
+        AVML_FINL Vector2I operator-() const {
+            return Vector2I{
                 -elements[0],
                 -elements[1]
             };
@@ -67,42 +78,42 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Vector2R& operator+=(const Vector2R& rhs) {
+        AVML_FINL Vector2I& operator+=(const Vector2I& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] += rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector2R& operator-=(const Vector2R& rhs) {
+        AVML_FINL Vector2I& operator-=(const Vector2I& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector2R& operator*=(const Vector2R rhs) {
+        AVML_FINL Vector2I& operator*=(const Vector2I rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector2R& operator*=(const scalar rhs) {
+        AVML_FINL Vector2I& operator*=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Vector2R& operator/=(const Vector2R rhs) {
+        AVML_FINL Vector2I& operator/=(const Vector2I rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector2R& operator/=(const scalar rhs) {
+        AVML_FINL Vector2I& operator/=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs;
             }
@@ -113,20 +124,40 @@ namespace avml {
         // Accessors
         //=================================================
 
-        AVML_FINL float& operator[](unsigned i) {
+        AVML_FINL I& operator[](unsigned i) {
             return elements[i];
         }
 
-        AVML_FINL const float& operator[](unsigned i) const {
+        AVML_FINL const I& operator[](unsigned i) const {
             return elements[i];
         }
 
-        AVML_FINL float* data() {
+        AVML_FINL I* data() {
             return elements;
         }
 
-        AVML_FINL const float* data() const {
+        AVML_FINL const I* data() const {
             return elements;
+        }
+
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        template<class U>
+        explicit operator Vector2I<U>() const {
+            Vector2I<U> ret;
+            ret.elements[0] = static_cast<U>(elements[0]);
+            ret.elements[1] = static_cast<U>(elements[1]);
+            return ret;
+        }
+
+        template<class R>
+        explicit operator Vector2R<R>() const {
+            Vector2R<R> ret;
+            ret.elements[0] = static_cast<R>(elements[0]);
+            ret.elements[1] = static_cast<R>(elements[1]);
+            return ret;
         }
 
     private:
@@ -135,7 +166,7 @@ namespace avml {
         // Instance members
         //=================================================
 
-        float elements[width] = {0.0f, 0.0f};
+        I elements[width] = {0, 0};
 
     };
 
@@ -143,13 +174,15 @@ namespace avml {
     // Comparison operators
     //=====================================================
 
-    AVML_FINL bool operator==(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL bool operator==(Vector2I<I> lhs, Vector2I<I> rhs) {
         return
             (lhs[0] == rhs[0]) &&
             (lhs[1] == rhs[1]);
     }
 
-    AVML_FINL bool operator!=(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL bool operator!=(Vector2I<I> lhs, Vector2I<I> rhs) {
         return
             (lhs[0] != rhs[0]) ||
             (lhs[1] != rhs[1]);
@@ -159,37 +192,44 @@ namespace avml {
     // Arithmetic operators
     //=====================================================
 
-    AVML_FINL vec2f operator+(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator+(Vector2I<I> lhs, Vector2I<I> rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL vec2f operator-(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator-(Vector2I<I> lhs, Vector2I<I> rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL vec2f operator*(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator*(Vector2I<I> lhs, Vector2I<I> rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL vec2f operator*(vec2f lhs, float rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator*(Vector2I<I> lhs, I rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL vec2f operator*(float lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator*(I lhs, Vector2I<I> rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL vec2f operator/(vec2f lhs, float rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator/(Vector2I<I> lhs, I rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL vec2f operator/(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL Vector2I<I> operator/(Vector2I<I> lhs, Vector2I<I> rhs) {
         lhs /= rhs;
         return lhs;
     }
@@ -198,76 +238,38 @@ namespace avml {
     // Vector math
     //=====================================================
 
-    AVML_FINL float dot(vec2f lhs, vec2f rhs) {
+    template<class I>
+    AVML_FINL I dot(Vector2I<I> lhs, Vector2I<I> rhs) {
         return
             lhs[0] * rhs[0] +
             lhs[1] * rhs[1];
     }
 
-    AVML_FINL float length2(uvec2f) = delete;
-
-    AVML_FINL float length2(vec2f v) {
+    template<class I>
+    AVML_FINL I length2(Vector2I<I> v) {
         return dot(v, v);
-    }
-
-    AVML_FINL float length(uvec2f) = delete;
-
-    AVML_FINL float length(vec2f v) {
-        return std::sqrt(length2(v));
-    }
-
-    AVML_FINL uvec2f normalize(vec2f v) {
-        v /= length(v);
-        return uvec2f::read_aligned(v.data());
-    }
-
-    AVML_FINL uvec2f assume_normalized(vec2f v) {
-        return uvec2f::read_aligned(v.data());
-    }
-
-    AVML_FINL vec2f project(vec2f a, vec2f b) {
-        return (dot(a, b) / dot(b, b)) * b;
-    }
-
-    AVML_FINL vec2f project(vec2f a, uvec2f b) {
-        return dot(a, b) * b;
-    }
-
-    AVML_FINL vec2f rotate(vec2f v, float angle) {
-        float cos = std::cos(angle);
-        float sin = std::sin(angle);
-
-        return vec2f{
-            v[0] * cos - v[1] * sin,
-            v[0] * sin + v[1] * cos
-        };
-    }
-
-    AVML_FINL vec2f reflect(vec2f v, uvec2f normal) {
-        return 2 * dot(v, normal) * normal - v;
-    }
-
-    AVML_FINL uvec2f reflect(uvec2f v, uvec2f normal) {
-        return uvec2f::read_aligned(reflect(static_cast<vec2f>(v), normal).data());
     }
 
     //=====================================================
     // Vectorized math
     //=====================================================
 
-    AVML_FINL vec2f abs(vec2f v) {
+    template<class I>
+    AVML_FINL Vector2I<I> abs(Vector2I<I> v) {
         v[0] = std::abs(v[0]);
         v[1] = std::abs(v[1]);
         return v;
     }
 
-    AVML_FINL vec2f max(vec2f u, vec2f v) {
+    template<class I>
+    AVML_FINL Vector2I<I> max(Vector2I<I> u, Vector2I<I> v) {
         u[0] = std::max(u[0], v[0]);
         u[1] = std::max(u[1], v[1]);
         return u;
     }
 
-    AVML_FINL vec2f min(vec2f u, vec2f v) {
+    template<class I>
+    AVML_FINL Vector2I<I> min(Vector2I<I> u, Vector2I<I> v) {
         u[0] = std::min(u[0], v[0]);
         u[1] = std::min(u[1], v[1]);
         return u;
@@ -279,21 +281,25 @@ namespace avml {
 
     // Single component
 
-    AVML_FINL float x(vec2f v) {
+    template<class I>
+    AVML_FINL I x(Vector2I<I> v) {
         return v[0];
     }
 
-    AVML_FINL float y(vec2f v) {
+    template<class I>
+    AVML_FINL I y(Vector2I<I> v) {
         return v[1];
     }
 
     // Two component
 
-    AVML_FINL vec2f xy(vec2f v) {
+    template<class I>
+    AVML_FINL Vector2I<I> xy(Vector2I<I> v) {
         return v;
     }
 
-    AVML_FINL vec2f yx(vec2f v) {
+    template<class I>
+    AVML_FINL Vector2I<I> yx(Vector2I<I> v) {
         return {v[1], v[0]};
     }
 

@@ -1,7 +1,7 @@
 #ifndef AVML_IMPL_MATRICES_HPP
 #define AVML_IMPL_MATRICES_HPP
 
-#include "IMPL_capabilities.hpp"
+#include "Capabilities.hpp"
 
 namespace avml {
 
@@ -50,8 +50,8 @@ namespace avml {
     #include "default/DEF_matrix2x2f.ipp"
 #endif
 
-#include "default/DEF_matrix2x2.ipp"
-#include "default/DEF_matrix3x3.ipp"
-#include "default/DEF_matrix4x4.ipp"
+#include "generic/mat2x2r.hpp"
+#include "generic/mat3x3r.hpp"
+#include "generic/mat4x4r.hpp"
 
-#endif //AVML_IMPL_MATRICES_HPP
+#endif

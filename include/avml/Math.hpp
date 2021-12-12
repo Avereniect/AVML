@@ -4,11 +4,7 @@
 #include <cstdint>
 #include <limits>
 
-static_assert(sizeof(float) == 4, "Floats should be four bytes in size.");
-static_assert(sizeof(double) == 8, "Doubles should be eight bytes in size.");
-
-static_assert(std::numeric_limits<float>::is_iec559, "Floats should be IEEE-754.");
-static_assert(std::numeric_limits<double>::is_iec559, "Doubles should be IEEE-754.");
+#include "impl/Capabilities.hpp"
 
 namespace avml {
 
@@ -48,6 +44,6 @@ namespace avml {
 
 }
 
-#include "impl/IMPL_math.hpp"
+#include "impl/Math.hpp"
 
 #endif //AVML_MATH_HPP

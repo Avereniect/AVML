@@ -4,7 +4,7 @@
 namespace avml {
 
     template<>
-    class alignas(sizeof(float) * 4) Unit_vector4<float> {
+    class alignas(sizeof(float) * 4) Unit_vector4R<float> {
     public:
 
         using scalar = float;
@@ -15,19 +15,19 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Unit_vector4 read(const float* p) {
-            return Unit_vector4{p[0], p[1], p[2], p[3]};
+        AVML_FINL static Unit_vector4R read(const float* p) {
+            return Unit_vector4R{p[0], p[1], p[2], p[3]};
         }
 
-        AVML_FINL static Unit_vector4 read_aligned(const float* p) {
-            return Unit_vector4{p[0], p[1], p[2], p[3]};
+        AVML_FINL static Unit_vector4R read_aligned(const float* p) {
+            return Unit_vector4R{p[0], p[1], p[2], p[3]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector4(float x, float y, float z, float w) :
+        AVML_FINL Unit_vector4R(float x, float y, float z, float w) :
             elements() {
             float length = std::sqrt(x * x + y * y + z * z + w * w);
 
@@ -37,31 +37,31 @@ namespace avml {
             elements[3] = w / length;
         }
 
-        AVML_FINL Unit_vector4(uvec3f v) :
+        AVML_FINL Unit_vector4R(uvec3f v) :
             elements{v[0], v[1], v[2], 0.0f} {}
 
-        Unit_vector4() = default;
-        Unit_vector4(const Unit_vector4&) = default;
-        Unit_vector4(Unit_vector4&&) = default;
-        ~Unit_vector4() = default;
+        Unit_vector4R() = default;
+        Unit_vector4R(const Unit_vector4R&) = default;
+        Unit_vector4R(Unit_vector4R&&) = default;
+        ~Unit_vector4R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Unit_vector4& operator=(const Unit_vector4&) = default;
-        Unit_vector4& operator=(Unit_vector4&&) = default;
+        Unit_vector4R& operator=(const Unit_vector4R&) = default;
+        Unit_vector4R& operator=(Unit_vector4R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Unit_vector4 operator+() const {
+        AVML_FINL Unit_vector4R operator+() const {
             return *this;
         }
 
-        AVML_FINL Unit_vector4 operator-() const {
-            Unit_vector4 ret;
+        AVML_FINL Unit_vector4R operator-() const {
+            Unit_vector4R ret;
             ret.elements[0] = -elements[0];
             ret.elements[1] = -elements[1];
             ret.elements[2] = -elements[2];

@@ -1,7 +1,7 @@
 #ifndef AVML_IMPL_SHARED_HPP
 #define AVML_IMPL_SHARED_HPP
 
-#include "IMPL_capabilities.hpp"
+#include "Capabilities.hpp"
 
 #include <type_traits>
 
@@ -25,6 +25,18 @@ namespace avml_impl {
         return ret;
     }
 
+    template<class T>
+    [[nodiscard]]
+    constexpr inline bool is_pow2(const T v) {
+        return v && !(v & (v - 1));
+    }
+
+    template<class T, unsigned N>
+    [[nodiscard]]
+    constexpr std::size_t vector_alignment() {
+        return is_pow2(N) ? alignof(T) * N : alignof(T);
+    }
+
 }
 
-#endif //AVML_IMPL_SHARED_HPP
+#endif
