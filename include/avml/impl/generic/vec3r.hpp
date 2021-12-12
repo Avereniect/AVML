@@ -1,10 +1,10 @@
-#ifndef AVML_DEF_VEC3_IPP
-#define AVML_DEF_VEC3_IPP
+#ifndef AVML_GEN_VEC3R_HPP
+#define AVML_GEN_VEC3R_HPP
 
 namespace avml {
 
     template<class R>
-    class alignas(alignof(R) * 1) Vector3 {
+    class alignas(avml_impl::vector_alignment<R, 3>()) Vector3R {
     public:
 
         using scalar = R;
@@ -15,55 +15,63 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Vector3 read(const R* p) {
-            return Vector3{p[0], p[1], p[2]};
+        AVML_FINL static Vector3R read(const R* p) {
+            return Vector3R{p[0], p[1], p[2]};
         }
 
-        AVML_FINL static Vector3 read_aligned(const R* p) {
-            return Vector3{p[0], p[1], p[2]};
+        AVML_FINL static Vector3R read_aligned(const R* p) {
+            return Vector3R{p[0], p[1], p[2]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Vector3(R v):
+        explicit AVML_FINL Vector3R(R v):
             elements{v, v, v} {}
 
-        AVML_FINL Vector3(R x, R y, R z):
+        AVML_FINL Vector3R(R x, R y, R z):
             elements{x, y, z} {}
 
-        AVML_FINL Vector3(Unit_vector3<R> v):
+        AVML_FINL Vector3R(Unit_vector3R <R> v):
             elements{v[0], v[1], v[2]} {}
 
-        AVML_FINL Vector3(Vector3<R> v, R z):
+        AVML_FINL Vector3R(Vector2R <R> v, R z):
             elements{v[0], v[1], z} {}
 
-        AVML_FINL Vector3(R w, Vector3<R> v):
+        AVML_FINL Vector3R(R w, Vector2R <R> v):
             elements{w, v[0], v[1]} {}
 
-        Vector3() = default;
-        Vector3(const Vector3&) = default;
-        Vector3(Vector3&&) = default;
-        ~Vector3() = default;
+        template<class U>
+        explicit AVML_FINL Vector3R(Vector3R<U> v):
+            elements{
+                static_cast<R>(v[0]),
+                static_cast<R>(v[1]),
+                static_cast<R>(v[2])
+            } {}
+
+        Vector3R() = default;
+        Vector3R(const Vector3R&) = default;
+        Vector3R(Vector3R&&) noexcept = default;
+        ~Vector3R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Vector3& operator=(const Vector3&) = default;
-        Vector3& operator=(Vector3&&) = default;
+        Vector3R& operator=(const Vector3R&) = default;
+        Vector3R& operator=(Vector3R&&) noexcept = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Vector3 operator+() const {
+        AVML_FINL Vector3R operator+() const {
             return *this;
         }
 
-        AVML_FINL Vector3 operator-() const {
-            return Vector3{
+        AVML_FINL Vector3R operator-() const {
+            return Vector3R{
                 -elements[0],
                 -elements[1],
                 -elements[2],
@@ -74,42 +82,42 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Vector3& operator+=(const Vector3& rhs) {
+        AVML_FINL Vector3R& operator+=(const Vector3R& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] += rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator-=(const Vector3& rhs) {
+        AVML_FINL Vector3R& operator-=(const Vector3R& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator*=(const scalar rhs) {
+        AVML_FINL Vector3R& operator*=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator*=(const Vector3 rhs) {
+        AVML_FINL Vector3R& operator*=(const Vector3R rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator/=(const Vector3 rhs) {
+        AVML_FINL Vector3R& operator/=(const Vector3R rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator/=(const scalar rhs) {
+        AVML_FINL Vector3R& operator/=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs;
             }
@@ -149,16 +157,17 @@ namespace avml {
     //=====================================================
     // Comparison operators
     //=====================================================
-    
+
     template<class R>
-      bool operator==(Vector3<R> lhs, Vector3<R> rhs) {
+    AVML_FINL bool operator==(Vector3R<R> lhs, Vector3R<R> rhs) {
         return
             (lhs[0] == rhs[0]) &&
             (lhs[1] == rhs[1]) &&
             (lhs[2] == rhs[2]);
     }
 
-    template<class R>bool operator!=(Vector3<R> lhs, Vector3<R> rhs) {
+    template<class R>
+    AVML_FINL bool operator!=(Vector3R<R> lhs, Vector3R<R> rhs) {
         return
             (lhs[0] != rhs[0]) ||
             (lhs[1] != rhs[1]) ||
@@ -169,43 +178,44 @@ namespace avml {
     // Arithmetic operators
     //=====================================================
 
-    template<class R>Vector3<R> operator+(Vector3<R> lhs, Vector3<R> rhs) {
+    template<class R>
+    AVML_FINL Vector3R<R> operator+(Vector3R<R> lhs, Vector3R<R> rhs) {
         lhs += rhs;
         return lhs;
     }
 
     template<class R>
-    Vector3<R> operator-(Vector3<R> lhs, Vector3<R> rhs) {
+    AVML_FINL Vector3R<R> operator-(Vector3R<R> lhs, Vector3R<R> rhs) {
         lhs -= rhs;
         return lhs;
     }
 
     template<class R>
-    Vector3<R> operator*(Vector3<R> lhs, Vector3<R> rhs) {
+    AVML_FINL Vector3R<R> operator*(Vector3R<R> lhs, Vector3R<R> rhs) {
         lhs *= rhs;
         return lhs;
     }
 
     template<class R>
-    Vector3<R> operator*(Vector3<R> lhs, R rhs) {
+    AVML_FINL Vector3R<R> operator*(Vector3R<R> lhs, R rhs) {
         lhs *= rhs;
         return lhs;
     }
 
     template<class R>
-    Vector3<R> operator*(R lhs, Vector3<R> rhs) {
+    AVML_FINL Vector3R<R> operator*(R lhs, Vector3R<R> rhs) {
         rhs *= lhs;
         return rhs;
     }
 
     template<class R>
-    Vector3<R> operator/(Vector3<R> lhs, R rhs) {
+    AVML_FINL Vector3R<R> operator/(Vector3R<R> lhs, R rhs) {
         lhs /= rhs;
         return lhs;
     }
 
     template<class R>
-    Vector3<R> operator/(Vector3<R> lhs, Vector3<R> rhs) {
+    AVML_FINL Vector3R<R> operator/(Vector3R<R> lhs, Vector3R<R> rhs) {
         lhs /= rhs;
         return lhs;
     }
@@ -215,7 +225,7 @@ namespace avml {
     //=====================================================
 
     template<class R>
-    R dot(Vector3<R> lhs, Vector3<R> rhs) {
+    AVML_FINL R dot(Vector3R<R> lhs, Vector3R<R> rhs) {
         return
             lhs[0] * rhs[0] +
             lhs[1] * rhs[1] +
@@ -223,36 +233,30 @@ namespace avml {
     }
 
     template<class R>
-    R length2(Unit_vector3<R>) = delete;
-
-    template<class R>
-    R length2(Vector3<R> v) {
+    AVML_FINL R length2(Vector3R<R> v) {
         return dot(v, v);
     }
 
     template<class R>
-    R length(Unit_vector3<R>) = delete;
-
-    template<class R>
-    R length(Vector3<R> v) {
+    AVML_FINL R length(Vector3R<R> v) {
         using std::sqrt;
         return sqrt(length2(v));
     }
 
     template<class R>
-    Unit_vector3<R> assume_normalized(Vector3<R> v) {
-        return Unit_vector3<R>::read_aligned(v.data());
+    AVML_FINL Unit_vector3R<R> assume_normalized(Vector3R<R> v) {
+        return Unit_vector3R<R>::read_aligned(v.data());
     }
 
     template<class R>
-    Unit_vector3<R> normalize(Vector3<R> v) {
+    AVML_FINL Unit_vector3R <R> normalize(Vector3R<R> v) {
         v /= length(v);
         return assume_normalized(v);
     }
 
     template<class R>
-    Vector3<R> cross(Vector3<R> lhs, Vector3<R> rhs) {
-        return Vector3<R> {
+    AVML_FINL Vector3R<R> cross(Vector3R<R> lhs, Vector3R<R> rhs) {
+        return Vector3R<R>{
             lhs[1] * rhs[2] - lhs[2] * rhs[1],
             lhs[2] * rhs[0] - lhs[0] * rhs[2],
             lhs[0] * rhs[1] - lhs[1] * rhs[0]
@@ -260,25 +264,24 @@ namespace avml {
     }
 
     template<class R>
-    Vector3<R> project(Vector3<R> a, Vector3<R> b) {
+    AVML_FINL Vector3R<R> project(Vector3R<R> a, Vector3R<R> b) {
         return (dot(a, b) / dot(b, b)) * b;
     }
 
     template<class R>
-    Vector3<R> project(Vector3<R> a, Unit_vector3<R> b) {
+    AVML_FINL Vector3R<R> project(Vector3R<R> a, Unit_vector3R <R> b) {
         return dot(a, b) * b;
     }
 
     template<class R>
-    Vector3<R> project_onto_plane(Vector3<R> v, Unit_vector3<R> normal) {
+    AVML_FINL Vector3R<R> project_onto_plane(Vector3R<R> v, Unit_vector3R <R> normal) {
         return (v - project(v, normal));
     }
 
     template<class R>
-    Vector3<R> rotate(Vector3<R> v, R angle, Unit_vector3<R> axis) {
+    AVML_FINL Vector3R<R> rotate(Vector3R<R> v, R angle, Unit_vector3R <R> axis) {
         using std::sin;
         using std::cos;
-
         R s = sin(angle);
         R c = cos(angle);
 
@@ -286,15 +289,14 @@ namespace avml {
     }
 
     template<class R>
-    Unit_vector3<R> rotate(Unit_vector3<R> v, R angle, Unit_vector3<R> axis) {
-        return Unit_vector3<R>::read_aligned(rotate(static_cast<Vector3<R>>(v), angle, axis).data());
+    AVML_FINL Unit_vector3R <R> rotate(Unit_vector3R <R> v, R angle, Unit_vector3R <R> axis) {
+        return Unit_vector3R<R>::read_aligned(rotate(static_cast<Vector3R<R>>(v), angle, axis).data());
     }
 
     template<class R>
-    Vector3<R> rotate_x(Vector3<R> v, R angle) {
+    AVML_FINL Vector3R<R> rotate_x(Vector3R<R> v, R angle) {
         using std::sin;
         using std::cos;
-
         R s = sin(angle);
         R c = cos(angle);
 
@@ -305,10 +307,9 @@ namespace avml {
     }
 
     template<class R>
-    Vector3<R> rotate_y(Vector3<R> v, R angle) {
+    AVML_FINL Vector3R<R> rotate_y(Vector3R<R> v, R angle) {
         using std::sin;
         using std::cos;
-
         R s = sin(angle);
         R c = cos(angle);
 
@@ -319,10 +320,9 @@ namespace avml {
     }
 
     template<class R>
-    Vector3<R> rotate_z(Vector3<R> v, R angle) {
+    AVML_FINL Vector3R<R> rotate_z(Vector3R<R> v, R angle) {
         using std::sin;
         using std::cos;
-
         R s = sin(angle);
         R c = cos(angle);
 
@@ -333,13 +333,13 @@ namespace avml {
     }
 
     template<class R>
-    Vector3<R> reflect(Vector3<R> v, Unit_vector3<R> normal) {
-        return 2 * dot(v, normal) * normal - v;
+    AVML_FINL Vector3R<R> reflect(Vector3R<R> v, Unit_vector3R <R> normal) {
+        return R{2} * dot(v, normal) * normal - v;
     }
 
     template<class R>
-    Unit_vector3<R> reflect(Unit_vector3<R> v, Unit_vector3<R> normal) {
-        return Unit_vector3<R>::read_aligned(reflect(static_cast<Vector3<R>>(v), normal).data());
+    AVML_FINL Unit_vector3R <R> reflect(Unit_vector3R <R> v, Unit_vector3R <R> normal) {
+        return Unit_vector3R<R>::read_aligned(reflect(static_cast<Vector3R<R>>(v), normal).data());
     }
 
     //=====================================================
@@ -347,7 +347,7 @@ namespace avml {
     //=====================================================
 
     template<class R>
-    Vector3<R> abs(Vector3<R> v) {
+    AVML_FINL Vector3R<R> abs(Vector3R<R> v) {
         using std::abs;
         v[0] = abs(v[0]);
         v[1] = abs(v[1]);
@@ -356,7 +356,7 @@ namespace avml {
     }
 
     template<class R>
-    Vector3<R> max(Vector3<R> u, Vector3<R> v) {
+    AVML_FINL Vector3R<R> max(Vector3R<R> u, Vector3R<R> v) {
         using std::max;
         u[0] = max(u[0], v[0]);
         u[1] = max(u[1], v[1]);
@@ -365,7 +365,7 @@ namespace avml {
     }
 
     template<class R>
-    Vector3<R> min(Vector3<R> u, Vector3<R> v) {
+    AVML_FINL Vector3R<R> min(Vector3R<R> u, Vector3R<R> v) {
         using std::min;
         u[0] = min(u[0], v[0]);
         u[1] = min(u[1], v[1]);
@@ -380,201 +380,201 @@ namespace avml {
     // Single component
 
     template<class R>
-    R x(Vector3<R> v) {
+    AVML_FINL R x(Vector3R<R> v) {
         return v[0];
     }
 
     template<class R>
-    R y(Vector3<R> v) {
+    AVML_FINL R y(Vector3R<R> v) {
         return v[1];
     }
 
     template<class R>
-    R z(Vector3<R> v) {
+    AVML_FINL R z(Vector3R<R> v) {
         return v[2];
     }
 
     // Two components
 
     template<class R>
-    Vector3<R> xx(Vector3<R> v) {
+    AVML_FINL Vector2R <R> xx(Vector3R<R> v) {
         return {v[0], v[0]};
     }
 
     template<class R>
-    Vector3<R> xy(Vector3<R> v) {
+    AVML_FINL Vector2R <R> xy(Vector3R<R> v) {
         return {v[0], v[1]};
     }
 
     template<class R>
-    Vector3<R> xz(Vector3<R> v) {
+    AVML_FINL Vector2R <R> xz(Vector3R<R> v) {
         return {v[0], v[2]};
     }
 
     template<class R>
-    Vector3<R> yx(Vector3<R> v) {
+    AVML_FINL Vector2R <R> yx(Vector3R<R> v) {
         return {v[1], v[0]};
     }
 
     template<class R>
-    Vector3<R> yy(Vector3<R> v) {
+    AVML_FINL Vector2R <R> yy(Vector3R<R> v) {
         return {v[1], v[1]};
     }
 
     template<class R>
-    Vector3<R> yz(Vector3<R> v) {
+    AVML_FINL Vector2R <R> yz(Vector3R<R> v) {
         return {v[1], v[2]};
     }
 
     template<class R>
-    Vector3<R> zx(Vector3<R> v) {
+    AVML_FINL Vector2R <R> zx(Vector3R<R> v) {
         return {v[2], v[0]};
     }
 
     template<class R>
-    Vector3<R> zy(Vector3<R> v) {
+    AVML_FINL Vector2R <R> zy(Vector3R<R> v) {
         return {v[2], v[1]};
     }
 
     template<class R>
-    Vector3<R> zz(Vector3<R> v) {
+    AVML_FINL Vector2R <R> zz(Vector3R<R> v) {
         return {v[2], v[2]};
     }
 
     // Three components
 
     template<class R>
-    Vector3<R> xxx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xxx(Vector3R<R> v) {
         return {v[0], v[0], v[0]};
     }
 
     template<class R>
-    Vector3<R> xxy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xxy(Vector3R<R> v) {
         return {v[0], v[0], v[1]};
     }
 
     template<class R>
-    Vector3<R> xxz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xxz(Vector3R<R> v) {
         return {v[0], v[0], v[2]};
     }
 
     template<class R>
-    Vector3<R> xyx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xyx(Vector3R<R> v) {
         return {v[0], v[1], v[0]};
     }
 
     template<class R>
-    Vector3<R> xyy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xyy(Vector3R<R> v) {
         return {v[0], v[1], v[1]};
     }
 
     template<class R>
-    Vector3<R> xyz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xyz(Vector3R<R> v) {
         return {v[0], v[1], v[2]};
     }
 
     template<class R>
-    Vector3<R> xzx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xzx(Vector3R<R> v) {
         return {v[0], v[2], v[0]};
     }
 
     template<class R>
-    Vector3<R> xzy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xzy(Vector3R<R> v) {
         return {v[0], v[2], v[1]};
     }
 
     template<class R>
-    Vector3<R> xzz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> xzz(Vector3R<R> v) {
         return {v[0], v[2], v[2]};
     }
 
     template<class R>
-    Vector3<R> yxx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yxx(Vector3R<R> v) {
         return {v[1], v[0], v[0]};
     }
 
     template<class R>
-    Vector3<R> yxy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yxy(Vector3R<R> v) {
         return {v[1], v[0], v[1]};
     }
 
     template<class R>
-    Vector3<R> yxz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yxz(Vector3R<R> v) {
         return {v[1], v[0], v[2]};
     }
 
     template<class R>
-    Vector3<R> yyx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yyx(Vector3R<R> v) {
         return {v[1], v[1], v[0]};
     }
 
     template<class R>
-    Vector3<R> yyy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yyy(Vector3R<R> v) {
         return {v[1], v[1], v[1]};
     }
 
     template<class R>
-    Vector3<R> yyz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yyz(Vector3R<R> v) {
         return {v[1], v[1], v[2]};
     }
 
     template<class R>
-    Vector3<R> yzx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yzx(Vector3R<R> v) {
         return {v[1], v[2], v[0]};
     }
 
     template<class R>
-    Vector3<R> yzy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yzy(Vector3R<R> v) {
         return {v[1], v[2], v[1]};
     }
 
     template<class R>
-    Vector3<R> yzz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> yzz(Vector3R<R> v) {
         return {v[1], v[2], v[2]};
     }
 
     template<class R>
-    Vector3<R> zxx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zxx(Vector3R<R> v) {
         return {v[2], v[0], v[0]};
     }
 
     template<class R>
-    Vector3<R> zxy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zxy(Vector3R<R> v) {
         return {v[2], v[0], v[1]};
     }
 
     template<class R>
-    Vector3<R> zxz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zxz(Vector3R<R> v) {
         return {v[2], v[0], v[2]};
     }
 
     template<class R>
-    Vector3<R> zyx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zyx(Vector3R<R> v) {
         return {v[2], v[1], v[0]};
     }
 
     template<class R>
-    Vector3<R> zyy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zyy(Vector3R<R> v) {
         return {v[2], v[1], v[1]};
     }
 
     template<class R>
-    Vector3<R> zyz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zyz(Vector3R<R> v) {
         return {v[2], v[1], v[2]};
     }
 
     template<class R>
-    Vector3<R> zzx(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zzx(Vector3R<R> v) {
         return {v[2], v[2], v[0]};
     }
 
     template<class R>
-    Vector3<R> zzy(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zzy(Vector3R<R> v) {
         return {v[2], v[2], v[1]};
     }
 
     template<class R>
-    Vector3<R> zzz(Vector3<R> v) {
+    AVML_FINL Vector3R<R> zzz(Vector3R<R> v) {
         return {v[2], v[2], v[2]};
     }
 

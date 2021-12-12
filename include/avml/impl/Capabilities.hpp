@@ -141,4 +141,4 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
 
 
-#endif //AVML_IMPL_CAPABILITIES_HPP
+#endif //AVML_CAPABILITIES_HPP

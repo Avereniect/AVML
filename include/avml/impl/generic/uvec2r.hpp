@@ -1,10 +1,10 @@
-#ifndef AVML_DEF_UVEC2_IPP
-#define AVML_DEF_UVEC2_IPP
+#ifndef AVML_GEN_UVEC2F_IPP
+#define AVML_GEN_UVEC2F_IPP
 
 namespace avml {
 
     template<class R>
-    class alignas(sizeof(R) * 2) Unit_vector2 {
+    class alignas(avml_impl::vector_alignment<R, 2>()) Unit_vector2 {
     public:
 
         using scalar = R;
@@ -30,7 +30,6 @@ namespace avml {
         AVML_FINL Unit_vector2(R x, R y):
             elements() {
             using std::sqrt;
-
             R length = sqrt(x * x + y * y);
 
             elements[0] = x / length;
@@ -39,7 +38,7 @@ namespace avml {
 
         Unit_vector2() = default;
         Unit_vector2(const Unit_vector2&) = default;
-        Unit_vector2(Unit_vector2&&) = default;
+        Unit_vector2(Unit_vector2&&) noexcept = default;
         ~Unit_vector2() = default;
 
         //=================================================
@@ -47,7 +46,7 @@ namespace avml {
         //=================================================
 
         Unit_vector2& operator=(const Unit_vector2&) = default;
-        Unit_vector2& operator=(Unit_vector2&&) = default;
+        Unit_vector2& operator=(Unit_vector2&&) noexcept = default;
 
         //=================================================
         // Unary arithmetic operators
@@ -76,6 +75,18 @@ namespace avml {
             return elements;
         }
 
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        template<class U>
+        explicit operator Unit_vector2R<U>() const {
+            Unit_vector2R<U> ret;
+            ret.elements[0] = static_cast<U>(elements[0]);
+            ret.elements[1] = static_cast<U>(elements[1]);
+            return ret;
+        }
+
     private:
 
         //=================================================
@@ -96,7 +107,7 @@ namespace avml {
         using std::abs;
         data[0] = abs(v[0]);
         data[1] = abs(v[1]);
-        return uvec2f::read_aligned(data);
+        return Unit_vector2<R>::read_aligned(data);
     }
 
 }

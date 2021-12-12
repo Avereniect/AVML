@@ -4,7 +4,7 @@
 namespace avml {
 
     template<>
-    class alignas(alignof(float) * 4) Vector4<float> {
+    class alignas(alignof(float) * 4) Vector4R<float> {
     public:
 
         using scalar = float;
@@ -15,67 +15,67 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Vector4 read(const float* p) {
-            return Vector4{p[0], p[1], p[2], p[3]};
+        AVML_FINL static Vector4R read(const float* p) {
+            return Vector4R{p[0], p[1], p[2], p[3]};
         }
 
-        AVML_FINL static Vector4 read_aligned(const float* p) {
-            return Vector4{p[0], p[1], p[2], p[3]};
+        AVML_FINL static Vector4R read_aligned(const float* p) {
+            return Vector4R{p[0], p[1], p[2], p[3]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        explicit AVML_FINL Vector4(float v):
+        explicit AVML_FINL Vector4R(float v):
             elements{v, v, v, v} {}
 
-        AVML_FINL Vector4(float x, float y, float z, float w):
+        AVML_FINL Vector4R(float x, float y, float z, float w):
             elements{x, y, z, w} {}
 
-        AVML_FINL Vector4(uvec4f v):
+        AVML_FINL Vector4R(uvec4f v):
             elements{v[0], v[1], v[2], v[3]} {}
 
-        AVML_FINL Vector4(vec2f v, float z, float w):
+        AVML_FINL Vector4R(vec2f v, float z, float w):
             elements{v[0], v[1], z, w} {}
 
-        AVML_FINL Vector4(float x, vec2f v, float w):
+        AVML_FINL Vector4R(float x, vec2f v, float w):
             elements{x, v[0], v[1], w} {}
 
-        AVML_FINL Vector4(float x, float y, vec2f v):
+        AVML_FINL Vector4R(float x, float y, vec2f v):
             elements{x, y, v[0], v[1]} {}
 
-        AVML_FINL Vector4(vec2f v, vec2f u):
+        AVML_FINL Vector4R(vec2f v, vec2f u):
             elements{v[0], v[1], u[0], u[1]} {}
 
-        AVML_FINL Vector4(vec3f v, float w):
+        AVML_FINL Vector4R(vec3f v, float w):
             elements{v[0], v[1], v[2], w} {}
 
-        AVML_FINL Vector4(float x, vec3f v):
+        AVML_FINL Vector4R(float x, vec3f v):
             elements{x, v[0], v[1], v[2]} {}
 
-        Vector4() = default;
-        Vector4(const Vector4&) = default;
-        Vector4(Vector4&&) = default;
-        ~Vector4() = default;
+        Vector4R() = default;
+        Vector4R(const Vector4R&) = default;
+        Vector4R(Vector4R&&) = default;
+        ~Vector4R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Vector4& operator=(const Vector4&) = default;
-        Vector4& operator=(Vector4&&) = default;
+        Vector4R& operator=(const Vector4R&) = default;
+        Vector4R& operator=(Vector4R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Vector4 operator+() const {
+        AVML_FINL Vector4R operator+() const {
             return *this;
         }
 
-        AVML_FINL Vector4 operator-() const {
-            return Vector4{
+        AVML_FINL Vector4R operator-() const {
+            return Vector4R{
                 -elements[0],
                 -elements[1],
                 -elements[2],
@@ -87,42 +87,42 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Vector4& operator+=(const Vector4& rhs) {
+        AVML_FINL Vector4R& operator+=(const Vector4R& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] += rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector4& operator-=(const Vector4& rhs) {
+        AVML_FINL Vector4R& operator-=(const Vector4R& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector4& operator*=(const scalar rhs) {
+        AVML_FINL Vector4R& operator*=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Vector4& operator*=(const Vector4 rhs) {
+        AVML_FINL Vector4R& operator*=(const Vector4R rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector4& operator/=(const Vector4 rhs) {
+        AVML_FINL Vector4R& operator/=(const Vector4R rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector4& operator/=(const scalar rhs) {
+        AVML_FINL Vector4R& operator/=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs;
             }

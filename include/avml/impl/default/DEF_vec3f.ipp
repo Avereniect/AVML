@@ -4,7 +4,7 @@
 namespace avml {
 
     template<>
-    class alignas(alignof(float) * 1) Vector3<float> {
+    class alignas(alignof(float) * 1) Vector3R<float> {
     public:
 
         using scalar = float;
@@ -15,55 +15,55 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Vector3 read(const float* p) {
-            return Vector3{p[0], p[1], p[2]};
+        AVML_FINL static Vector3R read(const float* p) {
+            return Vector3R{p[0], p[1], p[2]};
         }
 
-        AVML_FINL static Vector3 read_aligned(const float* p) {
-            return Vector3{p[0], p[1], p[2]};
+        AVML_FINL static Vector3R read_aligned(const float* p) {
+            return Vector3R{p[0], p[1], p[2]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Vector3(float v):
+        AVML_FINL Vector3R(float v):
             elements{v, v, v} {}
 
-        AVML_FINL Vector3(float x, float y, float z):
+        AVML_FINL Vector3R(float x, float y, float z):
             elements{x, y, z} {}
 
-        AVML_FINL Vector3(uvec3f v):
+        AVML_FINL Vector3R(uvec3f v):
             elements{v[0], v[1], v[2]} {}
 
-        AVML_FINL Vector3(vec2f v, float z):
+        AVML_FINL Vector3R(vec2f v, float z):
             elements{v[0], v[1], z} {}
 
-        AVML_FINL Vector3(float w, vec2f v):
+        AVML_FINL Vector3R(float w, vec2f v):
             elements{w, v[0], v[1]} {}
 
-        Vector3() = default;
-        Vector3(const Vector3&) = default;
-        Vector3(Vector3&&) = default;
-        ~Vector3() = default;
+        Vector3R() = default;
+        Vector3R(const Vector3R&) = default;
+        Vector3R(Vector3R&&) = default;
+        ~Vector3R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Vector3& operator=(const Vector3&) = default;
-        Vector3& operator=(Vector3&&) = default;
+        Vector3R& operator=(const Vector3R&) = default;
+        Vector3R& operator=(Vector3R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Vector3 operator+() const {
+        AVML_FINL Vector3R operator+() const {
             return *this;
         }
 
-        AVML_FINL Vector3 operator-() const {
-            return Vector3{
+        AVML_FINL Vector3R operator-() const {
+            return Vector3R{
                 -elements[0],
                 -elements[1],
                 -elements[2],
@@ -74,42 +74,42 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Vector3& operator+=(const Vector3& rhs) {
+        AVML_FINL Vector3R& operator+=(const Vector3R& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] += rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator-=(const Vector3& rhs) {
+        AVML_FINL Vector3R& operator-=(const Vector3R& rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] -= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator*=(const scalar rhs) {
+        AVML_FINL Vector3R& operator*=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator*=(const Vector3 rhs) {
+        AVML_FINL Vector3R& operator*=(const Vector3R rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] *= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator/=(const Vector3 rhs) {
+        AVML_FINL Vector3R& operator/=(const Vector3R rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Vector3& operator/=(const scalar rhs) {
+        AVML_FINL Vector3R& operator/=(const scalar rhs) {
             for (unsigned i = 0; i < width; ++i) {
                 elements[i] /= rhs;
             }

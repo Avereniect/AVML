@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#include "impl/Capabilities.hpp"
+
 namespace avml {
 
     //=====================================================
@@ -10,81 +12,94 @@ namespace avml {
     //=====================================================
 
     template<class R>
-    class Unit_vector2;
+    class Unit_vector2R;
 
     template<class R>
-    class Unit_vector3;
+    class Unit_vector3R;
 
     template<class R>
-    class Unit_vector4;
+    class Unit_vector4R;
 
     template<class R>
-    class Vector2;
+    class Vector2R;
 
     template<class R>
-    class Vector3;
+    class Vector3R;
 
     template<class R>
-    class Vector4;
+    class Vector4R;
+
+    template<class I>
+    class Vector2I;
+
+    template<class I>
+    class Vector3I;
+
+    template<class I>
+    class Vector4I;
 
     //=====================================================
     // Unit vector aliases
     //=====================================================
 
-    using uvec2f = Unit_vector2<float>;
-    using uvec3f = Unit_vector3<float>;
-    using uvec4f = Unit_vector4<float>;
+    using uvec2f = Unit_vector2R<float>;
+    using uvec3f = Unit_vector3R<float>;
+    using uvec4f = Unit_vector4R<float>;
 
-
-    using uvec2d = Unit_vector2<double>;
-    using uvec3d = Unit_vector3<double>;
-    using uvec4d = Unit_vector4<double>;
+    using uvec2d = Unit_vector2R<double>;
+    using uvec3d = Unit_vector3R<double>;
+    using uvec4d = Unit_vector4R<double>;
 
     //=====================================================
     // Vector aliases
     //=====================================================
 
-    using vec2f = Vector2<float>;
-    using vec3f = Vector3<float>;
-    using vec4f = Vector4<float>;
+    using vec2f = Vector2R<float>;
+    using vec3f = Vector3R<float>;
+    using vec4f = Vector4R<float>;
 
+    using vec2d = Vector2R<double>;
+    using vec3d = Vector3R<double>;
+    using vec4d = Vector4R<double>;
 
-    using vec2d = Vector2<double>;
-    using vec3d = Vector3<double>;
-    using vec4d = Vector4<double>;
+    using vec2i = Vector2I<std::int32_t>;
+    using vec3i = Vector3I<std::int32_t>;
+    using vec4i = Vector4I<std::int32_t>;
+
+    using vec2u = Vector2I<std::uint32_t>;
+    using vec3u = Vector3I<std::uint32_t>;
+    using vec4u = Vector4I<std::uint32_t>;
 
 
     /*
-    using vec2u8 = Vector<std::uint8_t, 2>;
-    using vec3u8 = Vector<std::uint8_t, 3>;
-    using vec4u8 = Vector<std::uint8_t, 4>;
+    using vec2u8 = Vector2I<std::uint8_t>;
+    using vec3u8 = Vector3I<std::uint8_t>;
+    using vec4u8 = Vector4I<std::uint8_t>;
 
-    using vec2i8 = Vector<std::int8_t, 2>;
-    using vec3i8 = Vector<std::int8_t, 3>;
-    using vec4i8 = Vector<std::int8_t, 4>;
+    using vec2i8 = Vector2I<std::int8_t>;
+    using vec3i8 = Vector3I<std::int8_t>;
+    using vec4i8 = Vector4I<std::int8_t>;
 
+    using vec2u16 = Vector2I<std::uint16_t>;
+    using vec3u16 = Vector3I<std::uint16_t>;
+    using vec4u16 = Vector4I<std::uint16_t>;
 
-    using vec2u16 = Vector<std::uint16_t, 2>;
-    using vec3u16 = Vector<std::uint16_t, 3>;
-    using vec4u16 = Vector<std::uint16_t, 4>;
+    using vec2i16 = Vector2I<std::int16_t>;
+    using vec3i16 = Vector3I<std::int16_t>;
+    using vec4i16 = Vector4I<std::int16_t>;
 
-    using vec2i16 = Vector<std::int16_t, 2>;
-    using vec3i16 = Vector<std::int16_t, 3>;
-    using vec4i16 = Vector<std::int16_t, 4>;
+    using vec2u32 = Vector2I<std::uint16_t>;
+    using vec3u32 = Vector3I<std::uint16_t>;
+    using vec4u32 = Vector4I<std::uint16_t>;
 
-
-    using vec2u = Vector<std::uint32_t, 2>;
-    using vec3u = Vector<std::uint32_t, 3>;
-    using vec4u = Vector<std::uint32_t, 4>;
-
-    using vec2i = Vector<std::int32_t, 2>;
-    using vec3i = Vector<std::int32_t, 3>;
-    using vec4i = Vector<std::int32_t, 4>;
+    using vec2i32 = Vector2I<std::int32_t>;
+    using vec3i32 = Vector3I<std::int32_t>;
+    using vec4i32 = Vector4I<std::int32_t>;
     */
 
 }
 
-#include "impl/IMPL_vectors.hpp"
+#include "impl/Vectors.hpp"
 
 namespace avml {
 

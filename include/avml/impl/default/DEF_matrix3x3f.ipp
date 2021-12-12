@@ -4,7 +4,7 @@
 namespace avml {
 
     template<>
-    class alignas(alignof(float) * 1 * 1) Matrix3x3<float> {
+    class alignas(alignof(float) * 1 * 1) Matrix3x3R<float> {
     public:
 
         using scalar = float;
@@ -17,16 +17,16 @@ namespace avml {
         // Creation methods
         //=================================================
 
-        AVML_FINL static Matrix3x3 read(const float* ptr) {
-            Matrix3x3 ret;
+        AVML_FINL static Matrix3x3R read(const float* ptr) {
+            Matrix3x3R ret;
             ret[0] = vector::read(ptr + 0x0);
             ret[1] = vector::read(ptr + 0x3);
             ret[2] = vector::read(ptr + 0x6);
             return ret;
         }
 
-        AVML_FINL static Matrix3x3 read_aligned(const float* ptr) {
-            Matrix3x3 ret;
+        AVML_FINL static Matrix3x3R read_aligned(const float* ptr) {
+            Matrix3x3R ret;
             ret[0] = vector::read_aligned(ptr + 0x0);
             ret[1] = vector::read_aligned(ptr + 0x3);
             ret[2] = vector::read_aligned(ptr + 0x6);
@@ -37,14 +37,14 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL explicit Matrix3x3(float d):
+        AVML_FINL explicit Matrix3x3R(float d):
             elements {
                 {d, 0.0f, 0.0f},
                 {0.0f, d, 0.0f},
                 {0.0f, 0.0f, d}
         } {}
 
-        AVML_FINL Matrix3x3(
+        AVML_FINL Matrix3x3R(
             float a, float b, float c,
             float d, float e, float f,
             float g, float h, float i):
@@ -54,35 +54,35 @@ namespace avml {
                 {g, h, i}
             } {}
 
-        AVML_FINL Matrix3x3(vector a, vector b, vector c):
+        AVML_FINL Matrix3x3R(vector a, vector b, vector c):
             elements{
                 {a[0], a[1], a[2]},
                 {b[0], b[1], b[2]},
                 {c[0], c[1], c[2]}
         } {}
 
-        Matrix3x3() = default;
-        Matrix3x3(const Matrix3x3&) = default;
-        Matrix3x3(Matrix3x3&&) = default;
-        ~Matrix3x3() = default;
+        Matrix3x3R() = default;
+        Matrix3x3R(const Matrix3x3R&) = default;
+        Matrix3x3R(Matrix3x3R&&) = default;
+        ~Matrix3x3R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Matrix3x3& operator=(const Matrix3x3&) = default;
-        Matrix3x3& operator=(Matrix3x3&&) = default;
+        Matrix3x3R& operator=(const Matrix3x3R&) = default;
+        Matrix3x3R& operator=(Matrix3x3R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Matrix3x3 operator+() const {
+        AVML_FINL Matrix3x3R operator+() const {
             return *this;
         }
 
-        AVML_FINL Matrix3x3 operator-() const {
-            return Matrix3x3{
+        AVML_FINL Matrix3x3R operator-() const {
+            return Matrix3x3R{
                 -operator[](0),
                 -operator[](1),
                 -operator[](2),
@@ -93,35 +93,35 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Matrix3x3& operator*=(scalar rhs) {
+        AVML_FINL Matrix3x3R& operator*=(scalar rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Matrix3x3& operator/=(scalar rhs) {
+        AVML_FINL Matrix3x3R& operator/=(scalar rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) /= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Matrix3x3& operator+=(const Matrix3x3& rhs) {
+        AVML_FINL Matrix3x3R& operator+=(const Matrix3x3R& rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) += rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Matrix3x3& operator-=(const Matrix3x3& rhs) {
+        AVML_FINL Matrix3x3R& operator-=(const Matrix3x3R& rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) -= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Matrix3x3& operator*=(const Matrix3x3& rhs) {
+        AVML_FINL Matrix3x3R& operator*=(const Matrix3x3R& rhs) {
             auto ret = *this;
             for (unsigned i = 0; i < height; ++i) {
                 for (unsigned j = 0; j < width; ++j) {

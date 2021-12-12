@@ -4,7 +4,7 @@
 namespace avml {
 
     template<>
-    class alignas(alignof(float) * 4 * 4) Matrix4x4<float> {
+    class alignas(alignof(float) * 4 * 4) Matrix4x4R<float> {
     public:
 
         using scalar = float;
@@ -17,8 +17,8 @@ namespace avml {
         // Creation methods
         //=================================================
 
-        AVML_FINL static Matrix4x4 read(const float* ptr) {
-            Matrix4x4 ret;
+        AVML_FINL static Matrix4x4R read(const float* ptr) {
+            Matrix4x4R ret;
             ret[0] = vector::read(ptr + 0x0);
             ret[1] = vector::read(ptr + 0x4);
             ret[2] = vector::read(ptr + 0x8);
@@ -26,8 +26,8 @@ namespace avml {
             return ret;
         }
 
-        AVML_FINL static Matrix4x4 read_aligned(const float* ptr) {
-            Matrix4x4 ret;
+        AVML_FINL static Matrix4x4R read_aligned(const float* ptr) {
+            Matrix4x4R ret;
             ret[0] = vector::read_aligned(ptr + 0x0);
             ret[1] = vector::read_aligned(ptr + 0x4);
             ret[2] = vector::read_aligned(ptr + 0x8);
@@ -39,7 +39,7 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL explicit Matrix4x4(float d):
+        AVML_FINL explicit Matrix4x4R(float d):
             elements {
                 {d, 0.0f, 0.0f, 0.0f},
                 {0.0f, d, 0.0f, 0.0f},
@@ -47,7 +47,7 @@ namespace avml {
                 {0.0f, 0.0f, 0.0f, d}
         } {}
 
-        AVML_FINL Matrix4x4(
+        AVML_FINL Matrix4x4R(
             float a, float b, float c, float d,
             float e, float f, float g, float h,
             float i, float j, float k, float l,
@@ -59,7 +59,7 @@ namespace avml {
                 {m, n, o, p}
             } {}
 
-        AVML_FINL Matrix4x4(vector a, vector b, vector c, vector d):
+        AVML_FINL Matrix4x4R(vector a, vector b, vector c, vector d):
             elements{
                 {a[0], a[1], a[2], a[3]},
                 {b[0], b[1], b[2], b[3]},
@@ -67,28 +67,28 @@ namespace avml {
                 {d[0], d[1], d[2], d[3]}
         } {}
 
-        Matrix4x4() = default;
-        Matrix4x4(const Matrix4x4&) = default;
-        Matrix4x4(Matrix4x4&&) = default;
-        ~Matrix4x4() = default;
+        Matrix4x4R() = default;
+        Matrix4x4R(const Matrix4x4R&) = default;
+        Matrix4x4R(Matrix4x4R&&) = default;
+        ~Matrix4x4R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Matrix4x4& operator=(const Matrix4x4&) = default;
-        Matrix4x4& operator=(Matrix4x4&&) = default;
+        Matrix4x4R& operator=(const Matrix4x4R&) = default;
+        Matrix4x4R& operator=(Matrix4x4R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Matrix4x4 operator+() const {
+        AVML_FINL Matrix4x4R operator+() const {
             return *this;
         }
 
-        AVML_FINL Matrix4x4 operator-() const {
-            return Matrix4x4{
+        AVML_FINL Matrix4x4R operator-() const {
+            return Matrix4x4R{
                 -operator[](0),
                 -operator[](1),
                 -operator[](2),
@@ -100,36 +100,36 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Matrix4x4& operator*=(scalar rhs) {
+        AVML_FINL Matrix4x4R& operator*=(scalar rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Matrix4x4& operator/=(scalar rhs) {
+        AVML_FINL Matrix4x4R& operator/=(scalar rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) /= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Matrix4x4& operator+=(const Matrix4x4& rhs) {
+        AVML_FINL Matrix4x4R& operator+=(const Matrix4x4R& rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) += rhs.operator[](i);
             }
             return *this;
         }
 
-        AVML_FINL Matrix4x4& operator-=(const Matrix4x4& rhs) {
+        AVML_FINL Matrix4x4R& operator-=(const Matrix4x4R& rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) -= rhs.operator[](i);
             }
             return *this;
         }
 
-        AVML_FINL Matrix4x4& operator*=(const Matrix4x4& rhs) {
-            Matrix4x4 result{};
+        AVML_FINL Matrix4x4R& operator*=(const Matrix4x4R& rhs) {
+            Matrix4x4R result{};
             for (unsigned i = 0; i < height; ++i) {
                 for (unsigned j = 0; j < width; ++j) {
                     float tmp = 0.0f;

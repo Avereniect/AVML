@@ -1,10 +1,10 @@
-#ifndef AVML_DEF_MATRIX2X2F_IPP
-#define AVML_DEF_MATRIX2X2F_IPP
+#ifndef AVML_DEF_Matrix2x2F_IPP
+#define AVML_DEF_Matrix2x2F_IPP
 
 namespace avml {
 
     template<>
-    class alignas(alignof(float) * 2 * 2) Matrix2x2<float> {
+    class alignas(alignof(float) * 2 * 2) Matrix2x2R<float> {
     public:
 
         using scalar = float;
@@ -17,15 +17,15 @@ namespace avml {
         // Creation methods
         //=================================================
 
-        AVML_FINL static Matrix2x2 read(const float* ptr) {
-            Matrix2x2 ret;
+        AVML_FINL static Matrix2x2R read(const float* ptr) {
+            Matrix2x2R ret;
             ret[0] = vector::read(ptr + 0x0);
             ret[1] = vector::read(ptr + 0x2);
             return ret;
         }
 
-        AVML_FINL static Matrix2x2 read_aligned(const float* ptr) {
-            Matrix2x2 ret;
+        AVML_FINL static Matrix2x2R read_aligned(const float* ptr) {
+            Matrix2x2R ret;
             ret[0] = vector::read_aligned(ptr + 0x0);
             ret[1] = vector::read_aligned(ptr + 0x2);
             return ret;
@@ -35,46 +35,46 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL explicit Matrix2x2(float d) noexcept:
+        AVML_FINL explicit Matrix2x2R(float d) noexcept:
             elements {
                 {d, 0.0f},
                 {0.0f, d}
         } {}
 
-        AVML_FINL Matrix2x2(float a, float b, float c, float d):
+        AVML_FINL Matrix2x2R(float a, float b, float c, float d):
             elements{
                 {a, b},
                 {c, d}
             } {}
 
-        AVML_FINL Matrix2x2(vector a, vector b):
+        AVML_FINL Matrix2x2R(vector a, vector b):
             elements{
                 {a[0], a[1]},
                 {b[0], b[1]}
         } {}
 
-        Matrix2x2() = default;
-        Matrix2x2(const Matrix2x2&) = default;
-        Matrix2x2(Matrix2x2&&) = default;
-        ~Matrix2x2() = default;
+        Matrix2x2R() = default;
+        Matrix2x2R(const Matrix2x2R&) = default;
+        Matrix2x2R(Matrix2x2R&&) = default;
+        ~Matrix2x2R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Matrix2x2& operator=(const Matrix2x2&) = default;
-        Matrix2x2& operator=(Matrix2x2&&) = default;
+        Matrix2x2R& operator=(const Matrix2x2R&) = default;
+        Matrix2x2R& operator=(Matrix2x2R&&) = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Matrix2x2 operator+() const {
+        AVML_FINL Matrix2x2R operator+() const {
             return *this;
         }
 
-        AVML_FINL Matrix2x2 operator-() const {
-            return Matrix2x2{
+        AVML_FINL Matrix2x2R operator-() const {
+            return Matrix2x2R{
                 -operator[](0),
                 -operator[](1)
             };
@@ -84,35 +84,35 @@ namespace avml {
         // Arithmetic assignment operators
         //=================================================
 
-        AVML_FINL Matrix2x2& operator*=(scalar rhs) {
+        AVML_FINL Matrix2x2R& operator*=(scalar rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) *= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Matrix2x2& operator/=(scalar rhs) {
+        AVML_FINL Matrix2x2R& operator/=(scalar rhs) {
             for (unsigned i = 0; i < height; ++i) {
                  operator[](i) /= rhs;
             }
             return *this;
         }
 
-        AVML_FINL Matrix2x2& operator+=(const Matrix2x2& rhs) {
+        AVML_FINL Matrix2x2R& operator+=(const Matrix2x2R& rhs) {
             for (unsigned i = 0; i < height; ++i) {
                 operator[](i) += rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Matrix2x2& operator-=(const Matrix2x2& rhs) {
+        AVML_FINL Matrix2x2R& operator-=(const Matrix2x2R& rhs) {
             for (unsigned i = 0; i < height; ++i) {
                  operator[](i) -= rhs[i];
             }
             return *this;
         }
 
-        AVML_FINL Matrix2x2& operator*=(const Matrix2x2& rhs) {
+        AVML_FINL Matrix2x2R& operator*=(const Matrix2x2R& rhs) {
             auto ret = *this;
             for (unsigned i = 0; i < height; ++i) {
                 for (unsigned j = 0; j < width; ++j) {
