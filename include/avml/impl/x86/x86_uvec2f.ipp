@@ -1,10 +1,7 @@
-#ifndef AVML_X86_UVEC2F_IPP
-#define AVML_X86_UVEC2F_IPP
-
 namespace avml {
 
     template<>
-    class alignas(sizeof(float) * 2) Vector<float, 2> {
+    class alignas(alignof(float) * 2) Unit_vector2R<float> {
     public:
 
         using scalar = float;
@@ -15,94 +12,151 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Vector read(const float* p) {
-            return Vector{p[0], p[1]};
+        AVML_FINL static Unit_vector2R read(const float* p) {
+            Unit_vector2R ret;
+            #if defined(AVML_AVX512VL)
+            _mm_mask_storeu_ps(
+                (void*) p,
+                0x07,
+                _mm_maskz_loadu_ps(0x07, p)
+            );
+
+            #elif defined(AVML_AVX)
+            _mm_maskstore_ps(
+                ret.elements,
+                avml_impl::mask0111,
+                _mm_maskload_ps(p, avml_impl::mask0111)
+            );
+
+            #elif defined(AVML_SSE2)
+            _mm_store_sd(
+                reinterpret_cast<double*>(ret.elements),
+                _mm_load_sd(reinterpret_cast<const double*>(p))
+            );
+            #else
+            ret.elements[0] = p[0];
+            ret.elements[1] = p[1];
+
+            #endif
+            return ret;
         }
 
-        AVML_FINL static Vector read_aligned(const float* p) {
-            return Vector{p[0], p[1]};
+        AVML_FINL static Unit_vector2R read_aligned(const float* p) {
+            Unit_vector2R ret;
+            #if defined(AVML_SSE2)
+            avml_impl::store2f(ret.elements, avml_impl::load2f(p));
+            #else
+            ret.elements[0] = p[0];
+            ret.elements[1] = p[1];
+            #endif
+            return ret;
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Vector(float v):
-            elements{v, v} {}
+        AVML_FINL Unit_vector2R(float x, float y):
+            elements() {
 
-        AVML_FINL Vector(float x, float y):
-            elements{x, y} {}
+            #if defined(AVML_AVX)
+            __m128 r_x000 = _mm_set_ss(x);
+            __m128 r_y000 = _mm_set_ss(y);
+            __m128 r_xy00 = _mm_unpacklo_ps(r_x000, r_y000);
+            r_xy00 = _mm_mul_ps(r_xy00, r_xy00);
 
-        AVML_FINL Vector(uvec2f v):
-            elements{v[0], v[1]} {}
+            __m128 r_yx00 = _mm_permute_ps(r_xy00, 0xF1);
 
-        Vector() = default;
-        Vector(const Vector&) = default;
-        Vector(Vector&&) = default;
-        ~Vector() = default;
+            __m128 r_ll00 = _mm_add_ps(r_xy00, r_yx00);
+            r_ll00 = _mm_sqrt_ps(r_ll00);
+
+            r_xy00 = _mm_div_ps(r_xy00, r_ll00);
+            avml_impl::store2f(elements, r_xy00);
+
+            #elif defined(AVML_SSE)
+            __m128 r_x000 = _mm_load1_ps(&x);
+            __m128 r_y000 = _mm_load1_ps(&y);
+            __m128 r_xy00 = _mm_unpacklo_ps(r_x000, r_y000);
+            r_xy00 = _mm_mul_ps(r_xy00, r_xy00);
+
+            __m128 r_yx00 = _mm_shuffle_ps(r_xy00, r_xy00, 0xF1);
+
+            __m128 r_ll00 = _mm_add_ps(r_xy00, r_yx00);
+            r_ll00 = _mm_sqrt_ps(r_ll00);
+
+            r_xy00 = _mm_div_ps(r_xy00, r_ll00);
+            avml_impl::store2f(elements, r_xy00);
+            #else
+
+            elements[0] = x / length;
+            elements[1] = y / length;
+            #endif
+        }
+
+        Unit_vector2R() = default;
+        Unit_vector2R(const Unit_vector2R&) = default;
+        Unit_vector2R(Unit_vector2R&&) noexcept = default;
+        ~Unit_vector2R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Vector& operator=(const Vector&) = default;
-        Vector& operator=(Vector&&) = default;
+        Unit_vector2R& operator=(const Unit_vector2R&) = default;
+        Unit_vector2R& operator=(Unit_vector2R&&) noexcept = default;
 
         //=================================================
-        // Arithmetic assignment operators
+        // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Vector& operator+=(const Vector& rhs) {
-            __m128 a = aligned_load(elements);
-            __m128 b = aligned_load(rhs.elements);
-
-            aligned_store(elements, _mm_add_ps(a, b));
+        AVML_FINL Unit_vector2R operator+() const {
             return *this;
         }
 
-        AVML_FINL Vector& operator-=(const Vector& rhs) {
-            __m128 a = aligned_load(elements);
-            __m128 b = aligned_load(rhs.elements);
+        AVML_FINL Unit_vector2R operator-() const {
+            Unit_vector2R ret;
 
-            aligned_store(elements, _mm_sub_ps(a, b));
-            return *this;
-        }
+            #ifdef AVML_SSE
+            __m128 r_xy00 = avml_impl::load2f(elements);
+            __m128 diff = _mm_sub_ps(_mm_setzero_ps(), r_xy00);
+            avml_impl::store2f(ret.elements, diff);
+            #else
+            ret.elements[0] = -elements[0];
+            ret.elements[1] = -elements[1];
+            #endif
 
-        AVML_FINL Vector& operator*=(const scalar rhs) {
-            __m128 a = aligned_load(elements);
-            __m128 b = _mm_set1_ps(rhs);
-
-            aligned_store(elements, _mm_mul_ps(a, b));
-            return *this;
-        }
-
-        AVML_FINL Vector& operator/=(const scalar rhs) {
-            __m128 a = aligned_load(elements);
-            __m128 b = _mm_set1_ps(rhs);
-
-            aligned_store(elements, _mm_div_ps(a, b));
-            return *this;
+            return ret;
         }
 
         //=================================================
         // Accessors
         //=================================================
 
-        AVML_FINL float& operator[](unsigned i) {
-            return elements[i];
-        }
-
         AVML_FINL const float& operator[](unsigned i) const {
             return elements[i];
-        }
-
-        AVML_FINL float* data() {
-            return elements;
         }
 
         AVML_FINL const float* data() const {
             return elements;
         }
+
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        template<class U>
+        explicit operator Unit_vector2R<U>() const {
+            Unit_vector2R<U> ret;
+            ret.elements[0] = static_cast<U>(elements[0]);
+            ret.elements[1] = static_cast<U>(elements[1]);
+            return ret;
+        }
+
+        /*
+        explicit operator Unit_vector2R<double>() const {
+            //TODO: Implement
+        }
+        */
 
     private:
 
@@ -110,35 +164,7 @@ namespace avml {
         // Instance members
         //=================================================
 
-        float elements[width] = {0.0f, 0.0f};
-
-        //=================================================
-        // Helper functions
-        //=================================================
-
-        AVML_FINL __m128 aligned_load(const float* p) {
-            #if defined(AVML_AVX512F)
-            return _mm_maskz_load_ps(0x3, p);
-            #elif defined(AVML_AVX)
-            alignas(16) static constexpr std::int32_t mask_data[4]{0, 0, -1, -1};
-            __m128i mask = _mm_load_si128((__m128i*)mask_data);
-            return _mm_maskload_ps(p, mask);
-            #elif defined(AVML_SSE2)
-            return _mm_castpd_ps(_mm_load_sd((double*)p));
-            #endif
-        }
-
-        AVML_FINL void aligned_store(float* p, __m128 data) {
-            #if defined(AVML_AVX512F)
-            _mm_mask_store_ps(p, 0x3, data);
-            #elif defined(AVML_AVX)
-            alignas(16) static constexpr std::int32_t mask_data[4]{0, 0, -1, -1};
-            __m128i mask = _mm_load_si128((__m128i*)mask_data);
-            _mm_maskstore_ps(p, mask, data);
-            #elif defined(AVML_SSE2)
-            _mm_store_sd((double*)p, _mm_castps_pd(data));
-            #endif
-        }
+        float elements[width] = {1.0f, 0.0f};
 
     };
 
@@ -147,12 +173,22 @@ namespace avml {
     //=====================================================
 
     AVML_FINL uvec2f abs(uvec2f v) {
-        alignas(alignof(uvec2f)) float data[uvec2f::width];
-        data[0] = std::abs(v[0]);
-        data[1] = std::abs(v[1]);
-        return uvec2f::read_aligned(data);
+        #if defined(AVML_SSE)
+        __m128 mask = _mm_castsi128_ps(avml_impl::sign_bit_mask);
+        __m128 vec_data = avml_impl::load2f(v.data());
+        vec_data = _mm_and_ps(mask, vec_data);
+
+        uvec2f ret;
+        avml_impl::store2f(const_cast<float*>(ret.data()), vec_data);
+        return ret;
+
+        #else
+        float* data = const_cast<float*>(ret.data());
+        data[0] = -v[0];
+        data[1] = -v[1];
+        return v;
+
+        #endif
     }
 
 }
-
-#endif //AVML_X86_UVEC2F_IPP
