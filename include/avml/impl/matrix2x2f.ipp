@@ -1,6 +1,3 @@
-#ifndef AVML_DEF_Matrix2x2F_IPP
-#define AVML_DEF_Matrix2x2F_IPP
-
 namespace avml {
 
     template<>
@@ -8,7 +5,7 @@ namespace avml {
     public:
 
         using scalar = float;
-        using vector = vec2f;
+        using vector = Vector2R<float>;
 
         static constexpr unsigned width = 2;
         static constexpr unsigned height = 2;
@@ -156,53 +153,53 @@ namespace avml {
 
     };
 
-    AVML_FINL bool operator==(const mat2x2f& lhs, const mat2x2f& rhs) {
+    AVML_FINL bool operator==(const Matrix2x2R<float>& lhs, const Matrix2x2R<float>& rhs) {
         bool ret = true;
-        for (unsigned i = 0; i < mat2x2f::height; ++i) {
+        for (unsigned i = 0; i < Matrix2x2R<float>::height; ++i) {
             ret &= (lhs[i] == rhs[i]);
         }
         return ret;
     }
 
-    AVML_FINL bool operator!=(const mat2x2f& lhs, const mat2x2f& rhs) {
+    AVML_FINL bool operator!=(const Matrix2x2R<float>& lhs, const Matrix2x2R<float>& rhs) {
         return !(lhs == rhs);
     }
 
-    AVML_FINL mat2x2f operator+(mat2x2f lhs, mat2x2f rhs) {
+    AVML_FINL Matrix2x2R<float> operator+(Matrix2x2R<float> lhs, Matrix2x2R<float> rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL mat2x2f operator-(mat2x2f lhs, mat2x2f rhs) {
+    AVML_FINL Matrix2x2R<float> operator-(Matrix2x2R<float> lhs, Matrix2x2R<float> rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL mat2x2f operator*(mat2x2f lhs, float rhs) {
+    AVML_FINL Matrix2x2R<float> operator*(Matrix2x2R<float> lhs, float rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL mat2x2f operator*(float lhs, mat2x2f rhs) {
+    AVML_FINL Matrix2x2R<float> operator*(float lhs, Matrix2x2R<float> rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL mat2x2f operator/(mat2x2f lhs, float rhs) {
+    AVML_FINL Matrix2x2R<float> operator/(Matrix2x2R<float> lhs, float rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL mat2x2f operator*(mat2x2f lhs, mat2x2f rhs) {
+    AVML_FINL Matrix2x2R<float> operator*(Matrix2x2R<float> lhs, Matrix2x2R<float> rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL vec2f operator*(mat2x2f lhs, vec2f rhs) {
+    AVML_FINL vec2f operator*(Matrix2x2R<float> lhs, vec2f rhs) {
         vec2f ret{};
 
-        for (unsigned i = 0; i < mat2x2f::height; ++i) {
-            for (unsigned j = 0; j < mat2x2f::width; ++j) {
+        for (unsigned i = 0; i < Matrix2x2R<float>::height; ++i) {
+            for (unsigned j = 0; j < Matrix2x2R<float>::width; ++j) {
                 ret[i] += lhs[i][j] * rhs[j];
             }
         }
@@ -210,11 +207,11 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL mat2x2f transpose(const mat2x2f m) {
-        mat2x2f ret;
+    AVML_FINL Matrix2x2R<float> transpose(const Matrix2x2R<float> m) {
+        Matrix2x2R<float> ret;
 
-        for (unsigned i = 0; i < mat2x2f::height; ++i) {
-            for (unsigned j = 0; j < mat2x2f::width; ++j) {
+        for (unsigned i = 0; i < Matrix2x2R<float>::height; ++i) {
+            for (unsigned j = 0; j < Matrix2x2R<float>::width; ++j) {
                 ret[j][i] = m[i][j];
             }
         }
@@ -222,18 +219,18 @@ namespace avml {
         return ret;
     }
 
-    AVML_FINL float determinant(const mat2x2f& m) {
+    AVML_FINL float determinant(const Matrix2x2R<float>& m) {
         return m[0][0] * m[1][1] - m[0][1] * m[1][0];
     }
 
-    AVML_FINL mat2x2f inverse(const mat2x2f& m) {
+    AVML_FINL Matrix2x2R<float> inverse(const Matrix2x2R<float>& m) {
         auto det = determinant(m);
 
         if (det < (1.0f / 65536.0f)) {
-            return mat2x2f{NAN, NAN, NAN, NAN};
+            return Matrix2x2R<float>{NAN, NAN, NAN, NAN};
         }
 
-        return mat2x2f {
+        return Matrix2x2R<float> {
              m[1][1],
             -m[1][0],
             -m[0][1],
@@ -241,38 +238,5 @@ namespace avml {
         } / det;
     }
 
-    template<unsigned I = 0, unsigned J = 0>
-    AVML_FINL mat2x2f extract2x2(const mat3x3f m) {
-        static_assert(I < 2, "");
-        static_assert(J < 2, "");
-
-        mat2x2f ret;
-
-        for (unsigned i = 0; i < mat2x2f::height; ++i) {
-            for (unsigned j = 0; j < mat2x2f::width; ++j) {
-                ret[i][j] = m[i + I][j + J];
-            }
-        }
-
-        return ret;
-    }
-
-    template<unsigned I = 0, unsigned J = 0>
-    AVML_FINL mat2x2f extract2x2(const mat4x4f m) {
-        static_assert(I < 3, "");
-        static_assert(J < 3, "");
-
-        mat2x2f ret;
-
-        for (unsigned i = 0; i < mat2x2f::height; ++i) {
-            for (unsigned j = 0; j < mat2x2f::width; ++j) {
-                ret[i][j] = m[i + I][j + J];
-            }
-        }
-
-        return ret;
-    }
-
 }
 
-#endif

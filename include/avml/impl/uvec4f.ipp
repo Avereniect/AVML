@@ -50,7 +50,7 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector4R(float x, float y, float z, float w) :
+        AVML_FINL Unit_vector4R(float x, float y, float z, float w) noexcept:
             elements() {
 
             #if defined(AVML_FMA)
@@ -131,6 +131,40 @@ namespace avml {
 
         AVML_FINL Unit_vector4R(uvec3f v) :
             elements{v[0], v[1], v[2], 0.0f} {}
+
+        template<class R>
+        explicit AVML_FINL Unit_vector4R(Unit_vector4R<R> v):
+            elements{
+                static_cast<float>(v[0]),
+                static_cast<float>(v[1]),
+                static_cast<float>(v[2]),
+                static_cast<float>(v[3])
+            } {}
+
+        explicit AVML_FINL Unit_vector4R(Unit_vector4R<double> v):
+            elements{} {
+
+            #if defined(AVML_AVX)
+            __m256d c = avml_impl::load4d(v.data());
+
+            __m128 d = _mm256_cvtpd_ps(c);
+            avml_impl::store4f(elements, d);
+
+            #elif defined(AVML_SSE2)
+            auto c = avml_impl::load4d(v.data());
+
+            __m128 lo = _mm_cvtpd_ps(c[0]);
+            __m128 hi = _mm_cvtpd_ps(c[1]);
+
+            __m128 d = _mm_movelh_ps(lo, hi);
+            avml_impl::store4f(elements, d);
+
+            #else
+            elements[0] = static_cast<double>(v[0]);
+            elements[1] = static_cast<double>(v[1]);
+            elements[2] = static_cast<double>(v[2]);
+            #endif
+        }
 
         Unit_vector4R() = default;
         Unit_vector4R(const Unit_vector4R&) = default;

@@ -1,5 +1,5 @@
 #include <cmath>
-#include "../IMPL_shared.hpp"
+#include "Shared.hpp"
 
 namespace avml {
 
@@ -24,7 +24,7 @@ namespace avml {
     }
 
     AVML_FINL float clamp(float x, float min, float max) {
-        return std::min(std::max(x, min), max);
+        return std::fmin(std::fmax(x, min), max);
     }
 
     AVML_FINL float average(float x, float y) {

@@ -24,8 +24,8 @@ namespace avml {
             #elif defined(AVML_AVX)
             _mm_maskstore_ps(
                 ret.elements,
-                avml_impl::mask0111,
-                _mm_maskload_ps(p, avml_impl::mask0111)
+                avml_impl::fmask0111,
+                _mm_maskload_ps(p, avml_impl::fmask0111)
             );
 
             #elif defined(AVML_SSE2)
@@ -56,7 +56,7 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector2R(float x, float y):
+        AVML_FINL Unit_vector2R(float x, float y) noexcept:
             elements() {
 
             #if defined(AVML_AVX)
@@ -90,6 +90,26 @@ namespace avml {
 
             elements[0] = x / length;
             elements[1] = y / length;
+            #endif
+        }
+
+        template<class R>
+        explicit AVML_FINL Unit_vector2R(Unit_vector2R<R> v):
+            elements{
+                static_cast<float>(v[0]),
+                static_cast<float>(v[1])
+            } {}
+
+        explicit AVML_FINL Unit_vector2R(Unit_vector2R<double> v):
+            elements{} {
+
+            #if defined(AVML_SSE2)
+            __m128d t0 = _mm_load_pd(v.data());
+            __m128 t1 = _mm_cvtpd_ps(t0);
+            avml_impl::store2f(elements, t1);
+            #else
+            elements[0] = static_cast<double>(v[0]);
+            elements[1] = static_cast<double>(v[1]);
             #endif
         }
 

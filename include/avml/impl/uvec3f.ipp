@@ -29,7 +29,7 @@ namespace avml {
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector3R(float x, float y, float z):
+        AVML_FINL Unit_vector3R(float x, float y, float z) noexcept:
             elements() {
 
             #if defined(AVML_FMA)
@@ -105,6 +105,39 @@ namespace avml {
         AVML_FINL Unit_vector3R(uvec2f v):
             elements{v[0], v[1], 0.0f} {}
 
+        template<class R>
+        explicit AVML_FINL Unit_vector3R(Unit_vector3R<R> v):
+            elements{
+                static_cast<float>(v[0]),
+                static_cast<float>(v[1]),
+                static_cast<float>(v[2])
+            } {}
+
+        explicit AVML_FINL Unit_vector3R(Unit_vector3R<double> v):
+            elements{} {
+
+            #if defined(AVML_AVX)
+            __m256d c = avml_impl::load3d(v.data());
+
+            __m128 d = _mm256_cvtpd_ps(c);
+            avml_impl::store3f(elements, d);
+
+            #elif defined(AVML_SSE2)
+            auto c = avml_impl::load3d(v.data());
+
+            __m128 lo = _mm_cvtpd_ps(c[0]);
+            __m128 hi = _mm_cvtpd_ps(c[1]);
+
+            __m128 d = _mm_movelh_ps(lo, hi);
+            avml_impl::store3f(elements, d);
+
+            #else
+            elements[0] = static_cast<double>(v[0]);
+            elements[1] = static_cast<double>(v[1]);
+            elements[2] = static_cast<double>(v[2]);
+            #endif
+        }
+
         Unit_vector3R() = default;
         Unit_vector3R(const Unit_vector3R&) = default;
         Unit_vector3R(Unit_vector3R&&) = default;
@@ -137,6 +170,7 @@ namespace avml {
             ret.elements[1] = -elements[1];
             ret.elements[2] = -elements[2];
             #endif
+            return ret;
         }
 
         //=================================================

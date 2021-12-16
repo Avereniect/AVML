@@ -3,6 +3,6 @@
 
 #include "Capabilities.hpp"
 
-#include "default/DEF_math.ipp"
+#include "DEF_math.ipp"
 
 #endif

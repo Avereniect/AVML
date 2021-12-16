@@ -81,6 +81,20 @@ namespace avml {
             return elements;
         }
 
+        //=================================================
+        // Conversion operators
+        //=================================================
+
+        template<class U>
+        explicit operator Unit_vector4R<U>() const {
+            Unit_vector4R<U> ret;
+            ret.elements[0] = static_cast<U>(elements[0]);
+            ret.elements[1] = static_cast<U>(elements[1]);
+            ret.elements[2] = static_cast<U>(elements[2]);
+            ret.elements[3] = static_cast<U>(elements[3]);
+            return ret;
+        }
+
     private:
 
         //=================================================

@@ -99,7 +99,25 @@ namespace avml {
 
 }
 
-#include "impl/Vectors.hpp"
+#include <cmath>
+
+#include "impl/Shared.hpp"
+
+#include "impl/generic/uvec2r.hpp"
+#include "impl/generic/uvec3r.hpp"
+#include "impl/generic/uvec4r.hpp"
+
+#include "impl/generic/vec2r.hpp"
+#include "impl/generic/vec3r.hpp"
+#include "impl/generic/vec4r.hpp"
+
+#include "impl/uvec2f.ipp"
+#include "impl/uvec3f.ipp"
+#include "impl/uvec4f.ipp"
+
+#include "impl/vec2f.ipp"
+#include "impl/vec3f.ipp"
+#include "impl/vec4f.ipp"
 
 namespace avml {
 

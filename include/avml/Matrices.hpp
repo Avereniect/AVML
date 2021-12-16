@@ -24,6 +24,18 @@ namespace avml {
     template<class T>
     class Matrix4x4I;
 
+}
+
+#include "impl/generic/mat2x2r.hpp"
+#include "impl/generic/mat3x3r.hpp"
+#include "impl/generic/mat4x4r.hpp"
+
+#include "impl/matrix2x2f.ipp"
+#include "impl/matrix3x3f.ipp"
+#include "impl/matrix4x4f.ipp"
+
+namespace avml {
+
     //=================================
     // Type aliases
     //=================================
@@ -36,6 +48,7 @@ namespace avml {
     using mat3x3d = Matrix3x3R<double>;
     using mat4x4d = Matrix4x4R<double>;
 
+
     using mat2x2i = Matrix2x2I<std::int32_t>;
     using mat3x3i = Matrix3x3I<std::int32_t>;
     using mat4x4i = Matrix4x4I<std::int32_t>;
@@ -45,7 +58,5 @@ namespace avml {
     using mat4x4u = Matrix4x4I<std::uint32_t>;
 
 }
-
-#include "impl/Matrices.hpp"
 
 #endif //AVML_MATRICES_HPP

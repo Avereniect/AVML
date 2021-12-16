@@ -1,10 +1,10 @@
-#ifndef AVML_GEN_UVEC2F_IPP
-#define AVML_GEN_UVEC2F_IPP
+#ifndef AVML_GEN_UVEC2R_HPP
+#define AVML_GEN_UVEC2R_HPP
 
 namespace avml {
 
     template<class R>
-    class alignas(avml_impl::vector_alignment<R, 2>()) Unit_vector2 {
+    class alignas(avml_impl::vector_alignment<R, 2>()) Unit_vector2R {
     public:
 
         using scalar = R;
@@ -15,19 +15,19 @@ namespace avml {
         // Creation functions
         //=================================================
 
-        AVML_FINL static Unit_vector2 read(const R* p) {
-            return Unit_vector2{p[0], p[1]};
+        AVML_FINL static Unit_vector2R read(const R* p) {
+            return Unit_vector2R{p[0], p[1]};
         }
 
-        AVML_FINL static Unit_vector2 read_aligned(const R* p) {
-            return Unit_vector2{p[0], p[1]};
+        AVML_FINL static Unit_vector2R read_aligned(const R* p) {
+            return Unit_vector2R{p[0], p[1]};
         }
 
         //=================================================
         // -ctors
         //=================================================
 
-        AVML_FINL Unit_vector2(R x, R y):
+        AVML_FINL Unit_vector2R(R x, R y) noexcept:
             elements() {
             using std::sqrt;
             R length = sqrt(x * x + y * y);
@@ -36,28 +36,35 @@ namespace avml {
             elements[1] = y / length;
         }
 
-        Unit_vector2() = default;
-        Unit_vector2(const Unit_vector2&) = default;
-        Unit_vector2(Unit_vector2&&) noexcept = default;
-        ~Unit_vector2() = default;
+        template<class T>
+        explicit Unit_vector2R(Unit_vector2R<T> v):
+            elements{
+                static_cast<R>(v[0]),
+                static_cast<R>(v[1])
+            } {}
+
+        Unit_vector2R() = default;
+        Unit_vector2R(const Unit_vector2R&) = default;
+        Unit_vector2R(Unit_vector2R&&) noexcept = default;
+        ~Unit_vector2R() = default;
 
         //=================================================
         // Assignment operators
         //=================================================
 
-        Unit_vector2& operator=(const Unit_vector2&) = default;
-        Unit_vector2& operator=(Unit_vector2&&) noexcept = default;
+        Unit_vector2R& operator=(const Unit_vector2R&) = default;
+        Unit_vector2R& operator=(Unit_vector2R&&) noexcept = default;
 
         //=================================================
         // Unary arithmetic operators
         //=================================================
 
-        AVML_FINL Unit_vector2 operator+() const {
+        AVML_FINL Unit_vector2R operator+() const {
             return *this;
         }
 
-        AVML_FINL Unit_vector2 operator-() const {
-            Unit_vector2 ret;
+        AVML_FINL Unit_vector2R operator-() const {
+            Unit_vector2R ret;
             ret.elements[0] = -elements[0];
             ret.elements[1] = -elements[1];
             return ret;
@@ -102,12 +109,12 @@ namespace avml {
     //=====================================================
 
     template<class R>
-    AVML_FINL Unit_vector2<R> abs(Unit_vector2<R> v) {
-        alignas(alignof(Unit_vector2<R>)) R data[Unit_vector2<R>::width];
+    AVML_FINL Unit_vector2R<R> abs(Unit_vector2R<R> v) {
+        alignas(alignof(Unit_vector2R<R>)) R data[Unit_vector2R<R>::width];
         using std::abs;
         data[0] = abs(v[0]);
         data[1] = abs(v[1]);
-        return Unit_vector2<R>::read_aligned(data);
+        return Unit_vector2R<R>::read_aligned(data);
     }
 
 }

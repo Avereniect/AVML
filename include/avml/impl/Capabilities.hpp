@@ -84,18 +84,39 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 
 
 #ifdef AVML_SSE
-    #define AVML_x86
+    #define AVML_X86
 #endif
 
 
-#ifdef AVML_x86
+#ifdef AVML_X86
 #endif
 
 //=========================================================
 // ARM Instruction sets
 //=========================================================
 
-//TODO: Define macros for ARM instruction sets
+#ifdef AVML_SVE2
+    #define AVML_SVE
+#endif
+
+#ifdef AVML_SVE
+    #define AVML_ARM
+#endif
+
+#ifdef AVML_NEON
+    #define AVML_ARM
+#endif
+
+#ifdef AVML_ARM
+#endif
+
+//=========================================================
+// Error checking
+//=========================================================
+
+#if defined(AVML_ARM) && defined(AVML_X86)
+    static_assert(false, "Extensions for multiple ISAs specified.");
+#endif
 
 //=========================================================
 // Compiler-specific
