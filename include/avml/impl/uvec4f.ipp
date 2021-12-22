@@ -129,7 +129,7 @@ namespace avml {
             #endif
         }
 
-        AVML_FINL Unit_vector4R(uvec3f v) :
+        AVML_FINL Unit_vector4R(Unit_vector3R<float> v) :
             elements{v[0], v[1], v[2], 0.0f} {}
 
         template<class R>
@@ -264,8 +264,8 @@ namespace avml {
     // Vectorized math
     //=====================================================
 
-    AVML_FINL uvec4f abs(uvec4f v) {
-        uvec4f ret;
+    AVML_FINL Unit_vector4R<float> abs(Unit_vector4R<float> v) {
+        Unit_vector4R<float> ret;
         #if defined(AVML_SSE)
         __m128 vec_data = avml_impl::load4f(v.data());
         vec_data = _mm_and_ps(avml_impl::sign_bit_mask, vec_data);

@@ -215,8 +215,8 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL vec4f operator*(Matrix4x4R<float> lhs, vec4f rhs) {
-        vec4f ret{};
+    AVML_FINL Vector4R<float> operator*(Matrix4x4R<float> lhs, Vector4R<float> rhs) {
+        Vector4R<float> ret{};
 
         for (unsigned i = 0; i < Matrix4x4R<float>::height; ++i) {
             for (unsigned j = 0; j < Matrix4x4R<float>::width; ++j) {

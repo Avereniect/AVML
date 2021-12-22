@@ -1,5 +1,5 @@
-#ifndef AVML_DEF_UVEC3F_IPP
-#define AVML_DEF_UVEC3F_IPP
+#ifndef AVML_UVEC3F_IPP
+#define AVML_UVEC3F_IPP
 
 namespace avml {
 
@@ -17,7 +17,13 @@ namespace avml {
 
         AVML_FINL static Unit_vector3R read(const float* p) {
             Unit_vector3R ret;
+            #if defined(AVML_SSE)
             avml_impl::store3f(ret.elements, avml_impl::load3f(p));
+            #else
+            ret.elements[0] = p[0];
+            ret.elements[1] = p[1];
+            ret.elements[2] = p[2];
+            #endif
             return ret;
         }
 
@@ -102,7 +108,7 @@ namespace avml {
             #endif
         }
 
-        AVML_FINL Unit_vector3R(uvec2f v):
+        AVML_FINL Unit_vector3R(Unit_vector2R<float> v):
             elements{v[0], v[1], 0.0f} {}
 
         template<class R>
@@ -232,7 +238,7 @@ namespace avml {
 
     };
 
-    AVML_FINL uvec3f cross(uvec3f lhs, uvec3f rhs) {
+    AVML_FINL Unit_vector3R<float> cross(Unit_vector3R<float> lhs, Unit_vector3R<float> rhs) {
         #if defined(AVML_FMA)
         __m128 r_xyz0 = avml_impl::load3f(lhs.data());
         __m128 r_abc0 = avml_impl::load3f(rhs.data());
@@ -246,7 +252,7 @@ namespace avml {
 
         t2 = _mm_permute_ps(t2, 0x09);
 
-        uvec3f ret;
+        Unit_vector3R<float> ret;
         avml_impl::store3f(const_cast<float*>(ret.data()), t2);
         return ret;
 
@@ -264,7 +270,7 @@ namespace avml {
 
         t2 = _mm_permute_ps(t2, 0x09);
 
-        uvec3f ret;
+        Unit_vector3R<float> ret;
         avml_impl::store3f(const_cast<float*>(ret.data()), t2);
         return ret;
 
@@ -281,7 +287,7 @@ namespace avml {
         __m128 t2 = _mm_sub_ps(t0, t1);
         t2 = _mm_shuffle_ps(t2, t2, 0x09);
 
-        uvec3f ret;
+        Unit_vector3R<float> ret;
         avml_impl::store3f(const_cast<float*>(ret.data()), t2);
         return ret;
 
@@ -292,7 +298,7 @@ namespace avml {
             lhs[0] * rhs[1] - lhs[1] * rhs[0]
         };
 
-        return uvec3f::read(data);
+        return Unit_vector3R<float>::read(data);
         #endif
     }
 
@@ -300,12 +306,12 @@ namespace avml {
     // Vectorized math
     //=====================================================
 
-    AVML_FINL uvec3f abs(uvec3f v) {
+    AVML_FINL Unit_vector3R<float> abs(Unit_vector3R<float> v) {
+        Unit_vector3R<float> ret;
         #if defined(AVML_SSE)
         __m128 vec_data = avml_impl::load3f(v.data());
         vec_data = _mm_and_ps(avml_impl::sign_bit_mask, vec_data);
 
-        uvec3f ret;
         avml_impl::store3f(const_cast<float*>(ret.data()), vec_data);
         return ret;
 

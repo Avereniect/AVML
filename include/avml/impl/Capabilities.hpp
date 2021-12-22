@@ -1,9 +1,10 @@
-#ifndef AVML_IMPL_CAPABILITIES_HPP
-#define AVML_IMPL_CAPABILITIES_HPP
+#ifndef AVML_CAPABILITIES_HPP
+#define AVML_CAPABILITIES_HPP
 
 #include <climits>
 #include <limits>
 #include <cstdint>
+#include <cmath>
 
 //=========================================================
 // Primitive sizes

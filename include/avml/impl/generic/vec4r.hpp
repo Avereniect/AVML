@@ -1,5 +1,5 @@
-#ifndef AVML_GEN_VEC4R_HPP
-#define AVML_GEN_VEC4R_HPP
+#ifndef AVML_VEC4R_HPP
+#define AVML_VEC4R_HPP
 
 namespace avml {
 

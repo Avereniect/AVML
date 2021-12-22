@@ -1,5 +1,5 @@
-#ifndef AVML_IMPL_MATH_HPP
-#define AVML_IMPL_MATH_HPP
+#ifndef AVML_MATH_HPP
+#define AVML_MATH_HPP
 
 #include "Capabilities.hpp"
 

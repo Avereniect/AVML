@@ -88,6 +88,7 @@ namespace avml {
             avml_impl::store2f(elements, r_xy00);
             #else
 
+            float length = std::sqrt(x * x + y * y);
             elements[0] = x / length;
             elements[1] = y / length;
             #endif
@@ -204,12 +205,12 @@ namespace avml {
     // Vectorized math
     //=====================================================
 
-    AVML_FINL uvec2f abs(uvec2f v) {
+    AVML_FINL Unit_vector2R<float> abs(Unit_vector2R<float> v) {
+        Unit_vector2R<float> ret;
         #if defined(AVML_SSE)
         __m128 vec_data = avml_impl::load2f(v.data());
         vec_data = _mm_and_ps(avml_impl::sign_bit_mask, vec_data);
 
-        uvec2f ret;
         avml_impl::store2f(const_cast<float*>(ret.data()), vec_data);
         return ret;
 

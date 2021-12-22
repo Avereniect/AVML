@@ -1,5 +1,5 @@
-#ifndef AVML_IMPL_SHARED_HPP
-#define AVML_IMPL_SHARED_HPP
+#ifndef AVML_SHARED_HPP
+#define AVML_SHARED_HPP
 
 #include "Capabilities.hpp"
 

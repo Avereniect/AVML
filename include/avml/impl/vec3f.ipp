@@ -68,14 +68,18 @@ namespace avml {
 
         AVML_FINL static Vector3R read(const float* p) {
             Vector3R ret;
+            #if defined(AVML_SSE)
             avml_impl::store3f(ret.elements, avml_impl::load3f(p));
+            #else
+            ret.elements[0] = p[0];
+            ret.elements[1] = p[1];
+            ret.elements[2] = p[2];
+            #endif
             return ret;
         }
 
         AVML_FINL static Vector3R read_aligned(const float* p) {
-            Vector3R ret;
-            avml_impl::store3f(ret.elements, avml_impl::load3f(p));
-            return ret;
+            return read(p);
         }
 
         //=================================================
@@ -351,8 +355,9 @@ namespace avml {
         avml_impl::store3f(ret.data(), t);
         return ret;
     #else
-        lhs -= rhs;
-        return lhs;
+        Vector3R<float> ret = lhs;
+        ret -= rhs;
+        return ret;
     #endif
     }
 
@@ -365,7 +370,8 @@ namespace avml {
         avml_impl::store3f(ret.data(), t);
         return ret;
     #else
-        lhs *= rhs;
+        Vector3R<float> ret = lhs;
+        ret *= rhs;
         return lhs;
     #endif
     }
@@ -554,7 +560,11 @@ namespace avml {
     // Single component
 
     AVML_FINL float x(Vector3R<float> v) {
+        #if defined(AVML_SSE)
         return _mm_cvtss_f32(avml_impl::load3f(v.data()));
+        #else
+        return v[0];
+        #endif
     }
 
     AVML_FINL float y(Vector3R<float> v) {
@@ -567,39 +577,39 @@ namespace avml {
 
     // Two components
 
-    AVML_FINL vec2f xx(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> xx(Vector3R<float> v) {
         return {v[0], v[0]};
     }
 
-    AVML_FINL vec2f xy(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> xy(Vector3R<float> v) {
         return {v[0], v[1]};
     }
 
-    AVML_FINL vec2f xz(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> xz(Vector3R<float> v) {
         return {v[0], v[2]};
     }
 
-    AVML_FINL vec2f yx(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> yx(Vector3R<float> v) {
         return {v[1], v[0]};
     }
 
-    AVML_FINL vec2f yy(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> yy(Vector3R<float> v) {
         return {v[1], v[1]};
     }
 
-    AVML_FINL vec2f yz(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> yz(Vector3R<float> v) {
         return {v[1], v[2]};
     }
 
-    AVML_FINL vec2f zx(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> zx(Vector3R<float> v) {
         return {v[2], v[0]};
     }
 
-    AVML_FINL vec2f zy(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> zy(Vector3R<float> v) {
         return {v[2], v[1]};
     }
 
-    AVML_FINL vec2f zz(Vector3R<float> v) {
+    AVML_FINL Vector2R<float> zz(Vector3R<float> v) {
         return {v[2], v[2]};
     }
 

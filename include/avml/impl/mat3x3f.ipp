@@ -205,8 +205,8 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL vec3f operator*(Matrix3x3R<float> lhs, vec3f rhs) {
-        vec3f ret{};
+    AVML_FINL Vector3R<float> operator*(Matrix3x3R<float> lhs, Vector3R<float> rhs) {
+        Vector3R<float> ret{};
 
         for (unsigned i = 0; i < Matrix3x3R<float>::height; ++i) {
             for (unsigned j = 0; j < Matrix3x3R<float>::width; ++j) {

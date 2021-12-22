@@ -1,3 +1,6 @@
+#ifndef AVML_MAT2X2R_HPP
+#define AVML_MAT2X2R_HPP
+
 namespace avml {
 
     template<class R>
@@ -204,8 +207,8 @@ namespace avml {
     }
 
     template<class R>
-    AVML_FINL vec2f operator*(Matrix2x2R<R> lhs, vec2f rhs) {
-        vec2f ret{};
+    AVML_FINL Vector2R<R> operator*(Matrix2x2R<R> lhs, Vector2R<R> rhs) {
+        Vector2R<R> ret{};
 
         for (unsigned i = 0; i < Matrix2x2R<R>::height; ++i) {
             for (unsigned j = 0; j < Matrix2x2R<R>::width; ++j) {
@@ -248,3 +251,4 @@ namespace avml {
 
 }
 
+#endif

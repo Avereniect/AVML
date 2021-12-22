@@ -195,8 +195,8 @@ namespace avml {
         return lhs;
     }
 
-    AVML_FINL vec2f operator*(Matrix2x2R<float> lhs, vec2f rhs) {
-        vec2f ret{};
+    AVML_FINL Vector2R<float> operator*(Matrix2x2R<float> lhs, Vector2R<float> rhs) {
+        Vector2R<float> ret{};
 
         for (unsigned i = 0; i < Matrix2x2R<float>::height; ++i) {
             for (unsigned j = 0; j < Matrix2x2R<float>::width; ++j) {

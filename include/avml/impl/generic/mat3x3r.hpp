@@ -1,3 +1,6 @@
+#ifndef AVML_MAT3X3R_HPP
+#define AVML_MAT3X3R_HPP
+
 namespace avml {
 
     template<class R>
@@ -215,8 +218,8 @@ namespace avml {
     }
 
     template<class R>
-    AVML_FINL vec3f operator*(Matrix3x3R<R> lhs, vec3f rhs) {
-        vec3f ret{};
+    AVML_FINL Vector3R<R> operator*(Matrix3x3R<R> lhs, Vector3R<R> rhs) {
+        Vector3R<R> ret{};
 
         for (unsigned i = 0; i < Matrix3x3R<R>::height; ++i) {
             for (unsigned j = 0; j < Matrix3x3R<R>::width; ++j) {
@@ -276,3 +279,5 @@ namespace avml {
     }
 
 }
+
+#endif

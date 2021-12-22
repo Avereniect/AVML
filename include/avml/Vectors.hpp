@@ -1,8 +1,6 @@
 #ifndef AVML_VECTORS_HPP
 #define AVML_VECTORS_HPP
 
-#include <cstdint>
-
 #include "impl/Capabilities.hpp"
 
 namespace avml {
@@ -37,6 +35,32 @@ namespace avml {
 
     template<class I>
     class Vector4I;
+
+}
+
+#include "impl/Shared.hpp"
+
+#include "impl/generic/uvec2r.hpp"
+#include "impl/generic/uvec3r.hpp"
+#include "impl/generic/uvec4r.hpp"
+
+#include "impl/generic/vec2r.hpp"
+#include "impl/generic/vec3r.hpp"
+#include "impl/generic/vec4r.hpp"
+
+#include "impl/uvec2f.ipp"
+#include "impl/uvec3f.ipp"
+#include "impl/uvec4f.ipp"
+
+#include "impl/vec2f.ipp"
+#include "impl/vec3f.ipp"
+#include "impl/vec4f.ipp"
+
+#include "impl/vec2i.ipp"
+#include "impl/vec3i.ipp"
+#include "impl/vec4i.ipp"
+
+namespace avml {
 
     //=====================================================
     // Unit vector aliases
@@ -96,42 +120,6 @@ namespace avml {
     using vec3i32 = Vector3I<std::int32_t>;
     using vec4i32 = Vector4I<std::int32_t>;
     */
-
-}
-
-#include <cmath>
-
-#include "impl/Shared.hpp"
-
-#include "impl/generic/uvec2r.hpp"
-#include "impl/generic/uvec3r.hpp"
-#include "impl/generic/uvec4r.hpp"
-
-#include "impl/generic/vec2r.hpp"
-#include "impl/generic/vec3r.hpp"
-#include "impl/generic/vec4r.hpp"
-
-#include "impl/generic/mat2x2r.hpp"
-#include "impl/generic/mat3x3r.hpp"
-#include "impl/generic/mat4x4r.hpp"
-
-#include "impl/uvec2f.ipp"
-#include "impl/uvec3f.ipp"
-#include "impl/uvec4f.ipp"
-
-#include "impl/vec2f.ipp"
-#include "impl/vec3f.ipp"
-#include "impl/vec4f.ipp"
-
-#include "impl/vec2i.ipp"
-#include "impl/vec3i.ipp"
-#include "impl/vec4i.ipp"
-
-#include "impl/mat2x2f.ipp"
-#include "impl/mat3x3f.ipp"
-#include "impl/mat4x4f.ipp"
-
-namespace avml {
 
     static const uvec2f X2f{1.0f, 0.0f};
     static const uvec2f Y2f{0.0f, 1.0f};

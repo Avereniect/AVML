@@ -33,25 +33,25 @@ namespace avml {
         AVML_FINL Vector4R(float x, float y, float z, float w):
             elements{x, y, z, w} {}
 
-        AVML_FINL Vector4R(uvec4f v):
+        AVML_FINL Vector4R(Unit_vector4R<float> v):
             elements{v[0], v[1], v[2], v[3]} {}
 
-        AVML_FINL Vector4R(vec2f v, float z, float w):
+        AVML_FINL Vector4R(Vector2R<float> v, float z, float w):
             elements{v[0], v[1], z, w} {}
 
-        AVML_FINL Vector4R(float x, vec2f v, float w):
+        AVML_FINL Vector4R(float x, Vector2R<float> v, float w):
             elements{x, v[0], v[1], w} {}
 
-        AVML_FINL Vector4R(float x, float y, vec2f v):
+        AVML_FINL Vector4R(float x, float y, Vector2R<float> v):
             elements{x, y, v[0], v[1]} {}
 
-        AVML_FINL Vector4R(vec2f v, vec2f u):
+        AVML_FINL Vector4R(Vector2R<float> v, Vector2R<float> u):
             elements{v[0], v[1], u[0], u[1]} {}
 
-        AVML_FINL Vector4R(vec3f v, float w):
+        AVML_FINL Vector4R(Vector3R<float> v, float w):
             elements{v[0], v[1], v[2], w} {}
 
-        AVML_FINL Vector4R(float x, vec3f v):
+        AVML_FINL Vector4R(float x, Vector3R<float> v):
             elements{x, v[0], v[1], v[2]} {}
 
         Vector4R() = default;
@@ -163,7 +163,7 @@ namespace avml {
     // Comparison operators
     //=====================================================
 
-    AVML_FINL bool operator==(vec4f lhs, vec4f rhs) {
+    AVML_FINL bool operator==(Vector4R<float> lhs, Vector4R<float> rhs) {
         return
             (lhs[0] == rhs[0]) &&
             (lhs[1] == rhs[1]) &&
@@ -171,7 +171,7 @@ namespace avml {
             (lhs[3] == rhs[3]);
     }
 
-    AVML_FINL bool operator!=(vec4f lhs, vec4f rhs) {
+    AVML_FINL bool operator!=(Vector4R<float> lhs, Vector4R<float> rhs) {
         return
             (lhs[0] != rhs[0]) ||
             (lhs[1] != rhs[1]) ||
@@ -183,37 +183,37 @@ namespace avml {
     // Arithmetic operators
     //=====================================================
 
-    AVML_FINL vec4f operator+(vec4f lhs, vec4f rhs) {
+    AVML_FINL Vector4R<float> operator+(Vector4R<float> lhs, Vector4R<float> rhs) {
         lhs += rhs;
         return lhs;
     }
 
-    AVML_FINL vec4f operator-(vec4f lhs, vec4f rhs) {
+    AVML_FINL Vector4R<float> operator-(Vector4R<float> lhs, Vector4R<float> rhs) {
         lhs -= rhs;
         return lhs;
     }
 
-    AVML_FINL vec4f operator*(vec4f lhs, vec4f rhs) {
+    AVML_FINL Vector4R<float> operator*(Vector4R<float> lhs, Vector4R<float> rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL vec4f operator*(vec4f lhs, float rhs) {
+    AVML_FINL Vector4R<float> operator*(Vector4R<float> lhs, float rhs) {
         lhs *= rhs;
         return lhs;
     }
 
-    AVML_FINL vec4f operator*(float lhs, vec4f rhs) {
+    AVML_FINL Vector4R<float> operator*(float lhs, Vector4R<float> rhs) {
         rhs *= lhs;
         return rhs;
     }
 
-    AVML_FINL vec4f operator/(vec4f lhs, float rhs) {
+    AVML_FINL Vector4R<float> operator/(Vector4R<float> lhs, float rhs) {
         lhs /= rhs;
         return lhs;
     }
 
-    AVML_FINL vec4f operator/(vec4f lhs, vec4f rhs) {
+    AVML_FINL Vector4R<float> operator/(Vector4R<float> lhs, Vector4R<float> rhs) {
         lhs /= rhs;
         return lhs;
     }
@@ -222,7 +222,7 @@ namespace avml {
     // Vector math
     //=====================================================
 
-    AVML_FINL float dot(vec4f lhs, vec4f rhs) {
+    AVML_FINL float dot(Vector4R<float> lhs, Vector4R<float> rhs) {
         return
             lhs[0] * rhs[0] +
             lhs[1] * rhs[1] +
@@ -230,48 +230,48 @@ namespace avml {
             lhs[3] * rhs[2];
     }
 
-    AVML_FINL float length2(uvec4f) = delete;
+    AVML_FINL float length2(Unit_vector4R<float>) = delete;
 
-    AVML_FINL float length2(vec4f v) {
+    AVML_FINL float length2(Vector4R<float> v) {
         return dot(v, v);
     }
 
-    AVML_FINL float length(uvec4f) = delete;
+    AVML_FINL float length(Unit_vector4R<float>) = delete;
 
-    AVML_FINL float length(vec4f v) {
+    AVML_FINL float length(Vector4R<float> v) {
         return std::sqrt(length2(v));
     }
 
-    AVML_FINL uvec4f assume_normalized(vec4f v) {
-        return uvec4f::read_aligned(v.data());
+    AVML_FINL Unit_vector4R<float> assume_normalized(Vector4R<float> v) {
+        return Unit_vector4R<float>::read_aligned(v.data());
     }
 
-    AVML_FINL uvec4f normalize(vec4f v) {
+    AVML_FINL Unit_vector4R<float> normalize(Vector4R<float> v) {
         v /= length(v);
         return assume_normalized(v);
     }
 
-    AVML_FINL vec4f project(vec4f a, vec4f b) {
+    AVML_FINL Vector4R<float> project(Vector4R<float> a, Vector4R<float> b) {
         return (dot(a, b) / dot(b, b)) * b;
     }
 
-    AVML_FINL vec4f project(vec4f a, uvec4f b) {
+    AVML_FINL Vector4R<float> project(Vector4R<float> a, Unit_vector4R<float> b) {
         return dot(a, b) * b;
     }
 
-    AVML_FINL vec4f reflect(vec4f v, uvec4f normal) {
+    AVML_FINL Vector4R<float> reflect(Vector4R<float> v, Unit_vector4R<float> normal) {
         return 2 * dot(v, normal) * normal - v;
     }
 
-    AVML_FINL uvec4f reflect(uvec4f v, uvec4f normal) {
-        return uvec4f::read_aligned(reflect(static_cast<vec4f>(v), normal).data());
+    AVML_FINL Unit_vector4R<float> reflect(Unit_vector4R<float> v, Unit_vector4R<float> normal) {
+        return Unit_vector4R<float>::read_aligned(reflect(static_cast<Vector4R<float>>(v), normal).data());
     }
 
     //=====================================================
     // Vectorized math
     //=====================================================
 
-    AVML_FINL vec4f abs(vec4f v) {
+    AVML_FINL Vector4R<float> abs(Vector4R<float> v) {
         v[0] = std::abs(v[0]);
         v[1] = std::abs(v[1]);
         v[2] = std::abs(v[2]);
@@ -279,7 +279,7 @@ namespace avml {
         return v;
     }
 
-    AVML_FINL vec4f max(vec4f u, vec4f v) {
+    AVML_FINL Vector4R<float> max(Vector4R<float> u, Vector4R<float> v) {
         u[0] = std::max(u[0], v[0]);
         u[1] = std::max(u[1], v[1]);
         u[2] = std::max(u[2], v[2]);
@@ -287,7 +287,7 @@ namespace avml {
         return u;
     }
 
-    AVML_FINL vec4f min(vec4f u, vec4f v) {
+    AVML_FINL Vector4R<float> min(Vector4R<float> u, Vector4R<float> v) {
         u[0] = std::min(u[0], v[0]);
         u[1] = std::min(u[1], v[1]);
         u[2] = std::min(u[2], v[2]);
@@ -301,85 +301,85 @@ namespace avml {
 
     // Single component
 
-    AVML_FINL float x(vec4f v) {
+    AVML_FINL float x(Vector4R<float> v) {
         return v[0];
     }
 
-    AVML_FINL float y(vec4f v) {
+    AVML_FINL float y(Vector4R<float> v) {
         return v[1];
     }
 
-    AVML_FINL float z(vec4f v) {
+    AVML_FINL float z(Vector4R<float> v) {
         return v[2];
     }
 
-    AVML_FINL float w(vec4f v) {
+    AVML_FINL float w(Vector4R<float> v) {
         return v[3];
     }
 
     // Two components
 
-    AVML_FINL vec2f xx(vec4f v) {
+    AVML_FINL Vector2R<float> xx(Vector4R<float> v) {
         return {v[0], v[0]};
     }
 
-    AVML_FINL vec2f xy(vec4f v) {
+    AVML_FINL Vector2R<float> xy(Vector4R<float> v) {
         return {v[0], v[1]};
     }
 
-    AVML_FINL vec2f xz(vec4f v) {
+    AVML_FINL Vector2R<float> xz(Vector4R<float> v) {
         return {v[0], v[2]};
     }
 
-    AVML_FINL vec2f xw(vec4f v) {
+    AVML_FINL Vector2R<float> xw(Vector4R<float> v) {
         return {v[0], v[3]};
     }
 
-    AVML_FINL vec2f yx(vec4f v) {
+    AVML_FINL Vector2R<float> yx(Vector4R<float> v) {
         return {v[1], v[0]};
     }
 
-    AVML_FINL vec2f yy(vec4f v) {
+    AVML_FINL Vector2R<float> yy(Vector4R<float> v) {
         return {v[1], v[1]};
     }
 
-    AVML_FINL vec2f yz(vec4f v) {
+    AVML_FINL Vector2R<float> yz(Vector4R<float> v) {
         return {v[1], v[2]};
     }
 
-    AVML_FINL vec2f yw(vec4f v) {
+    AVML_FINL Vector2R<float> yw(Vector4R<float> v) {
         return {v[1], v[3]};
     }
 
-    AVML_FINL vec2f zx(vec4f v) {
+    AVML_FINL Vector2R<float> zx(Vector4R<float> v) {
         return {v[2], v[0]};
     }
 
-    AVML_FINL vec2f zy(vec4f v) {
+    AVML_FINL Vector2R<float> zy(Vector4R<float> v) {
         return {v[2], v[1]};
     }
 
-    AVML_FINL vec2f zz(vec4f v) {
+    AVML_FINL Vector2R<float> zz(Vector4R<float> v) {
         return {v[2], v[2]};
     }
 
-    AVML_FINL vec2f zw(vec4f v) {
+    AVML_FINL Vector2R<float> zw(Vector4R<float> v) {
         return {v[2], v[2]};
     }
 
-    AVML_FINL vec2f wx(vec4f v) {
+    AVML_FINL Vector2R<float> wx(Vector4R<float> v) {
         return {v[3], v[0]};
     }
 
-    AVML_FINL vec2f wy(vec4f v) {
+    AVML_FINL Vector2R<float> wy(Vector4R<float> v) {
         return {v[3], v[1]};
     }
 
-    AVML_FINL vec2f wz(vec4f v) {
+    AVML_FINL Vector2R<float> wz(Vector4R<float> v) {
         return {v[3], v[2]};
     }
 
-    AVML_FINL vec2f ww(vec4f v) {
+    AVML_FINL Vector2R<float> ww(Vector4R<float> v) {
         return {v[3], v[2]};
     }
 
@@ -403,13 +403,13 @@ namespace avml {
 //        for (int i = 0; i < 4; ++i) {
 //            for (int j = 0; j < 4; ++j) {
 //                for (int k = 0; k < 4; ++k) {
-//                    std::string code = "    vec3f ";
+//                    std::string code = "    Vector3R<float> ";
 //
 //                    code += index_to_char(i);
 //                    code += index_to_char(j);
 //                    code += index_to_char(k);
 //
-//                    code += "(vec4f v) {\n        return {";
+//                    code += "(Vector4R<float> v) {\n        return {";
 //                    code += "v[" + std::to_string(i) + "], ";
 //                    code += "v[" + std::to_string(j) + "], ";
 //                    code += "v[" + std::to_string(k) + "]";
@@ -425,259 +425,259 @@ namespace avml {
 //    }
 
 
-    AVML_FINL vec3f xxx(vec4f v) {
+    AVML_FINL Vector3R<float> xxx(Vector4R<float> v) {
         return {v[0], v[0], v[0]};
     }
 
-    AVML_FINL vec3f xxy(vec4f v) {
+    AVML_FINL Vector3R<float> xxy(Vector4R<float> v) {
         return {v[0], v[0], v[1]};
     }
 
-    AVML_FINL vec3f xxz(vec4f v) {
+    AVML_FINL Vector3R<float> xxz(Vector4R<float> v) {
         return {v[0], v[0], v[2]};
     }
 
-    AVML_FINL vec3f xxw(vec4f v) {
+    AVML_FINL Vector3R<float> xxw(Vector4R<float> v) {
         return {v[0], v[0], v[3]};
     }
 
-    AVML_FINL vec3f xyx(vec4f v) {
+    AVML_FINL Vector3R<float> xyx(Vector4R<float> v) {
         return {v[0], v[1], v[0]};
     }
 
-    AVML_FINL vec3f xyy(vec4f v) {
+    AVML_FINL Vector3R<float> xyy(Vector4R<float> v) {
         return {v[0], v[1], v[1]};
     }
 
-    AVML_FINL vec3f xyz(vec4f v) {
+    AVML_FINL Vector3R<float> xyz(Vector4R<float> v) {
         return {v[0], v[1], v[2]};
     }
 
-    AVML_FINL vec3f xyw(vec4f v) {
+    AVML_FINL Vector3R<float> xyw(Vector4R<float> v) {
         return {v[0], v[1], v[3]};
     }
 
-    AVML_FINL vec3f xzx(vec4f v) {
+    AVML_FINL Vector3R<float> xzx(Vector4R<float> v) {
         return {v[0], v[2], v[0]};
     }
 
-    AVML_FINL vec3f xzy(vec4f v) {
+    AVML_FINL Vector3R<float> xzy(Vector4R<float> v) {
         return {v[0], v[2], v[1]};
     }
 
-    AVML_FINL vec3f xzz(vec4f v) {
+    AVML_FINL Vector3R<float> xzz(Vector4R<float> v) {
         return {v[0], v[2], v[2]};
     }
 
-    AVML_FINL vec3f xzw(vec4f v) {
+    AVML_FINL Vector3R<float> xzw(Vector4R<float> v) {
         return {v[0], v[2], v[3]};
     }
 
-    AVML_FINL vec3f xwx(vec4f v) {
+    AVML_FINL Vector3R<float> xwx(Vector4R<float> v) {
         return {v[0], v[3], v[0]};
     }
 
-    AVML_FINL vec3f xwy(vec4f v) {
+    AVML_FINL Vector3R<float> xwy(Vector4R<float> v) {
         return {v[0], v[3], v[1]};
     }
 
-    AVML_FINL vec3f xwz(vec4f v) {
+    AVML_FINL Vector3R<float> xwz(Vector4R<float> v) {
         return {v[0], v[3], v[2]};
     }
 
-    AVML_FINL vec3f xww(vec4f v) {
+    AVML_FINL Vector3R<float> xww(Vector4R<float> v) {
         return {v[0], v[3], v[3]};
     }
 
-    AVML_FINL vec3f yxx(vec4f v) {
+    AVML_FINL Vector3R<float> yxx(Vector4R<float> v) {
         return {v[1], v[0], v[0]};
     }
 
-    AVML_FINL vec3f yxy(vec4f v) {
+    AVML_FINL Vector3R<float> yxy(Vector4R<float> v) {
         return {v[1], v[0], v[1]};
     }
 
-    AVML_FINL vec3f yxz(vec4f v) {
+    AVML_FINL Vector3R<float> yxz(Vector4R<float> v) {
         return {v[1], v[0], v[2]};
     }
 
-    AVML_FINL vec3f yxw(vec4f v) {
+    AVML_FINL Vector3R<float> yxw(Vector4R<float> v) {
         return {v[1], v[0], v[3]};
     }
 
-    AVML_FINL vec3f yyx(vec4f v) {
+    AVML_FINL Vector3R<float> yyx(Vector4R<float> v) {
         return {v[1], v[1], v[0]};
     }
 
-    AVML_FINL vec3f yyy(vec4f v) {
+    AVML_FINL Vector3R<float> yyy(Vector4R<float> v) {
         return {v[1], v[1], v[1]};
     }
 
-    AVML_FINL vec3f yyz(vec4f v) {
+    AVML_FINL Vector3R<float> yyz(Vector4R<float> v) {
         return {v[1], v[1], v[2]};
     }
 
-    AVML_FINL vec3f yyw(vec4f v) {
+    AVML_FINL Vector3R<float> yyw(Vector4R<float> v) {
         return {v[1], v[1], v[3]};
     }
 
-    AVML_FINL vec3f yzx(vec4f v) {
+    AVML_FINL Vector3R<float> yzx(Vector4R<float> v) {
         return {v[1], v[2], v[0]};
     }
 
-    AVML_FINL vec3f yzy(vec4f v) {
+    AVML_FINL Vector3R<float> yzy(Vector4R<float> v) {
         return {v[1], v[2], v[1]};
     }
 
-    AVML_FINL vec3f yzz(vec4f v) {
+    AVML_FINL Vector3R<float> yzz(Vector4R<float> v) {
         return {v[1], v[2], v[2]};
     }
 
-    AVML_FINL vec3f yzw(vec4f v) {
+    AVML_FINL Vector3R<float> yzw(Vector4R<float> v) {
         return {v[1], v[2], v[3]};
     }
 
-    AVML_FINL vec3f ywx(vec4f v) {
+    AVML_FINL Vector3R<float> ywx(Vector4R<float> v) {
         return {v[1], v[3], v[0]};
     }
 
-    AVML_FINL vec3f ywy(vec4f v) {
+    AVML_FINL Vector3R<float> ywy(Vector4R<float> v) {
         return {v[1], v[3], v[1]};
     }
 
-    AVML_FINL vec3f ywz(vec4f v) {
+    AVML_FINL Vector3R<float> ywz(Vector4R<float> v) {
         return {v[1], v[3], v[2]};
     }
 
-    AVML_FINL vec3f yww(vec4f v) {
+    AVML_FINL Vector3R<float> yww(Vector4R<float> v) {
         return {v[1], v[3], v[3]};
     }
 
-    AVML_FINL vec3f zxx(vec4f v) {
+    AVML_FINL Vector3R<float> zxx(Vector4R<float> v) {
         return {v[2], v[0], v[0]};
     }
 
-    AVML_FINL vec3f zxy(vec4f v) {
+    AVML_FINL Vector3R<float> zxy(Vector4R<float> v) {
         return {v[2], v[0], v[1]};
     }
 
-    AVML_FINL vec3f zxz(vec4f v) {
+    AVML_FINL Vector3R<float> zxz(Vector4R<float> v) {
         return {v[2], v[0], v[2]};
     }
 
-    AVML_FINL vec3f zxw(vec4f v) {
+    AVML_FINL Vector3R<float> zxw(Vector4R<float> v) {
         return {v[2], v[0], v[3]};
     }
 
-    AVML_FINL vec3f zyx(vec4f v) {
+    AVML_FINL Vector3R<float> zyx(Vector4R<float> v) {
         return {v[2], v[1], v[0]};
     }
 
-    AVML_FINL vec3f zyy(vec4f v) {
+    AVML_FINL Vector3R<float> zyy(Vector4R<float> v) {
         return {v[2], v[1], v[1]};
     }
 
-    AVML_FINL vec3f zyz(vec4f v) {
+    AVML_FINL Vector3R<float> zyz(Vector4R<float> v) {
         return {v[2], v[1], v[2]};
     }
 
-    AVML_FINL vec3f zyw(vec4f v) {
+    AVML_FINL Vector3R<float> zyw(Vector4R<float> v) {
         return {v[2], v[1], v[3]};
     }
 
-    AVML_FINL vec3f zzx(vec4f v) {
+    AVML_FINL Vector3R<float> zzx(Vector4R<float> v) {
         return {v[2], v[2], v[0]};
     }
 
-    AVML_FINL vec3f zzy(vec4f v) {
+    AVML_FINL Vector3R<float> zzy(Vector4R<float> v) {
         return {v[2], v[2], v[1]};
     }
 
-    AVML_FINL vec3f zzz(vec4f v) {
+    AVML_FINL Vector3R<float> zzz(Vector4R<float> v) {
         return {v[2], v[2], v[2]};
     }
 
-    AVML_FINL vec3f zzw(vec4f v) {
+    AVML_FINL Vector3R<float> zzw(Vector4R<float> v) {
         return {v[2], v[2], v[3]};
     }
 
-    AVML_FINL vec3f zwx(vec4f v) {
+    AVML_FINL Vector3R<float> zwx(Vector4R<float> v) {
         return {v[2], v[3], v[0]};
     }
 
-    AVML_FINL vec3f zwy(vec4f v) {
+    AVML_FINL Vector3R<float> zwy(Vector4R<float> v) {
         return {v[2], v[3], v[1]};
     }
 
-    AVML_FINL vec3f zwz(vec4f v) {
+    AVML_FINL Vector3R<float> zwz(Vector4R<float> v) {
         return {v[2], v[3], v[2]};
     }
 
-    AVML_FINL vec3f zww(vec4f v) {
+    AVML_FINL Vector3R<float> zww(Vector4R<float> v) {
         return {v[2], v[3], v[3]};
     }
 
-    AVML_FINL vec3f wxx(vec4f v) {
+    AVML_FINL Vector3R<float> wxx(Vector4R<float> v) {
         return {v[3], v[0], v[0]};
     }
 
-    AVML_FINL vec3f wxy(vec4f v) {
+    AVML_FINL Vector3R<float> wxy(Vector4R<float> v) {
         return {v[3], v[0], v[1]};
     }
 
-    AVML_FINL vec3f wxz(vec4f v) {
+    AVML_FINL Vector3R<float> wxz(Vector4R<float> v) {
         return {v[3], v[0], v[2]};
     }
 
-    AVML_FINL vec3f wxw(vec4f v) {
+    AVML_FINL Vector3R<float> wxw(Vector4R<float> v) {
         return {v[3], v[0], v[3]};
     }
 
-    AVML_FINL vec3f wyx(vec4f v) {
+    AVML_FINL Vector3R<float> wyx(Vector4R<float> v) {
         return {v[3], v[1], v[0]};
     }
 
-    AVML_FINL vec3f wyy(vec4f v) {
+    AVML_FINL Vector3R<float> wyy(Vector4R<float> v) {
         return {v[3], v[1], v[1]};
     }
 
-    AVML_FINL vec3f wyz(vec4f v) {
+    AVML_FINL Vector3R<float> wyz(Vector4R<float> v) {
         return {v[3], v[1], v[2]};
     }
 
-    AVML_FINL vec3f wyw(vec4f v) {
+    AVML_FINL Vector3R<float> wyw(Vector4R<float> v) {
         return {v[3], v[1], v[3]};
     }
 
-    AVML_FINL vec3f wzx(vec4f v) {
+    AVML_FINL Vector3R<float> wzx(Vector4R<float> v) {
         return {v[3], v[2], v[0]};
     }
 
-    AVML_FINL vec3f wzy(vec4f v) {
+    AVML_FINL Vector3R<float> wzy(Vector4R<float> v) {
         return {v[3], v[2], v[1]};
     }
 
-    AVML_FINL vec3f wzz(vec4f v) {
+    AVML_FINL Vector3R<float> wzz(Vector4R<float> v) {
         return {v[3], v[2], v[2]};
     }
 
-    AVML_FINL vec3f wzw(vec4f v) {
+    AVML_FINL Vector3R<float> wzw(Vector4R<float> v) {
         return {v[3], v[2], v[3]};
     }
 
-    AVML_FINL vec3f wwx(vec4f v) {
+    AVML_FINL Vector3R<float> wwx(Vector4R<float> v) {
         return {v[3], v[3], v[0]};
     }
 
-    AVML_FINL vec3f wwy(vec4f v) {
+    AVML_FINL Vector3R<float> wwy(Vector4R<float> v) {
         return {v[3], v[3], v[1]};
     }
 
-    AVML_FINL vec3f wwz(vec4f v) {
+    AVML_FINL Vector3R<float> wwz(Vector4R<float> v) {
         return {v[3], v[3], v[2]};
     }
 
-    AVML_FINL vec3f www(vec4f v) {
+    AVML_FINL Vector3R<float> www(Vector4R<float> v) {
         return {v[3], v[3], v[3]};
     }
 
@@ -702,14 +702,14 @@ namespace avml {
     //        for (int j = 0; j < 4; ++j) {
     //            for (int k = 0; k < 4; ++k) {
     //                for (int l = 0; l < 4; ++l) {
-    //                    std::string code = "    vec4f ";
+    //                    std::string code = "    Vector4R<float> ";
     //
     //                    code += index_to_char(i);
     //                    code += index_to_char(j);
     //                    code += index_to_char(k);
     //                    code += index_to_char(l);
     //
-    //                    code += "(vec4f v) {\n        return {";
+    //                    code += "(Vector4R<float> v) {\n        return {";
     //                    code += "v[" + std::to_string(i) + "], ";
     //                    code += "v[" + std::to_string(j) + "], ";
     //                    code += "v[" + std::to_string(k) + "], ";
@@ -726,1027 +726,1027 @@ namespace avml {
     //    return 0;
     //}
 
-    AVML_FINL vec4f xxxx(vec4f v) {
+    AVML_FINL Vector4R<float> xxxx(Vector4R<float> v) {
         return {v[0], v[0], v[0], v[0]};
     }
 
-    AVML_FINL vec4f xxxy(vec4f v) {
+    AVML_FINL Vector4R<float> xxxy(Vector4R<float> v) {
         return {v[0], v[0], v[0], v[1]};
     }
 
-    AVML_FINL vec4f xxxz(vec4f v) {
+    AVML_FINL Vector4R<float> xxxz(Vector4R<float> v) {
         return {v[0], v[0], v[0], v[2]};
     }
 
-    AVML_FINL vec4f xxxw(vec4f v) {
+    AVML_FINL Vector4R<float> xxxw(Vector4R<float> v) {
         return {v[0], v[0], v[0], v[3]};
     }
 
-    AVML_FINL vec4f xxyx(vec4f v) {
+    AVML_FINL Vector4R<float> xxyx(Vector4R<float> v) {
         return {v[0], v[0], v[1], v[0]};
     }
 
-    AVML_FINL vec4f xxyy(vec4f v) {
+    AVML_FINL Vector4R<float> xxyy(Vector4R<float> v) {
         return {v[0], v[0], v[1], v[1]};
     }
 
-    AVML_FINL vec4f xxyz(vec4f v) {
+    AVML_FINL Vector4R<float> xxyz(Vector4R<float> v) {
         return {v[0], v[0], v[1], v[2]};
     }
 
-    AVML_FINL vec4f xxyw(vec4f v) {
+    AVML_FINL Vector4R<float> xxyw(Vector4R<float> v) {
         return {v[0], v[0], v[1], v[3]};
     }
 
-    AVML_FINL vec4f xxzx(vec4f v) {
+    AVML_FINL Vector4R<float> xxzx(Vector4R<float> v) {
         return {v[0], v[0], v[2], v[0]};
     }
 
-    AVML_FINL vec4f xxzy(vec4f v) {
+    AVML_FINL Vector4R<float> xxzy(Vector4R<float> v) {
         return {v[0], v[0], v[2], v[1]};
     }
 
-    AVML_FINL vec4f xxzz(vec4f v) {
+    AVML_FINL Vector4R<float> xxzz(Vector4R<float> v) {
         return {v[0], v[0], v[2], v[2]};
     }
 
-    AVML_FINL vec4f xxzw(vec4f v) {
+    AVML_FINL Vector4R<float> xxzw(Vector4R<float> v) {
         return {v[0], v[0], v[2], v[3]};
     }
 
-    AVML_FINL vec4f xxwx(vec4f v) {
+    AVML_FINL Vector4R<float> xxwx(Vector4R<float> v) {
         return {v[0], v[0], v[3], v[0]};
     }
 
-    AVML_FINL vec4f xxwy(vec4f v) {
+    AVML_FINL Vector4R<float> xxwy(Vector4R<float> v) {
         return {v[0], v[0], v[3], v[1]};
     }
 
-    AVML_FINL vec4f xxwz(vec4f v) {
+    AVML_FINL Vector4R<float> xxwz(Vector4R<float> v) {
         return {v[0], v[0], v[3], v[2]};
     }
 
-    AVML_FINL vec4f xxww(vec4f v) {
+    AVML_FINL Vector4R<float> xxww(Vector4R<float> v) {
         return {v[0], v[0], v[3], v[3]};
     }
 
-    AVML_FINL vec4f xyxx(vec4f v) {
+    AVML_FINL Vector4R<float> xyxx(Vector4R<float> v) {
         return {v[0], v[1], v[0], v[0]};
     }
 
-    AVML_FINL vec4f xyxy(vec4f v) {
+    AVML_FINL Vector4R<float> xyxy(Vector4R<float> v) {
         return {v[0], v[1], v[0], v[1]};
     }
 
-    AVML_FINL vec4f xyxz(vec4f v) {
+    AVML_FINL Vector4R<float> xyxz(Vector4R<float> v) {
         return {v[0], v[1], v[0], v[2]};
     }
 
-    AVML_FINL vec4f xyxw(vec4f v) {
+    AVML_FINL Vector4R<float> xyxw(Vector4R<float> v) {
         return {v[0], v[1], v[0], v[3]};
     }
 
-    AVML_FINL vec4f xyyx(vec4f v) {
+    AVML_FINL Vector4R<float> xyyx(Vector4R<float> v) {
         return {v[0], v[1], v[1], v[0]};
     }
 
-    AVML_FINL vec4f xyyy(vec4f v) {
+    AVML_FINL Vector4R<float> xyyy(Vector4R<float> v) {
         return {v[0], v[1], v[1], v[1]};
     }
 
-    AVML_FINL vec4f xyyz(vec4f v) {
+    AVML_FINL Vector4R<float> xyyz(Vector4R<float> v) {
         return {v[0], v[1], v[1], v[2]};
     }
 
-    AVML_FINL vec4f xyyw(vec4f v) {
+    AVML_FINL Vector4R<float> xyyw(Vector4R<float> v) {
         return {v[0], v[1], v[1], v[3]};
     }
 
-    AVML_FINL vec4f xyzx(vec4f v) {
+    AVML_FINL Vector4R<float> xyzx(Vector4R<float> v) {
         return {v[0], v[1], v[2], v[0]};
     }
 
-    AVML_FINL vec4f xyzy(vec4f v) {
+    AVML_FINL Vector4R<float> xyzy(Vector4R<float> v) {
         return {v[0], v[1], v[2], v[1]};
     }
 
-    AVML_FINL vec4f xyzz(vec4f v) {
+    AVML_FINL Vector4R<float> xyzz(Vector4R<float> v) {
         return {v[0], v[1], v[2], v[2]};
     }
 
-    AVML_FINL vec4f xyzw(vec4f v) {
+    AVML_FINL Vector4R<float> xyzw(Vector4R<float> v) {
         return {v[0], v[1], v[2], v[3]};
     }
 
-    AVML_FINL vec4f xywx(vec4f v) {
+    AVML_FINL Vector4R<float> xywx(Vector4R<float> v) {
         return {v[0], v[1], v[3], v[0]};
     }
 
-    AVML_FINL vec4f xywy(vec4f v) {
+    AVML_FINL Vector4R<float> xywy(Vector4R<float> v) {
         return {v[0], v[1], v[3], v[1]};
     }
 
-    AVML_FINL vec4f xywz(vec4f v) {
+    AVML_FINL Vector4R<float> xywz(Vector4R<float> v) {
         return {v[0], v[1], v[3], v[2]};
     }
 
-    AVML_FINL vec4f xyww(vec4f v) {
+    AVML_FINL Vector4R<float> xyww(Vector4R<float> v) {
         return {v[0], v[1], v[3], v[3]};
     }
 
-    AVML_FINL vec4f xzxx(vec4f v) {
+    AVML_FINL Vector4R<float> xzxx(Vector4R<float> v) {
         return {v[0], v[2], v[0], v[0]};
     }
 
-    AVML_FINL vec4f xzxy(vec4f v) {
+    AVML_FINL Vector4R<float> xzxy(Vector4R<float> v) {
         return {v[0], v[2], v[0], v[1]};
     }
 
-    AVML_FINL vec4f xzxz(vec4f v) {
+    AVML_FINL Vector4R<float> xzxz(Vector4R<float> v) {
         return {v[0], v[2], v[0], v[2]};
     }
 
-    AVML_FINL vec4f xzxw(vec4f v) {
+    AVML_FINL Vector4R<float> xzxw(Vector4R<float> v) {
         return {v[0], v[2], v[0], v[3]};
     }
 
-    AVML_FINL vec4f xzyx(vec4f v) {
+    AVML_FINL Vector4R<float> xzyx(Vector4R<float> v) {
         return {v[0], v[2], v[1], v[0]};
     }
 
-    AVML_FINL vec4f xzyy(vec4f v) {
+    AVML_FINL Vector4R<float> xzyy(Vector4R<float> v) {
         return {v[0], v[2], v[1], v[1]};
     }
 
-    AVML_FINL vec4f xzyz(vec4f v) {
+    AVML_FINL Vector4R<float> xzyz(Vector4R<float> v) {
         return {v[0], v[2], v[1], v[2]};
     }
 
-    AVML_FINL vec4f xzyw(vec4f v) {
+    AVML_FINL Vector4R<float> xzyw(Vector4R<float> v) {
         return {v[0], v[2], v[1], v[3]};
     }
 
-    AVML_FINL vec4f xzzx(vec4f v) {
+    AVML_FINL Vector4R<float> xzzx(Vector4R<float> v) {
         return {v[0], v[2], v[2], v[0]};
     }
 
-    AVML_FINL vec4f xzzy(vec4f v) {
+    AVML_FINL Vector4R<float> xzzy(Vector4R<float> v) {
         return {v[0], v[2], v[2], v[1]};
     }
 
-    AVML_FINL vec4f xzzz(vec4f v) {
+    AVML_FINL Vector4R<float> xzzz(Vector4R<float> v) {
         return {v[0], v[2], v[2], v[2]};
     }
 
-    AVML_FINL vec4f xzzw(vec4f v) {
+    AVML_FINL Vector4R<float> xzzw(Vector4R<float> v) {
         return {v[0], v[2], v[2], v[3]};
     }
 
-    AVML_FINL vec4f xzwx(vec4f v) {
+    AVML_FINL Vector4R<float> xzwx(Vector4R<float> v) {
         return {v[0], v[2], v[3], v[0]};
     }
 
-    AVML_FINL vec4f xzwy(vec4f v) {
+    AVML_FINL Vector4R<float> xzwy(Vector4R<float> v) {
         return {v[0], v[2], v[3], v[1]};
     }
 
-    AVML_FINL vec4f xzwz(vec4f v) {
+    AVML_FINL Vector4R<float> xzwz(Vector4R<float> v) {
         return {v[0], v[2], v[3], v[2]};
     }
 
-    AVML_FINL vec4f xzww(vec4f v) {
+    AVML_FINL Vector4R<float> xzww(Vector4R<float> v) {
         return {v[0], v[2], v[3], v[3]};
     }
 
-    AVML_FINL vec4f xwxx(vec4f v) {
+    AVML_FINL Vector4R<float> xwxx(Vector4R<float> v) {
         return {v[0], v[3], v[0], v[0]};
     }
 
-    AVML_FINL vec4f xwxy(vec4f v) {
+    AVML_FINL Vector4R<float> xwxy(Vector4R<float> v) {
         return {v[0], v[3], v[0], v[1]};
     }
 
-    AVML_FINL vec4f xwxz(vec4f v) {
+    AVML_FINL Vector4R<float> xwxz(Vector4R<float> v) {
         return {v[0], v[3], v[0], v[2]};
     }
 
-    AVML_FINL vec4f xwxw(vec4f v) {
+    AVML_FINL Vector4R<float> xwxw(Vector4R<float> v) {
         return {v[0], v[3], v[0], v[3]};
     }
 
-    AVML_FINL vec4f xwyx(vec4f v) {
+    AVML_FINL Vector4R<float> xwyx(Vector4R<float> v) {
         return {v[0], v[3], v[1], v[0]};
     }
 
-    AVML_FINL vec4f xwyy(vec4f v) {
+    AVML_FINL Vector4R<float> xwyy(Vector4R<float> v) {
         return {v[0], v[3], v[1], v[1]};
     }
 
-    AVML_FINL vec4f xwyz(vec4f v) {
+    AVML_FINL Vector4R<float> xwyz(Vector4R<float> v) {
         return {v[0], v[3], v[1], v[2]};
     }
 
-    AVML_FINL vec4f xwyw(vec4f v) {
+    AVML_FINL Vector4R<float> xwyw(Vector4R<float> v) {
         return {v[0], v[3], v[1], v[3]};
     }
 
-    AVML_FINL vec4f xwzx(vec4f v) {
+    AVML_FINL Vector4R<float> xwzx(Vector4R<float> v) {
         return {v[0], v[3], v[2], v[0]};
     }
 
-    AVML_FINL vec4f xwzy(vec4f v) {
+    AVML_FINL Vector4R<float> xwzy(Vector4R<float> v) {
         return {v[0], v[3], v[2], v[1]};
     }
 
-    AVML_FINL vec4f xwzz(vec4f v) {
+    AVML_FINL Vector4R<float> xwzz(Vector4R<float> v) {
         return {v[0], v[3], v[2], v[2]};
     }
 
-    AVML_FINL vec4f xwzw(vec4f v) {
+    AVML_FINL Vector4R<float> xwzw(Vector4R<float> v) {
         return {v[0], v[3], v[2], v[3]};
     }
 
-    AVML_FINL vec4f xwwx(vec4f v) {
+    AVML_FINL Vector4R<float> xwwx(Vector4R<float> v) {
         return {v[0], v[3], v[3], v[0]};
     }
 
-    AVML_FINL vec4f xwwy(vec4f v) {
+    AVML_FINL Vector4R<float> xwwy(Vector4R<float> v) {
         return {v[0], v[3], v[3], v[1]};
     }
 
-    AVML_FINL vec4f xwwz(vec4f v) {
+    AVML_FINL Vector4R<float> xwwz(Vector4R<float> v) {
         return {v[0], v[3], v[3], v[2]};
     }
 
-    AVML_FINL vec4f xwww(vec4f v) {
+    AVML_FINL Vector4R<float> xwww(Vector4R<float> v) {
         return {v[0], v[3], v[3], v[3]};
     }
 
-    AVML_FINL vec4f yxxx(vec4f v) {
+    AVML_FINL Vector4R<float> yxxx(Vector4R<float> v) {
         return {v[1], v[0], v[0], v[0]};
     }
 
-    AVML_FINL vec4f yxxy(vec4f v) {
+    AVML_FINL Vector4R<float> yxxy(Vector4R<float> v) {
         return {v[1], v[0], v[0], v[1]};
     }
 
-    AVML_FINL vec4f yxxz(vec4f v) {
+    AVML_FINL Vector4R<float> yxxz(Vector4R<float> v) {
         return {v[1], v[0], v[0], v[2]};
     }
 
-    AVML_FINL vec4f yxxw(vec4f v) {
+    AVML_FINL Vector4R<float> yxxw(Vector4R<float> v) {
         return {v[1], v[0], v[0], v[3]};
     }
 
-    AVML_FINL vec4f yxyx(vec4f v) {
+    AVML_FINL Vector4R<float> yxyx(Vector4R<float> v) {
         return {v[1], v[0], v[1], v[0]};
     }
 
-    AVML_FINL vec4f yxyy(vec4f v) {
+    AVML_FINL Vector4R<float> yxyy(Vector4R<float> v) {
         return {v[1], v[0], v[1], v[1]};
     }
 
-    AVML_FINL vec4f yxyz(vec4f v) {
+    AVML_FINL Vector4R<float> yxyz(Vector4R<float> v) {
         return {v[1], v[0], v[1], v[2]};
     }
 
-    AVML_FINL vec4f yxyw(vec4f v) {
+    AVML_FINL Vector4R<float> yxyw(Vector4R<float> v) {
         return {v[1], v[0], v[1], v[3]};
     }
 
-    AVML_FINL vec4f yxzx(vec4f v) {
+    AVML_FINL Vector4R<float> yxzx(Vector4R<float> v) {
         return {v[1], v[0], v[2], v[0]};
     }
 
-    AVML_FINL vec4f yxzy(vec4f v) {
+    AVML_FINL Vector4R<float> yxzy(Vector4R<float> v) {
         return {v[1], v[0], v[2], v[1]};
     }
 
-    AVML_FINL vec4f yxzz(vec4f v) {
+    AVML_FINL Vector4R<float> yxzz(Vector4R<float> v) {
         return {v[1], v[0], v[2], v[2]};
     }
 
-    AVML_FINL vec4f yxzw(vec4f v) {
+    AVML_FINL Vector4R<float> yxzw(Vector4R<float> v) {
         return {v[1], v[0], v[2], v[3]};
     }
 
-    AVML_FINL vec4f yxwx(vec4f v) {
+    AVML_FINL Vector4R<float> yxwx(Vector4R<float> v) {
         return {v[1], v[0], v[3], v[0]};
     }
 
-    AVML_FINL vec4f yxwy(vec4f v) {
+    AVML_FINL Vector4R<float> yxwy(Vector4R<float> v) {
         return {v[1], v[0], v[3], v[1]};
     }
 
-    AVML_FINL vec4f yxwz(vec4f v) {
+    AVML_FINL Vector4R<float> yxwz(Vector4R<float> v) {
         return {v[1], v[0], v[3], v[2]};
     }
 
-    AVML_FINL vec4f yxww(vec4f v) {
+    AVML_FINL Vector4R<float> yxww(Vector4R<float> v) {
         return {v[1], v[0], v[3], v[3]};
     }
 
-    AVML_FINL vec4f yyxx(vec4f v) {
+    AVML_FINL Vector4R<float> yyxx(Vector4R<float> v) {
         return {v[1], v[1], v[0], v[0]};
     }
 
-    AVML_FINL vec4f yyxy(vec4f v) {
+    AVML_FINL Vector4R<float> yyxy(Vector4R<float> v) {
         return {v[1], v[1], v[0], v[1]};
     }
 
-    AVML_FINL vec4f yyxz(vec4f v) {
+    AVML_FINL Vector4R<float> yyxz(Vector4R<float> v) {
         return {v[1], v[1], v[0], v[2]};
     }
 
-    AVML_FINL vec4f yyxw(vec4f v) {
+    AVML_FINL Vector4R<float> yyxw(Vector4R<float> v) {
         return {v[1], v[1], v[0], v[3]};
     }
 
-    AVML_FINL vec4f yyyx(vec4f v) {
+    AVML_FINL Vector4R<float> yyyx(Vector4R<float> v) {
         return {v[1], v[1], v[1], v[0]};
     }
 
-    AVML_FINL vec4f yyyy(vec4f v) {
+    AVML_FINL Vector4R<float> yyyy(Vector4R<float> v) {
         return {v[1], v[1], v[1], v[1]};
     }
 
-    AVML_FINL vec4f yyyz(vec4f v) {
+    AVML_FINL Vector4R<float> yyyz(Vector4R<float> v) {
         return {v[1], v[1], v[1], v[2]};
     }
 
-    AVML_FINL vec4f yyyw(vec4f v) {
+    AVML_FINL Vector4R<float> yyyw(Vector4R<float> v) {
         return {v[1], v[1], v[1], v[3]};
     }
 
-    AVML_FINL vec4f yyzx(vec4f v) {
+    AVML_FINL Vector4R<float> yyzx(Vector4R<float> v) {
         return {v[1], v[1], v[2], v[0]};
     }
 
-    AVML_FINL vec4f yyzy(vec4f v) {
+    AVML_FINL Vector4R<float> yyzy(Vector4R<float> v) {
         return {v[1], v[1], v[2], v[1]};
     }
 
-    AVML_FINL vec4f yyzz(vec4f v) {
+    AVML_FINL Vector4R<float> yyzz(Vector4R<float> v) {
         return {v[1], v[1], v[2], v[2]};
     }
 
-    AVML_FINL vec4f yyzw(vec4f v) {
+    AVML_FINL Vector4R<float> yyzw(Vector4R<float> v) {
         return {v[1], v[1], v[2], v[3]};
     }
 
-    AVML_FINL vec4f yywx(vec4f v) {
+    AVML_FINL Vector4R<float> yywx(Vector4R<float> v) {
         return {v[1], v[1], v[3], v[0]};
     }
 
-    AVML_FINL vec4f yywy(vec4f v) {
+    AVML_FINL Vector4R<float> yywy(Vector4R<float> v) {
         return {v[1], v[1], v[3], v[1]};
     }
 
-    AVML_FINL vec4f yywz(vec4f v) {
+    AVML_FINL Vector4R<float> yywz(Vector4R<float> v) {
         return {v[1], v[1], v[3], v[2]};
     }
 
-    AVML_FINL vec4f yyww(vec4f v) {
+    AVML_FINL Vector4R<float> yyww(Vector4R<float> v) {
         return {v[1], v[1], v[3], v[3]};
     }
 
-    AVML_FINL vec4f yzxx(vec4f v) {
+    AVML_FINL Vector4R<float> yzxx(Vector4R<float> v) {
         return {v[1], v[2], v[0], v[0]};
     }
 
-    AVML_FINL vec4f yzxy(vec4f v) {
+    AVML_FINL Vector4R<float> yzxy(Vector4R<float> v) {
         return {v[1], v[2], v[0], v[1]};
     }
 
-    AVML_FINL vec4f yzxz(vec4f v) {
+    AVML_FINL Vector4R<float> yzxz(Vector4R<float> v) {
         return {v[1], v[2], v[0], v[2]};
     }
 
-    AVML_FINL vec4f yzxw(vec4f v) {
+    AVML_FINL Vector4R<float> yzxw(Vector4R<float> v) {
         return {v[1], v[2], v[0], v[3]};
     }
 
-    AVML_FINL vec4f yzyx(vec4f v) {
+    AVML_FINL Vector4R<float> yzyx(Vector4R<float> v) {
         return {v[1], v[2], v[1], v[0]};
     }
 
-    AVML_FINL vec4f yzyy(vec4f v) {
+    AVML_FINL Vector4R<float> yzyy(Vector4R<float> v) {
         return {v[1], v[2], v[1], v[1]};
     }
 
-    AVML_FINL vec4f yzyz(vec4f v) {
+    AVML_FINL Vector4R<float> yzyz(Vector4R<float> v) {
         return {v[1], v[2], v[1], v[2]};
     }
 
-    AVML_FINL vec4f yzyw(vec4f v) {
+    AVML_FINL Vector4R<float> yzyw(Vector4R<float> v) {
         return {v[1], v[2], v[1], v[3]};
     }
 
-    AVML_FINL vec4f yzzx(vec4f v) {
+    AVML_FINL Vector4R<float> yzzx(Vector4R<float> v) {
         return {v[1], v[2], v[2], v[0]};
     }
 
-    AVML_FINL vec4f yzzy(vec4f v) {
+    AVML_FINL Vector4R<float> yzzy(Vector4R<float> v) {
         return {v[1], v[2], v[2], v[1]};
     }
 
-    AVML_FINL vec4f yzzz(vec4f v) {
+    AVML_FINL Vector4R<float> yzzz(Vector4R<float> v) {
         return {v[1], v[2], v[2], v[2]};
     }
 
-    AVML_FINL vec4f yzzw(vec4f v) {
+    AVML_FINL Vector4R<float> yzzw(Vector4R<float> v) {
         return {v[1], v[2], v[2], v[3]};
     }
 
-    AVML_FINL vec4f yzwx(vec4f v) {
+    AVML_FINL Vector4R<float> yzwx(Vector4R<float> v) {
         return {v[1], v[2], v[3], v[0]};
     }
 
-    AVML_FINL vec4f yzwy(vec4f v) {
+    AVML_FINL Vector4R<float> yzwy(Vector4R<float> v) {
         return {v[1], v[2], v[3], v[1]};
     }
 
-    AVML_FINL vec4f yzwz(vec4f v) {
+    AVML_FINL Vector4R<float> yzwz(Vector4R<float> v) {
         return {v[1], v[2], v[3], v[2]};
     }
 
-    AVML_FINL vec4f yzww(vec4f v) {
+    AVML_FINL Vector4R<float> yzww(Vector4R<float> v) {
         return {v[1], v[2], v[3], v[3]};
     }
 
-    AVML_FINL vec4f ywxx(vec4f v) {
+    AVML_FINL Vector4R<float> ywxx(Vector4R<float> v) {
         return {v[1], v[3], v[0], v[0]};
     }
 
-    AVML_FINL vec4f ywxy(vec4f v) {
+    AVML_FINL Vector4R<float> ywxy(Vector4R<float> v) {
         return {v[1], v[3], v[0], v[1]};
     }
 
-    AVML_FINL vec4f ywxz(vec4f v) {
+    AVML_FINL Vector4R<float> ywxz(Vector4R<float> v) {
         return {v[1], v[3], v[0], v[2]};
     }
 
-    AVML_FINL vec4f ywxw(vec4f v) {
+    AVML_FINL Vector4R<float> ywxw(Vector4R<float> v) {
         return {v[1], v[3], v[0], v[3]};
     }
 
-    AVML_FINL vec4f ywyx(vec4f v) {
+    AVML_FINL Vector4R<float> ywyx(Vector4R<float> v) {
         return {v[1], v[3], v[1], v[0]};
     }
 
-    AVML_FINL vec4f ywyy(vec4f v) {
+    AVML_FINL Vector4R<float> ywyy(Vector4R<float> v) {
         return {v[1], v[3], v[1], v[1]};
     }
 
-    AVML_FINL vec4f ywyz(vec4f v) {
+    AVML_FINL Vector4R<float> ywyz(Vector4R<float> v) {
         return {v[1], v[3], v[1], v[2]};
     }
 
-    AVML_FINL vec4f ywyw(vec4f v) {
+    AVML_FINL Vector4R<float> ywyw(Vector4R<float> v) {
         return {v[1], v[3], v[1], v[3]};
     }
 
-    AVML_FINL vec4f ywzx(vec4f v) {
+    AVML_FINL Vector4R<float> ywzx(Vector4R<float> v) {
         return {v[1], v[3], v[2], v[0]};
     }
 
-    AVML_FINL vec4f ywzy(vec4f v) {
+    AVML_FINL Vector4R<float> ywzy(Vector4R<float> v) {
         return {v[1], v[3], v[2], v[1]};
     }
 
-    AVML_FINL vec4f ywzz(vec4f v) {
+    AVML_FINL Vector4R<float> ywzz(Vector4R<float> v) {
         return {v[1], v[3], v[2], v[2]};
     }
 
-    AVML_FINL vec4f ywzw(vec4f v) {
+    AVML_FINL Vector4R<float> ywzw(Vector4R<float> v) {
         return {v[1], v[3], v[2], v[3]};
     }
 
-    AVML_FINL vec4f ywwx(vec4f v) {
+    AVML_FINL Vector4R<float> ywwx(Vector4R<float> v) {
         return {v[1], v[3], v[3], v[0]};
     }
 
-    AVML_FINL vec4f ywwy(vec4f v) {
+    AVML_FINL Vector4R<float> ywwy(Vector4R<float> v) {
         return {v[1], v[3], v[3], v[1]};
     }
 
-    AVML_FINL vec4f ywwz(vec4f v) {
+    AVML_FINL Vector4R<float> ywwz(Vector4R<float> v) {
         return {v[1], v[3], v[3], v[2]};
     }
 
-    AVML_FINL vec4f ywww(vec4f v) {
+    AVML_FINL Vector4R<float> ywww(Vector4R<float> v) {
         return {v[1], v[3], v[3], v[3]};
     }
 
-    AVML_FINL vec4f zxxx(vec4f v) {
+    AVML_FINL Vector4R<float> zxxx(Vector4R<float> v) {
         return {v[2], v[0], v[0], v[0]};
     }
 
-    AVML_FINL vec4f zxxy(vec4f v) {
+    AVML_FINL Vector4R<float> zxxy(Vector4R<float> v) {
         return {v[2], v[0], v[0], v[1]};
     }
 
-    AVML_FINL vec4f zxxz(vec4f v) {
+    AVML_FINL Vector4R<float> zxxz(Vector4R<float> v) {
         return {v[2], v[0], v[0], v[2]};
     }
 
-    AVML_FINL vec4f zxxw(vec4f v) {
+    AVML_FINL Vector4R<float> zxxw(Vector4R<float> v) {
         return {v[2], v[0], v[0], v[3]};
     }
 
-    AVML_FINL vec4f zxyx(vec4f v) {
+    AVML_FINL Vector4R<float> zxyx(Vector4R<float> v) {
         return {v[2], v[0], v[1], v[0]};
     }
 
-    AVML_FINL vec4f zxyy(vec4f v) {
+    AVML_FINL Vector4R<float> zxyy(Vector4R<float> v) {
         return {v[2], v[0], v[1], v[1]};
     }
 
-    AVML_FINL vec4f zxyz(vec4f v) {
+    AVML_FINL Vector4R<float> zxyz(Vector4R<float> v) {
         return {v[2], v[0], v[1], v[2]};
     }
 
-    AVML_FINL vec4f zxyw(vec4f v) {
+    AVML_FINL Vector4R<float> zxyw(Vector4R<float> v) {
         return {v[2], v[0], v[1], v[3]};
     }
 
-    AVML_FINL vec4f zxzx(vec4f v) {
+    AVML_FINL Vector4R<float> zxzx(Vector4R<float> v) {
         return {v[2], v[0], v[2], v[0]};
     }
 
-    AVML_FINL vec4f zxzy(vec4f v) {
+    AVML_FINL Vector4R<float> zxzy(Vector4R<float> v) {
         return {v[2], v[0], v[2], v[1]};
     }
 
-    AVML_FINL vec4f zxzz(vec4f v) {
+    AVML_FINL Vector4R<float> zxzz(Vector4R<float> v) {
         return {v[2], v[0], v[2], v[2]};
     }
 
-    AVML_FINL vec4f zxzw(vec4f v) {
+    AVML_FINL Vector4R<float> zxzw(Vector4R<float> v) {
         return {v[2], v[0], v[2], v[3]};
     }
 
-    AVML_FINL vec4f zxwx(vec4f v) {
+    AVML_FINL Vector4R<float> zxwx(Vector4R<float> v) {
         return {v[2], v[0], v[3], v[0]};
     }
 
-    AVML_FINL vec4f zxwy(vec4f v) {
+    AVML_FINL Vector4R<float> zxwy(Vector4R<float> v) {
         return {v[2], v[0], v[3], v[1]};
     }
 
-    AVML_FINL vec4f zxwz(vec4f v) {
+    AVML_FINL Vector4R<float> zxwz(Vector4R<float> v) {
         return {v[2], v[0], v[3], v[2]};
     }
 
-    AVML_FINL vec4f zxww(vec4f v) {
+    AVML_FINL Vector4R<float> zxww(Vector4R<float> v) {
         return {v[2], v[0], v[3], v[3]};
     }
 
-    AVML_FINL vec4f zyxx(vec4f v) {
+    AVML_FINL Vector4R<float> zyxx(Vector4R<float> v) {
         return {v[2], v[1], v[0], v[0]};
     }
 
-    AVML_FINL vec4f zyxy(vec4f v) {
+    AVML_FINL Vector4R<float> zyxy(Vector4R<float> v) {
         return {v[2], v[1], v[0], v[1]};
     }
 
-    AVML_FINL vec4f zyxz(vec4f v) {
+    AVML_FINL Vector4R<float> zyxz(Vector4R<float> v) {
         return {v[2], v[1], v[0], v[2]};
     }
 
-    AVML_FINL vec4f zyxw(vec4f v) {
+    AVML_FINL Vector4R<float> zyxw(Vector4R<float> v) {
         return {v[2], v[1], v[0], v[3]};
     }
 
-    AVML_FINL vec4f zyyx(vec4f v) {
+    AVML_FINL Vector4R<float> zyyx(Vector4R<float> v) {
         return {v[2], v[1], v[1], v[0]};
     }
 
-    AVML_FINL vec4f zyyy(vec4f v) {
+    AVML_FINL Vector4R<float> zyyy(Vector4R<float> v) {
         return {v[2], v[1], v[1], v[1]};
     }
 
-    AVML_FINL vec4f zyyz(vec4f v) {
+    AVML_FINL Vector4R<float> zyyz(Vector4R<float> v) {
         return {v[2], v[1], v[1], v[2]};
     }
 
-    AVML_FINL vec4f zyyw(vec4f v) {
+    AVML_FINL Vector4R<float> zyyw(Vector4R<float> v) {
         return {v[2], v[1], v[1], v[3]};
     }
 
-    AVML_FINL vec4f zyzx(vec4f v) {
+    AVML_FINL Vector4R<float> zyzx(Vector4R<float> v) {
         return {v[2], v[1], v[2], v[0]};
     }
 
-    AVML_FINL vec4f zyzy(vec4f v) {
+    AVML_FINL Vector4R<float> zyzy(Vector4R<float> v) {
         return {v[2], v[1], v[2], v[1]};
     }
 
-    AVML_FINL vec4f zyzz(vec4f v) {
+    AVML_FINL Vector4R<float> zyzz(Vector4R<float> v) {
         return {v[2], v[1], v[2], v[2]};
     }
 
-    AVML_FINL vec4f zyzw(vec4f v) {
+    AVML_FINL Vector4R<float> zyzw(Vector4R<float> v) {
         return {v[2], v[1], v[2], v[3]};
     }
 
-    AVML_FINL vec4f zywx(vec4f v) {
+    AVML_FINL Vector4R<float> zywx(Vector4R<float> v) {
         return {v[2], v[1], v[3], v[0]};
     }
 
-    AVML_FINL vec4f zywy(vec4f v) {
+    AVML_FINL Vector4R<float> zywy(Vector4R<float> v) {
         return {v[2], v[1], v[3], v[1]};
     }
 
-    AVML_FINL vec4f zywz(vec4f v) {
+    AVML_FINL Vector4R<float> zywz(Vector4R<float> v) {
         return {v[2], v[1], v[3], v[2]};
     }
 
-    AVML_FINL vec4f zyww(vec4f v) {
+    AVML_FINL Vector4R<float> zyww(Vector4R<float> v) {
         return {v[2], v[1], v[3], v[3]};
     }
 
-    AVML_FINL vec4f zzxx(vec4f v) {
+    AVML_FINL Vector4R<float> zzxx(Vector4R<float> v) {
         return {v[2], v[2], v[0], v[0]};
     }
 
-    AVML_FINL vec4f zzxy(vec4f v) {
+    AVML_FINL Vector4R<float> zzxy(Vector4R<float> v) {
         return {v[2], v[2], v[0], v[1]};
     }
 
-    AVML_FINL vec4f zzxz(vec4f v) {
+    AVML_FINL Vector4R<float> zzxz(Vector4R<float> v) {
         return {v[2], v[2], v[0], v[2]};
     }
 
-    AVML_FINL vec4f zzxw(vec4f v) {
+    AVML_FINL Vector4R<float> zzxw(Vector4R<float> v) {
         return {v[2], v[2], v[0], v[3]};
     }
 
-    AVML_FINL vec4f zzyx(vec4f v) {
+    AVML_FINL Vector4R<float> zzyx(Vector4R<float> v) {
         return {v[2], v[2], v[1], v[0]};
     }
 
-    AVML_FINL vec4f zzyy(vec4f v) {
+    AVML_FINL Vector4R<float> zzyy(Vector4R<float> v) {
         return {v[2], v[2], v[1], v[1]};
     }
 
-    AVML_FINL vec4f zzyz(vec4f v) {
+    AVML_FINL Vector4R<float> zzyz(Vector4R<float> v) {
         return {v[2], v[2], v[1], v[2]};
     }
 
-    AVML_FINL vec4f zzyw(vec4f v) {
+    AVML_FINL Vector4R<float> zzyw(Vector4R<float> v) {
         return {v[2], v[2], v[1], v[3]};
     }
 
-    AVML_FINL vec4f zzzx(vec4f v) {
+    AVML_FINL Vector4R<float> zzzx(Vector4R<float> v) {
         return {v[2], v[2], v[2], v[0]};
     }
 
-    AVML_FINL vec4f zzzy(vec4f v) {
+    AVML_FINL Vector4R<float> zzzy(Vector4R<float> v) {
         return {v[2], v[2], v[2], v[1]};
     }
 
-    AVML_FINL vec4f zzzz(vec4f v) {
+    AVML_FINL Vector4R<float> zzzz(Vector4R<float> v) {
         return {v[2], v[2], v[2], v[2]};
     }
 
-    AVML_FINL vec4f zzzw(vec4f v) {
+    AVML_FINL Vector4R<float> zzzw(Vector4R<float> v) {
         return {v[2], v[2], v[2], v[3]};
     }
 
-    AVML_FINL vec4f zzwx(vec4f v) {
+    AVML_FINL Vector4R<float> zzwx(Vector4R<float> v) {
         return {v[2], v[2], v[3], v[0]};
     }
 
-    AVML_FINL vec4f zzwy(vec4f v) {
+    AVML_FINL Vector4R<float> zzwy(Vector4R<float> v) {
         return {v[2], v[2], v[3], v[1]};
     }
 
-    AVML_FINL vec4f zzwz(vec4f v) {
+    AVML_FINL Vector4R<float> zzwz(Vector4R<float> v) {
         return {v[2], v[2], v[3], v[2]};
     }
 
-    AVML_FINL vec4f zzww(vec4f v) {
+    AVML_FINL Vector4R<float> zzww(Vector4R<float> v) {
         return {v[2], v[2], v[3], v[3]};
     }
 
-    AVML_FINL vec4f zwxx(vec4f v) {
+    AVML_FINL Vector4R<float> zwxx(Vector4R<float> v) {
         return {v[2], v[3], v[0], v[0]};
     }
 
-    AVML_FINL vec4f zwxy(vec4f v) {
+    AVML_FINL Vector4R<float> zwxy(Vector4R<float> v) {
         return {v[2], v[3], v[0], v[1]};
     }
 
-    AVML_FINL vec4f zwxz(vec4f v) {
+    AVML_FINL Vector4R<float> zwxz(Vector4R<float> v) {
         return {v[2], v[3], v[0], v[2]};
     }
 
-    AVML_FINL vec4f zwxw(vec4f v) {
+    AVML_FINL Vector4R<float> zwxw(Vector4R<float> v) {
         return {v[2], v[3], v[0], v[3]};
     }
 
-    AVML_FINL vec4f zwyx(vec4f v) {
+    AVML_FINL Vector4R<float> zwyx(Vector4R<float> v) {
         return {v[2], v[3], v[1], v[0]};
     }
 
-    AVML_FINL vec4f zwyy(vec4f v) {
+    AVML_FINL Vector4R<float> zwyy(Vector4R<float> v) {
         return {v[2], v[3], v[1], v[1]};
     }
 
-    AVML_FINL vec4f zwyz(vec4f v) {
+    AVML_FINL Vector4R<float> zwyz(Vector4R<float> v) {
         return {v[2], v[3], v[1], v[2]};
     }
 
-    AVML_FINL vec4f zwyw(vec4f v) {
+    AVML_FINL Vector4R<float> zwyw(Vector4R<float> v) {
         return {v[2], v[3], v[1], v[3]};
     }
 
-    AVML_FINL vec4f zwzx(vec4f v) {
+    AVML_FINL Vector4R<float> zwzx(Vector4R<float> v) {
         return {v[2], v[3], v[2], v[0]};
     }
 
-    AVML_FINL vec4f zwzy(vec4f v) {
+    AVML_FINL Vector4R<float> zwzy(Vector4R<float> v) {
         return {v[2], v[3], v[2], v[1]};
     }
 
-    AVML_FINL vec4f zwzz(vec4f v) {
+    AVML_FINL Vector4R<float> zwzz(Vector4R<float> v) {
         return {v[2], v[3], v[2], v[2]};
     }
 
-    AVML_FINL vec4f zwzw(vec4f v) {
+    AVML_FINL Vector4R<float> zwzw(Vector4R<float> v) {
         return {v[2], v[3], v[2], v[3]};
     }
 
-    AVML_FINL vec4f zwwx(vec4f v) {
+    AVML_FINL Vector4R<float> zwwx(Vector4R<float> v) {
         return {v[2], v[3], v[3], v[0]};
     }
 
-    AVML_FINL vec4f zwwy(vec4f v) {
+    AVML_FINL Vector4R<float> zwwy(Vector4R<float> v) {
         return {v[2], v[3], v[3], v[1]};
     }
 
-    AVML_FINL vec4f zwwz(vec4f v) {
+    AVML_FINL Vector4R<float> zwwz(Vector4R<float> v) {
         return {v[2], v[3], v[3], v[2]};
     }
 
-    AVML_FINL vec4f zwww(vec4f v) {
+    AVML_FINL Vector4R<float> zwww(Vector4R<float> v) {
         return {v[2], v[3], v[3], v[3]};
     }
 
-    AVML_FINL vec4f wxxx(vec4f v) {
+    AVML_FINL Vector4R<float> wxxx(Vector4R<float> v) {
         return {v[3], v[0], v[0], v[0]};
     }
 
-    AVML_FINL vec4f wxxy(vec4f v) {
+    AVML_FINL Vector4R<float> wxxy(Vector4R<float> v) {
         return {v[3], v[0], v[0], v[1]};
     }
 
-    AVML_FINL vec4f wxxz(vec4f v) {
+    AVML_FINL Vector4R<float> wxxz(Vector4R<float> v) {
         return {v[3], v[0], v[0], v[2]};
     }
 
-    AVML_FINL vec4f wxxw(vec4f v) {
+    AVML_FINL Vector4R<float> wxxw(Vector4R<float> v) {
         return {v[3], v[0], v[0], v[3]};
     }
 
-    AVML_FINL vec4f wxyx(vec4f v) {
+    AVML_FINL Vector4R<float> wxyx(Vector4R<float> v) {
         return {v[3], v[0], v[1], v[0]};
     }
 
-    AVML_FINL vec4f wxyy(vec4f v) {
+    AVML_FINL Vector4R<float> wxyy(Vector4R<float> v) {
         return {v[3], v[0], v[1], v[1]};
     }
 
-    AVML_FINL vec4f wxyz(vec4f v) {
+    AVML_FINL Vector4R<float> wxyz(Vector4R<float> v) {
         return {v[3], v[0], v[1], v[2]};
     }
 
-    AVML_FINL vec4f wxyw(vec4f v) {
+    AVML_FINL Vector4R<float> wxyw(Vector4R<float> v) {
         return {v[3], v[0], v[1], v[3]};
     }
 
-    AVML_FINL vec4f wxzx(vec4f v) {
+    AVML_FINL Vector4R<float> wxzx(Vector4R<float> v) {
         return {v[3], v[0], v[2], v[0]};
     }
 
-    AVML_FINL vec4f wxzy(vec4f v) {
+    AVML_FINL Vector4R<float> wxzy(Vector4R<float> v) {
         return {v[3], v[0], v[2], v[1]};
     }
 
-    AVML_FINL vec4f wxzz(vec4f v) {
+    AVML_FINL Vector4R<float> wxzz(Vector4R<float> v) {
         return {v[3], v[0], v[2], v[2]};
     }
 
-    AVML_FINL vec4f wxzw(vec4f v) {
+    AVML_FINL Vector4R<float> wxzw(Vector4R<float> v) {
         return {v[3], v[0], v[2], v[3]};
     }
 
-    AVML_FINL vec4f wxwx(vec4f v) {
+    AVML_FINL Vector4R<float> wxwx(Vector4R<float> v) {
         return {v[3], v[0], v[3], v[0]};
     }
 
-    AVML_FINL vec4f wxwy(vec4f v) {
+    AVML_FINL Vector4R<float> wxwy(Vector4R<float> v) {
         return {v[3], v[0], v[3], v[1]};
     }
 
-    AVML_FINL vec4f wxwz(vec4f v) {
+    AVML_FINL Vector4R<float> wxwz(Vector4R<float> v) {
         return {v[3], v[0], v[3], v[2]};
     }
 
-    AVML_FINL vec4f wxww(vec4f v) {
+    AVML_FINL Vector4R<float> wxww(Vector4R<float> v) {
         return {v[3], v[0], v[3], v[3]};
     }
 
-    AVML_FINL vec4f wyxx(vec4f v) {
+    AVML_FINL Vector4R<float> wyxx(Vector4R<float> v) {
         return {v[3], v[1], v[0], v[0]};
     }
 
-    AVML_FINL vec4f wyxy(vec4f v) {
+    AVML_FINL Vector4R<float> wyxy(Vector4R<float> v) {
         return {v[3], v[1], v[0], v[1]};
     }
 
-    AVML_FINL vec4f wyxz(vec4f v) {
+    AVML_FINL Vector4R<float> wyxz(Vector4R<float> v) {
         return {v[3], v[1], v[0], v[2]};
     }
 
-    AVML_FINL vec4f wyxw(vec4f v) {
+    AVML_FINL Vector4R<float> wyxw(Vector4R<float> v) {
         return {v[3], v[1], v[0], v[3]};
     }
 
-    AVML_FINL vec4f wyyx(vec4f v) {
+    AVML_FINL Vector4R<float> wyyx(Vector4R<float> v) {
         return {v[3], v[1], v[1], v[0]};
     }
 
-    AVML_FINL vec4f wyyy(vec4f v) {
+    AVML_FINL Vector4R<float> wyyy(Vector4R<float> v) {
         return {v[3], v[1], v[1], v[1]};
     }
 
-    AVML_FINL vec4f wyyz(vec4f v) {
+    AVML_FINL Vector4R<float> wyyz(Vector4R<float> v) {
         return {v[3], v[1], v[1], v[2]};
     }
 
-    AVML_FINL vec4f wyyw(vec4f v) {
+    AVML_FINL Vector4R<float> wyyw(Vector4R<float> v) {
         return {v[3], v[1], v[1], v[3]};
     }
 
-    AVML_FINL vec4f wyzx(vec4f v) {
+    AVML_FINL Vector4R<float> wyzx(Vector4R<float> v) {
         return {v[3], v[1], v[2], v[0]};
     }
 
-    AVML_FINL vec4f wyzy(vec4f v) {
+    AVML_FINL Vector4R<float> wyzy(Vector4R<float> v) {
         return {v[3], v[1], v[2], v[1]};
     }
 
-    AVML_FINL vec4f wyzz(vec4f v) {
+    AVML_FINL Vector4R<float> wyzz(Vector4R<float> v) {
         return {v[3], v[1], v[2], v[2]};
     }
 
-    AVML_FINL vec4f wyzw(vec4f v) {
+    AVML_FINL Vector4R<float> wyzw(Vector4R<float> v) {
         return {v[3], v[1], v[2], v[3]};
     }
 
-    AVML_FINL vec4f wywx(vec4f v) {
+    AVML_FINL Vector4R<float> wywx(Vector4R<float> v) {
         return {v[3], v[1], v[3], v[0]};
     }
 
-    AVML_FINL vec4f wywy(vec4f v) {
+    AVML_FINL Vector4R<float> wywy(Vector4R<float> v) {
         return {v[3], v[1], v[3], v[1]};
     }
 
-    AVML_FINL vec4f wywz(vec4f v) {
+    AVML_FINL Vector4R<float> wywz(Vector4R<float> v) {
         return {v[3], v[1], v[3], v[2]};
     }
 
-    AVML_FINL vec4f wyww(vec4f v) {
+    AVML_FINL Vector4R<float> wyww(Vector4R<float> v) {
         return {v[3], v[1], v[3], v[3]};
     }
 
-    AVML_FINL vec4f wzxx(vec4f v) {
+    AVML_FINL Vector4R<float> wzxx(Vector4R<float> v) {
         return {v[3], v[2], v[0], v[0]};
     }
 
-    AVML_FINL vec4f wzxy(vec4f v) {
+    AVML_FINL Vector4R<float> wzxy(Vector4R<float> v) {
         return {v[3], v[2], v[0], v[1]};
     }
 
-    AVML_FINL vec4f wzxz(vec4f v) {
+    AVML_FINL Vector4R<float> wzxz(Vector4R<float> v) {
         return {v[3], v[2], v[0], v[2]};
     }
 
-    AVML_FINL vec4f wzxw(vec4f v) {
+    AVML_FINL Vector4R<float> wzxw(Vector4R<float> v) {
         return {v[3], v[2], v[0], v[3]};
     }
 
-    AVML_FINL vec4f wzyx(vec4f v) {
+    AVML_FINL Vector4R<float> wzyx(Vector4R<float> v) {
         return {v[3], v[2], v[1], v[0]};
     }
 
-    AVML_FINL vec4f wzyy(vec4f v) {
+    AVML_FINL Vector4R<float> wzyy(Vector4R<float> v) {
         return {v[3], v[2], v[1], v[1]};
     }
 
-    AVML_FINL vec4f wzyz(vec4f v) {
+    AVML_FINL Vector4R<float> wzyz(Vector4R<float> v) {
         return {v[3], v[2], v[1], v[2]};
     }
 
-    AVML_FINL vec4f wzyw(vec4f v) {
+    AVML_FINL Vector4R<float> wzyw(Vector4R<float> v) {
         return {v[3], v[2], v[1], v[3]};
     }
 
-    AVML_FINL vec4f wzzx(vec4f v) {
+    AVML_FINL Vector4R<float> wzzx(Vector4R<float> v) {
         return {v[3], v[2], v[2], v[0]};
     }
 
-    AVML_FINL vec4f wzzy(vec4f v) {
+    AVML_FINL Vector4R<float> wzzy(Vector4R<float> v) {
         return {v[3], v[2], v[2], v[1]};
     }
 
-    AVML_FINL vec4f wzzz(vec4f v) {
+    AVML_FINL Vector4R<float> wzzz(Vector4R<float> v) {
         return {v[3], v[2], v[2], v[2]};
     }
 
-    AVML_FINL vec4f wzzw(vec4f v) {
+    AVML_FINL Vector4R<float> wzzw(Vector4R<float> v) {
         return {v[3], v[2], v[2], v[3]};
     }
 
-    AVML_FINL vec4f wzwx(vec4f v) {
+    AVML_FINL Vector4R<float> wzwx(Vector4R<float> v) {
         return {v[3], v[2], v[3], v[0]};
     }
 
-    AVML_FINL vec4f wzwy(vec4f v) {
+    AVML_FINL Vector4R<float> wzwy(Vector4R<float> v) {
         return {v[3], v[2], v[3], v[1]};
     }
 
-    AVML_FINL vec4f wzwz(vec4f v) {
+    AVML_FINL Vector4R<float> wzwz(Vector4R<float> v) {
         return {v[3], v[2], v[3], v[2]};
     }
 
-    AVML_FINL vec4f wzww(vec4f v) {
+    AVML_FINL Vector4R<float> wzww(Vector4R<float> v) {
         return {v[3], v[2], v[3], v[3]};
     }
 
-    AVML_FINL vec4f wwxx(vec4f v) {
+    AVML_FINL Vector4R<float> wwxx(Vector4R<float> v) {
         return {v[3], v[3], v[0], v[0]};
     }
 
-    AVML_FINL vec4f wwxy(vec4f v) {
+    AVML_FINL Vector4R<float> wwxy(Vector4R<float> v) {
         return {v[3], v[3], v[0], v[1]};
     }
 
-    AVML_FINL vec4f wwxz(vec4f v) {
+    AVML_FINL Vector4R<float> wwxz(Vector4R<float> v) {
         return {v[3], v[3], v[0], v[2]};
     }
 
-    AVML_FINL vec4f wwxw(vec4f v) {
+    AVML_FINL Vector4R<float> wwxw(Vector4R<float> v) {
         return {v[3], v[3], v[0], v[3]};
     }
 
-    AVML_FINL vec4f wwyx(vec4f v) {
+    AVML_FINL Vector4R<float> wwyx(Vector4R<float> v) {
         return {v[3], v[3], v[1], v[0]};
     }
 
-    AVML_FINL vec4f wwyy(vec4f v) {
+    AVML_FINL Vector4R<float> wwyy(Vector4R<float> v) {
         return {v[3], v[3], v[1], v[1]};
     }
 
-    AVML_FINL vec4f wwyz(vec4f v) {
+    AVML_FINL Vector4R<float> wwyz(Vector4R<float> v) {
         return {v[3], v[3], v[1], v[2]};
     }
 
-    AVML_FINL vec4f wwyw(vec4f v) {
+    AVML_FINL Vector4R<float> wwyw(Vector4R<float> v) {
         return {v[3], v[3], v[1], v[3]};
     }
 
-    AVML_FINL vec4f wwzx(vec4f v) {
+    AVML_FINL Vector4R<float> wwzx(Vector4R<float> v) {
         return {v[3], v[3], v[2], v[0]};
     }
 
-    AVML_FINL vec4f wwzy(vec4f v) {
+    AVML_FINL Vector4R<float> wwzy(Vector4R<float> v) {
         return {v[3], v[3], v[2], v[1]};
     }
 
-    AVML_FINL vec4f wwzz(vec4f v) {
+    AVML_FINL Vector4R<float> wwzz(Vector4R<float> v) {
         return {v[3], v[3], v[2], v[2]};
     }
 
-    AVML_FINL vec4f wwzw(vec4f v) {
+    AVML_FINL Vector4R<float> wwzw(Vector4R<float> v) {
         return {v[3], v[3], v[2], v[3]};
     }
 
-    AVML_FINL vec4f wwwx(vec4f v) {
+    AVML_FINL Vector4R<float> wwwx(Vector4R<float> v) {
         return {v[3], v[3], v[3], v[0]};
     }
 
-    AVML_FINL vec4f wwwy(vec4f v) {
+    AVML_FINL Vector4R<float> wwwy(Vector4R<float> v) {
         return {v[3], v[3], v[3], v[1]};
     }
 
-    AVML_FINL vec4f wwwz(vec4f v) {
+    AVML_FINL Vector4R<float> wwwz(Vector4R<float> v) {
         return {v[3], v[3], v[3], v[2]};
     }
 
-    AVML_FINL vec4f wwww(vec4f v) {
+    AVML_FINL Vector4R<float> wwww(Vector4R<float> v) {
         return {v[3], v[3], v[3], v[3]};
     }
 

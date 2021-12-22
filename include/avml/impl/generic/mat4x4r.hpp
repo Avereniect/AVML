@@ -1,3 +1,6 @@
+#ifndef AVML_MAT4X4R_HPP
+#define AVML_MAT4X4R_HPP
+
 namespace avml {
 
     template<class R>
@@ -219,8 +222,8 @@ namespace avml {
     }
 
     template<class R>
-    AVML_FINL vec4f operator*(Matrix4x4R<R> lhs, vec4f rhs) {
-        vec4f ret{};
+    AVML_FINL Vector4R<R> operator*(Matrix4x4R<R> lhs, Vector4R<R> rhs) {
+        Vector4R<R> ret{};
 
         for (unsigned i = 0; i < Matrix4x4R<R>::height; ++i) {
             for (unsigned j = 0; j < Matrix4x4R<R>::width; ++j) {
@@ -426,3 +429,5 @@ namespace avml {
     }
 
 }
+
+#endif
