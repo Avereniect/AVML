@@ -119,6 +119,10 @@ namespace avml {
 #include "impl/vec3f.ipp"
 #include "impl/vec4f.ipp"
 
+#include "impl/vec2i.ipp"
+#include "impl/vec3i.ipp"
+#include "impl/vec4i.ipp"
+
 namespace avml {
 
     static const uvec2f X2f{1.0f, 0.0f};

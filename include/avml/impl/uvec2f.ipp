@@ -107,9 +107,11 @@ namespace avml {
             __m128d t0 = _mm_load_pd(v.data());
             __m128 t1 = _mm_cvtpd_ps(t0);
             avml_impl::store2f(elements, t1);
+
             #else
             elements[0] = static_cast<double>(v[0]);
             elements[1] = static_cast<double>(v[1]);
+
             #endif
         }
 
@@ -172,11 +174,21 @@ namespace avml {
             return ret;
         }
 
-        /*
         explicit operator Unit_vector2R<double>() const {
-            //TODO: Implement
+            Unit_vector2R<double> ret;
+            double* p = const_cast<double*>(ret.data());
+
+            #if defined(AVML_SSE)
+            __m128d t = _mm_cvtps_pd(avml_impl::load2f(elements));
+            avml_impl::store2d(p, t);
+
+            #else
+            p[0] = static_cast<double>(elements[0]);
+            p[1] = static_cast<double>(elements[1]);
+
+            #endif
+            return ret;
         }
-        */
 
     private:
 
@@ -194,9 +206,8 @@ namespace avml {
 
     AVML_FINL uvec2f abs(uvec2f v) {
         #if defined(AVML_SSE)
-        __m128 mask = _mm_castsi128_ps(avml_impl::sign_bit_mask);
         __m128 vec_data = avml_impl::load2f(v.data());
-        vec_data = _mm_and_ps(mask, vec_data);
+        vec_data = _mm_and_ps(avml_impl::sign_bit_mask, vec_data);
 
         uvec2f ret;
         avml_impl::store2f(const_cast<float*>(ret.data()), vec_data);

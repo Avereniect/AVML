@@ -4,7 +4,7 @@
 namespace avml {
 
     template<class R>
-    class alignas(avml_impl::vector_alignment<R, 2>) Vector2R {
+    class alignas(avml_impl::vector_alignment<R, 2>()) Vector2R {
     public:
 
         using scalar = R;
@@ -142,7 +142,7 @@ namespace avml {
         // Instance members
         //=================================================
 
-        R elements[width] = {0.0f, 0.0f};
+        R elements[width];
 
     };
 

@@ -91,6 +91,10 @@ static_assert(sizeof(double) == 8, "Size of doubles should be 64 bits");
 #ifdef AVML_X86
 #endif
 
+#if defined(AVML_SSE) && !defined(AVML_SSE2)
+    static_assert(false, "AVML does not currently support SSE without SSE2 enabled as well");
+#endif
+
 //=========================================================
 // ARM Instruction sets
 //=========================================================

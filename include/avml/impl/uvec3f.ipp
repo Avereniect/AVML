@@ -198,11 +198,29 @@ namespace avml {
             return ret;
         }
 
-        /*
-        explicit operator Unit_vector2R<double>() const {
-            //TODO: Implement
+        explicit operator Unit_vector3R<double>() const {
+            Unit_vector3R<double> ret;
+            double* p = const_cast<double*>(ret.data());
+
+            #if defined(AVML_AVX)
+            __m128 t = avml_impl::load3f(elements);
+            __m256d d = _mm256_cvtps_pd(t);
+
+            avml_impl::store3d(p, d);
+            #elif defined(AVML_SSE2)
+            __m128 d = avml_impl::load3f(elements);
+            __m128d d0 = _mm_cvtps_pd(d);
+            __m128 d1 = _mm_movehl_ps(d, d);
+            __m128d d2 = _mm_cvtss_sd(_mm_setzero_pd(), d1);
+            avml_impl::store3d(p, d0, d2);
+            #else
+            p[0] = static_cast<double>(elements[0]);
+            p[1] = static_cast<double>(elements[1]);
+            p[2] = static_cast<double>(elements[2]);
+            #endif
+
+            return ret;
         }
-        */
 
     private:
 
@@ -284,9 +302,8 @@ namespace avml {
 
     AVML_FINL uvec3f abs(uvec3f v) {
         #if defined(AVML_SSE)
-        __m128 mask = _mm_castsi128_ps(avml_impl::sign_bit_mask);
         __m128 vec_data = avml_impl::load3f(v.data());
-        vec_data = _mm_and_ps(mask, vec_data);
+        vec_data = _mm_and_ps(avml_impl::sign_bit_mask, vec_data);
 
         uvec3f ret;
         avml_impl::store3f(const_cast<float*>(ret.data()), vec_data);

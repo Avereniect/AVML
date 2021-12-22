@@ -227,11 +227,28 @@ namespace avml {
             return ret;
         }
 
-        /*
-        explicit operator Unit_vector2R<double>() const {
-            //TODO: Implement
+        explicit operator Unit_vector4R<double>() const {
+            Unit_vector4R<double> ret;
+            double* p = const_cast<double*>(ret.data());
+
+            #if defined(AVML_AVX)
+            __m128 t = avml_impl::load4f(elements);
+            __m256d d = _mm256_cvtps_pd(t);
+
+            avml_impl::store4d(p, d);
+            #elif defined(AVML_SSE2)
+            __m128 d = avml_impl::load4f(elements);
+            __m128d d0 = _mm_cvtps_pd(d);
+            __m128d d1 = _mm_cvtps_pd(_mm_movehl_ps(d, d));
+            avml_impl::store4d(p, d0, d1);
+            #else
+            p[0] = static_cast<double>(elements[0]);
+            p[1] = static_cast<double>(elements[1]);
+            p[2] = static_cast<double>(elements[2]);
+            p[3] = static_cast<double>(elements[3]);
+            #endif
+            return ret;
         }
-        */
 
     private:
 
@@ -248,24 +265,22 @@ namespace avml {
     //=====================================================
 
     AVML_FINL uvec4f abs(uvec4f v) {
-        #if defined(AVML_SSE)
-        __m128 mask = _mm_castsi128_ps(avml_impl::sign_bit_mask);
-        __m128 vec_data = avml_impl::load4f(v.data());
-        vec_data = _mm_and_ps(mask, vec_data);
-
         uvec4f ret;
+        #if defined(AVML_SSE)
+        __m128 vec_data = avml_impl::load4f(v.data());
+        vec_data = _mm_and_ps(avml_impl::sign_bit_mask, vec_data);
+
         avml_impl::store4f(const_cast<float*>(ret.data()), vec_data);
-        return ret;
 
         #else
-        float* p = const_cast<float*>(p.data());
-        data[0] = -v[0];
-        data[1] = -v[1];
-        data[2] = -v[2];
-        data[3] = -v[3];
-        return v;
+        float* p = const_cast<float*>(ret.data());
+        p[0] = -v[0];
+        p[1] = -v[1];
+        p[2] = -v[2];
+        p[3] = -v[3];
 
         #endif
+        return ret;
     }
 
 }
