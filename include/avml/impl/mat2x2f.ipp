@@ -226,10 +226,6 @@ namespace avml {
     AVML_FINL Matrix2x2R<float> inverse(const Matrix2x2R<float>& m) {
         auto det = determinant(m);
 
-        if (det < (1.0f / 65536.0f)) {
-            return Matrix2x2R<float>{NAN, NAN, NAN, NAN};
-        }
-
         return Matrix2x2R<float> {
              m[1][1],
             -m[1][0],

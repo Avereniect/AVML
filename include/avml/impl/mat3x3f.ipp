@@ -239,14 +239,6 @@ namespace avml {
     AVML_FINL Matrix3x3R<float> inverse(const Matrix3x3R<float>& m) {
         auto det = determinant(m);
 
-        if (det < (1.0f / 32768.0f)) {
-            return Matrix3x3R<float> {
-                NAN, NAN, NAN,
-                NAN, NAN, NAN,
-                NAN, NAN, NAN
-            };
-        }
-
         return Matrix3x3R<float> {
              m[1][1] * m[2][2] - m[1][2] * m[2][1], -m[0][1] * m[2][2] + m[0][2] * m[2][1],  m[0][1] * m[1][2] - m[0][2] * m[1][1],
             -m[0][1] * m[2][2] - m[1][2] * m[2][0],  m[0][0] * m[2][2] - m[0][2] * m[2][0], -m[0][0] * m[1][2] - m[0][2] * m[1][0],

@@ -30,9 +30,9 @@ namespace avml {
 #include "impl/generic/mat3x3r.hpp"
 #include "impl/generic/mat4x4r.hpp"
 
-#include "impl/matrix2x2f.ipp"
-#include "impl/matrix3x3f.ipp"
-#include "impl/matrix4x4f.ipp"
+#include "impl/mat2x2f.ipp"
+#include "impl/mat3x3f.ipp"
+#include "impl/mat4x4f.ipp"
 
 namespace avml {
 

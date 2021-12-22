@@ -111,6 +111,10 @@ namespace avml {
 #include "impl/generic/vec3r.hpp"
 #include "impl/generic/vec4r.hpp"
 
+#include "impl/generic/mat2x2r.hpp"
+#include "impl/generic/mat3x3r.hpp"
+#include "impl/generic/mat4x4r.hpp"
+
 #include "impl/uvec2f.ipp"
 #include "impl/uvec3f.ipp"
 #include "impl/uvec4f.ipp"
@@ -122,6 +126,10 @@ namespace avml {
 #include "impl/vec2i.ipp"
 #include "impl/vec3i.ipp"
 #include "impl/vec4i.ipp"
+
+#include "impl/mat2x2f.ipp"
+#include "impl/mat3x3f.ipp"
+#include "impl/mat4x4f.ipp"
 
 namespace avml {
 

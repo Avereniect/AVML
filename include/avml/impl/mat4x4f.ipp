@@ -378,15 +378,6 @@ namespace avml {
         float t32 = -a * fo_gn + b * eo_gm - c * en_fm;
         float t33 =  a * fk_gj - b * ek_gi + c * ej_fi;
 
-        if (det < (1.0 / 65536.0f)) {
-            return Matrix4x4R<float> {
-                NAN, NAN, NAN, NAN,
-                NAN, NAN, NAN, NAN,
-                NAN, NAN, NAN, NAN,
-                NAN, NAN, NAN, NAN
-            };
-        }
-
         return Matrix4x4R<float> {
             t00, t01, t02, t03,
             t10, t11, t12, t13,
