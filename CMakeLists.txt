@@ -3,8 +3,6 @@ project(AVML)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(vendor/googletest)
-
 #######################################
 # AVML Library
 #######################################
@@ -12,16 +10,29 @@ add_subdirectory(vendor/googletest)
 add_library(AVML INTERFACE)
 target_include_directories(AVML INTERFACE ./include/)
 
-
-
 #######################################
 # AVML Tests
 #######################################
 
-add_executable(AVML_tests tests/AVML_tests.cpp)
+option(AVML_BUILD_TESTS OFF)
 
-target_include_directories(AVML_tests PRIVATE
-    ./include/
-    vendor/googletest/googletest/include
-)
-target_link_libraries(AVML_tests PRIVATE gtest)
+if (AVML_BUILD_TESTS)
+    add_subdirectory(vendor/googletest)
+
+    add_executable(AVML_tests tests/AVML_tests.cpp)
+
+    target_include_directories(AVML_tests PRIVATE
+        ./include/
+    )
+
+    target_compile_options(AVML_tests
+        PRIVATE
+        "-march=icelake-client"
+        "-O3" "-fno-stack-check"
+        "-fno-stack-protector"
+    )
+
+    target_link_libraries(AVML_tests PRIVATE gtest)
+endif()
+
+
