@@ -65,7 +65,7 @@ namespace avml_impl {
     }
 
     AVML_FINL void store2f(float* p, __m128 reg) {
-        _mm_mask_store_ps(p, 0x03, reg);
+        _mm_mask_storeu_ps(p, 0x03, reg);
     }
 
     AVML_FINL void store3f(float* p, __m128 reg) {
