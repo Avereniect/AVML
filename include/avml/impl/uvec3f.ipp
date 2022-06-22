@@ -64,10 +64,10 @@ namespace avml {
 
             __m128 r_xy00 = _mm_unpacklo_ps(r_x000, r_y000);
             __m128 r_xyz0 = _mm_movelh_ps(r_xy00, r_z000);
-            r_xyz0 = _mm_mul_ps(r_xyz0, r_xyz0);
+            __m128 r_xyz02 = _mm_mul_ps(r_xyz0, r_xyz0);
 
-            __m128 r_z0z0 = _mm_movehl_ps(r_xyz0, r_xyz0);
-            __m128 t0 = _mm_add_ps(r_xyz0, r_z0z0);
+            __m128 r_z0z0 = _mm_movehl_ps(r_xyz02, r_xyz02);
+            __m128 t0 = _mm_add_ps(r_xyz02, r_z0z0);
             __m128 t1 = _mm_permute_ps(t0, 0x01);
 
             __m128 r_l000 = _mm_add_ss(t0, t1);
@@ -85,10 +85,10 @@ namespace avml {
 
             __m128 r_xy00 = _mm_unpacklo_ps(r_x000, r_y000);
             __m128 r_xyz0 = _mm_movelh_ps(r_xy00, r_z000);
-            r_xyz0 = _mm_mul_ps(r_xyz0, r_xyz0);
+            __m128 r_xyz02 = _mm_mul_ps(r_xyz0, r_xyz0);
 
-            __m128 r_z0z0 = _mm_movehl_ps(r_xyz0, r_xyz0);
-            __m128 t0 = _mm_add_ps(r_xyz0, r_z0z0);
+            __m128 r_z0z0 = _mm_movehl_ps(r_xyz02, r_xyz02);
+            __m128 t0 = _mm_add_ps(r_xyz02, r_z0z0);
             __m128 t1 = _mm_shuffle_ps(t0, t0, 0x01);
 
             __m128 r_l000 = _mm_add_ss(t0, t1);
@@ -237,70 +237,6 @@ namespace avml {
         float elements[width] = {1.0f, 0.0f, 0.0f};
 
     };
-
-    AVML_FINL Unit_vector3R<float> cross(Unit_vector3R<float> lhs, Unit_vector3R<float> rhs) {
-        #if defined(AVML_FMA)
-        __m128 r_xyz0 = avml_impl::load3f(lhs.data());
-        __m128 r_abc0 = avml_impl::load3f(rhs.data());
-
-        __m128 r_yzx_ = _mm_permute_ps(r_xyz0, 0x09);
-        __m128 r_bca_ = _mm_permute_ps(r_abc0, 0x09);
-
-        __m128 t1 = _mm_mul_ps(r_xyz0, r_bca_);
-
-        __m128 t2 = _mm_fmsub_ps(r_abc0, r_yzx_, t1);
-
-        t2 = _mm_permute_ps(t2, 0x09);
-
-        Unit_vector3R<float> ret;
-        avml_impl::store3f(const_cast<float*>(ret.data()), t2);
-        return ret;
-
-        #elif defined(AVML_AVX)
-        __m128 r_xyz0 = avml_impl::load3f(lhs.data());
-        __m128 r_abc0 = avml_impl::load3f(rhs.data());
-
-        __m128 r_yzx_ = _mm_permute_ps(r_xyz0, 0x09);
-        __m128 r_bca_ = _mm_permute_ps(r_abc0, 0x09);
-
-        __m128 t0 = _mm_mul_ps(r_abc0, r_yzx_);
-        __m128 t1 = _mm_mul_ps(r_xyz0, r_bca_);
-
-        __m128 t2 = _mm_sub_ps(t0, t1);
-
-        t2 = _mm_permute_ps(t2, 0x09);
-
-        Unit_vector3R<float> ret;
-        avml_impl::store3f(const_cast<float*>(ret.data()), t2);
-        return ret;
-
-        #elif defined(AVML_SSE)
-        __m128 r_xyz0 = avml_impl::load3f(lhs.data());
-        __m128 r_abc0 = avml_impl::load3f(rhs.data());
-
-        __m128 r_yzx_ = _mm_shuffle_ps(r_xyz0, r_xyz0, 0x09);
-        __m128 r_bca_ = _mm_shuffle_ps(r_abc0, r_abc0, 0x09);
-
-        __m128 t0 = _mm_mul_ps(r_abc0, r_yzx_);
-        __m128 t1 = _mm_mul_ps(r_xyz0, r_bca_);
-
-        __m128 t2 = _mm_sub_ps(t0, t1);
-        t2 = _mm_shuffle_ps(t2, t2, 0x09);
-
-        Unit_vector3R<float> ret;
-        avml_impl::store3f(const_cast<float*>(ret.data()), t2);
-        return ret;
-
-        #else
-        float data[3] = {
-            lhs[1] * rhs[2] - lhs[2] * rhs[1],
-            lhs[2] * rhs[0] - lhs[0] * rhs[2],
-            lhs[0] * rhs[1] - lhs[1] * rhs[0]
-        };
-
-        return Unit_vector3R<float>::read(data);
-        #endif
-    }
 
     //=====================================================
     // Vectorized math
